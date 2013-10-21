@@ -1,0 +1,3 @@
+coffee -o public/js -c src
+coffee bin/convert.coffee public/data
+coffee app.coffee $1

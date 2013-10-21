@@ -1,0 +1,118 @@
+{
+  "width": 1000,
+  "height": 500,
+  "nodes": [
+    {
+      "id": 0,
+      "value": {
+        "label": "ABC, XYZ net of DEF, GHI"
+      }
+    },
+    {
+      "id": 1,
+      "value": {
+        "label": "ABC"
+      }
+    },
+    {
+      "id": 2,
+      "value": {
+        "label": "XYZ"
+      }
+    },
+    {
+      "id": 3,
+      "value": {
+        "label": "DEF"
+      }
+    },
+    {
+      "id": 4,
+      "value": {
+        "label": "GHI"
+      }
+    },
+    {
+      "id": 5,
+      "value": {
+        "label": "Cat1"
+      }
+    },
+    {
+      "id": 6,
+      "value": {
+        "label": "Cat2"
+      }
+    },
+    {
+      "id": 7,
+      "value": {
+        "label": "Program1"
+      }
+    },
+    {
+      "id": 8,
+      "value": {
+        "label": "A Cat Program with 2 Cat treaties"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "u": 0,
+      "v": 1,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 0,
+      "v": 2,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 0,
+      "v": 3,
+      "value": {
+        "label": "<span style='font-size:24px'>-</span>"
+      }
+    },
+    {
+      "u": 0,
+      "v": 4,
+      "value": {
+        "label": "<span style='font-size:24px'>-</span>"
+      }
+    },
+    {
+      "u": 5,
+      "v": 0,
+      "value": {
+        "label": " 10 x 10"
+      }
+    },
+    {
+      "u": 6,
+      "v": 0,
+      "value": {
+        "label": " 10 x 20"
+      }
+    },
+    {
+      "u": 7,
+      "v": 5,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 7,
+      "v": 6,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    }
+  ]
+}

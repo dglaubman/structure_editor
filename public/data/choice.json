@@ -1,0 +1,151 @@
+{
+  "width": 1000,
+  "height": 500,
+  "nodes": [
+    {
+      "id": 0,
+      "value": {
+        "label": "Acme:Cat1"
+      }
+    },
+    {
+      "id": 1,
+      "value": {
+        "label": "Acme:Cat2"
+      }
+    },
+    {
+      "id": 2,
+      "value": {
+        "label": "Choose between Signed and Written shares"
+      }
+    },
+    {
+      "id": 3,
+      "value": {
+        "label": "My:Cat1.Signed"
+      }
+    },
+    {
+      "id": 4,
+      "value": {
+        "label": "My:Cat2.Signed"
+      }
+    },
+    {
+      "id": 5,
+      "value": {
+        "label": "My:Cat1.Written"
+      }
+    },
+    {
+      "id": 6,
+      "value": {
+        "label": "My:Cat2.Written"
+      }
+    },
+    {
+      "id": 7,
+      "value": {
+        "label": "My:Signed"
+      }
+    },
+    {
+      "id": 8,
+      "value": {
+        "label": "My:Written"
+      }
+    },
+    {
+      "id": 9,
+      "value": {
+        "label": "My:AssumedChoice"
+      }
+    },
+    {
+      "id": 10,
+      "value": {
+        "label": "My:Assumed"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "u": 3,
+      "v": 0,
+      "value": {
+        "label": "6%"
+      }
+    },
+    {
+      "u": 4,
+      "v": 1,
+      "value": {
+        "label": "4.5%"
+      }
+    },
+    {
+      "u": 5,
+      "v": 0,
+      "value": {
+        "label": "9%"
+      }
+    },
+    {
+      "u": 6,
+      "v": 1,
+      "value": {
+        "label": "7%"
+      }
+    },
+    {
+      "u": 7,
+      "v": 3,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 7,
+      "v": 4,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 8,
+      "v": 5,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 8,
+      "v": 6,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 10,
+      "v": 9,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 9,
+      "v": 8,
+      "value": {
+        "label": "<span style='color:blue'>blue pill?</span>, default"
+      }
+    },
+    {
+      "u": 9,
+      "v": 7,
+      "value": {
+        "label": "<span style='color:red'>red pill?</span>"
+      }
+    }
+  ]
+}

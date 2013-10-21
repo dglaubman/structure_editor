@@ -1,0 +1,33 @@
+{
+  "width": 1000,
+  "height": 500,
+  "nodes": [
+    {
+      "id": 0,
+      "value": {
+        "label": "PortA"
+      }
+    },
+    {
+      "id": 1,
+      "value": {
+        "label": "TreatyB"
+      }
+    },
+    {
+      "id": 2,
+      "value": {
+        "label": "A contract takes a position as its subject, and writes to its output position"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "u": 1,
+      "v": 0,
+      "value": {
+        "label": "10x10, subject is portA, name is TreatyB"
+      }
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "width": 1000,
+  "height": 500,
+  "nodes": [
+    {
+      "id": 0,
+      "value": {
+        "label": "Net"
+      }
+    },
+    {
+      "id": 1,
+      "value": {
+        "label": "Gross"
+      }
+    },
+    {
+      "id": 2,
+      "value": {
+        "label": "Ceded"
+      }
+    },
+    {
+      "id": 3,
+      "value": {
+        "label": "Fac"
+      }
+    },
+    {
+      "id": 4,
+      "value": {
+        "label": "PerRisk"
+      }
+    },
+    {
+      "id": 5,
+      "value": {
+        "label": "Cat"
+      }
+    },
+    {
+      "id": 6,
+      "value": {
+        "label": "Cat1"
+      }
+    },
+    {
+      "id": 7,
+      "value": {
+        "label": "Cat2"
+      }
+    },
+    {
+      "id": 8,
+      "value": {
+        "label": "Cat1.Placed"
+      }
+    },
+    {
+      "id": 9,
+      "value": {
+        "label": "Cat2.Placed"
+      }
+    },
+    {
+      "id": 10,
+      "value": {
+        "label": "Program1"
+      }
+    },
+    {
+      "id": 11,
+      "value": {
+        "label": "Placement of a Pro forma program (ACME namespace)"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "u": 0,
+      "v": 1,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 0,
+      "v": 2,
+      "value": {
+        "label": "<span style='font-size:24px'>-</span>"
+      }
+    },
+    {
+      "u": 2,
+      "v": 3,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 2,
+      "v": 4,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 2,
+      "v": 5,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 5,
+      "v": 8,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 5,
+      "v": 9,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 8,
+      "v": 6,
+      "value": {
+        "label": "30%"
+      }
+    },
+    {
+      "u": 9,
+      "v": 7,
+      "value": {
+        "label": "45%"
+      }
+    },
+    {
+      "u": 10,
+      "v": 6,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    },
+    {
+      "u": 10,
+      "v": 7,
+      "value": {
+        "label": "<span style='font-size:24px'>+</span>"
+      }
+    }
+  ]
+}
