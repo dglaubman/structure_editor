@@ -1,0 +1,12 @@
+{
+    "name": "vizpos"
+  , "version": "0.1.0"
+  , "private": true
+  , "dependencies": {
+      "express": "2.5.x",
+      "dagre-d3": "0.0.x"
+   }
+   , "devDependencies": {
+     "underscore": "1.5.x"
+   }	   
+}
