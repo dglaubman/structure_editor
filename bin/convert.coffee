@@ -9,7 +9,7 @@ out = (path, data) ->
 convert = ( g ) ->
   {name, states, links} = g
   width=1000
-  height=500
+  height=600
   nodes = ({id: i, value: { label: state } } for state, i in states)
   ix = _.indexBy( nodes, (x) -> x.value.label )
   edges = ( { u: ix[link.u].id, v: ix[link.v].id, value: link.value } for link in links )
@@ -139,5 +139,36 @@ contract =
   states: [ "PortA", "TreatyB",  "A contract takes a position as its subject, and writes to its output position" ]
   links: [    { v: "PortA",     u: "TreatyB",     value: { label: "10x10, subject is portA, name is TreatyB" } } ]
 
-graphs = [ contract,  standard, qs, netpos, cat, program, placed, assumed, choice ]
+sumnet =
+  name: "sumnet"
+  states: [ "A", "B", "C", "D", "A net of B", "C.PreCat", "Cat1", "A.PreCat", "PreCat" ]
+  links: [ { u: "B", v: "A", value: { label: "1x1p.r." } },
+           { u: "D", v: "C", value: { label: "10% share" } },
+           { u: "A net of B", v: "A", value: { label: plus } },
+           { u: "A net of B", v: "B", value: { label: minus } },
+           { v: "A net of B", u: "A.PreCat", value: { label: "105%" } },
+           { u: "C.PreCat", v: "C", value: { label: plus } },
+           { u: "C.PreCat", v: "D", value: { label: minus } },
+           { u: "PreCat", v: "A.PreCat", value: { label: plus } },
+           { u: "PreCat", v: "C.PreCat", value: { label: plus } },
+           { u: "Cat1", v: "PreCat", value: { label: "10Mx10M, 4M agg ded" } } ]
+  
+
+sumnet2 =
+  name: "sumnet2"
+  states: [ "A", "B", "C", "D", "A net of B,D", "C.PreCat", "Cat1", "A.PreCat", "PreCat" ]
+  links: [ { u: "B", v: "A", value: { label: "1x1p.r." } },
+           { u: "D", v: "C", value: { label: "10% share" } },
+           { u: "A net of B,D", v: "A", value: { label: plus } },
+           { u: "A net of B,D", v: "B", value: { label: minus } },
+           { u: "A net of B,D", v: "D", value: { label: minus } },
+           { v: "A net of B,D", u: "A.PreCat", value: { label: "105%" } },
+           { u: "C.PreCat", v: "C", value: { label: plus } },
+           { u: "C.PreCat", v: "D", value: { label: minus } },
+           { u: "PreCat", v: "A.PreCat", value: { label: plus } },
+           { u: "PreCat", v: "C.PreCat", value: { label: plus } },
+           { u: "Cat1", v: "PreCat", value: { label: "10Mx10M, 4M agg ded" } } ]
+  
+
+graphs = [ contract,  standard, qs, netpos, cat, program, placed, assumed, choice, sumnet, sumnet2 ]
 convert graph for graph in graphs

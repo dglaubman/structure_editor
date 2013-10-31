@@ -5,7 +5,7 @@ update = ( input ) ->
       top: 20, right: 20, bottom: 20, left: 120
     width = adjacencies.width or 920
     height = adjacencies.height or 600
-
+    direction = adjacencies.direction or "TB"
     d3.selectAll("svg")
       .remove()
     svg = d3.select("#chart")
@@ -21,7 +21,7 @@ update = ( input ) ->
     renderer = new dagreD3.Renderer()
     oldDrawNode = renderer.drawNode()
     oldDrawEdgeLabel = renderer.drawEdgeLabel()
-    layout = dagreD3.layout().rankDir("TB")
+    layout = dagreD3.layout().rankDir(direction)
     renderer.drawNode  (graph, u, svg) ->
       	oldDrawNode graph, u, svg
       	svg.attr  "id", "node-" + u
