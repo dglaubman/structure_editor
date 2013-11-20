@@ -24,21 +24,24 @@ text.active {
 <div class="content">
 <div class="topbar"></div>
 
-<h1>Position Graph Examples</h1>
+<h1>Position Graph</h1>
 
 <div class="sidebar"><h3>
   <ul>
-  <li><a class="posgraph" id="standard" href="#">Standard positions</a></li><p/>
-  <li><a class="posgraph" id="contract" href="#">Contract positions</a></li><p/>
+  <li><a class="posgraph" id="standard" href="./#standard">Standard positions</a></li><p/>
+  <li><a class="posgraph" id="contract" href="#contract">Contract positions</a></li><p/>
   <li><a class="posgraph" id="qs" href="#">Filters</a></li><p/>
   <li><a class="posgraph" id="netpos" href="#">Groups</a></li><p/>
-  <li><a class="posgraph" id="cat" href="#">Subject of a Cat Treaty</a></li><p/>
-  <li><a class="posgraph" id="program" href="#">Pro Forma Program</a></li><p/>
+  <li><a class="posgraph" id="cat" href="#cat">Subject of a Cat Treaty</a></li><p/>
+  <li><a class="posgraph" id="program" href="#program">Pro Forma Program</a></li><p/>
   <li><a class="posgraph" id="placed" href="#">Scaling a position</a></li><p/>
   <li><a class="posgraph" id="assumed" href="#">Multiple namespaces</a></li><p/>
   <li><a class="posgraph" id="choice" href="#">What if?</a></li><p/>
   <li><a class="posgraph" id="sumnet" href="#">Sum of Net</a></li><p/>
   <li><a class="posgraph" id="sumnet2" href="#">Sum of Net - overlap</a></li><p/>
+  <li><a class="posgraph" id="imported_wx2" href="#">WX treaty (placed)</a></li><p/>
+  <li><a class="posgraph" id="imported_wx" href="#">WX treaty (all)</a></li><p/>
+  <li><a class="posgraph" id="travelers" href="#">Travelers Inuring</a></li><p/>
 </ul></h3>
 </div>
 
@@ -47,9 +50,11 @@ text.active {
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="/js/dagre-d3.min.js"></script>
 <script src="/js/drawgraph.js"></script>
-</script>
 
 <footer>
+  <div>
+    <input type="button" id="direction" value="Toggle"></input>
+    </div>
   <aside><p>ver v0.1.0-2013-10-18
     <p>Built with <a href="http://d3js.org/">d3.js</a> and <a href="https://github.com/cpettitt/dagre-d3">dagre-d3</a>.
 </footer>

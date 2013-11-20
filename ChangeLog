@@ -1,0 +1,6 @@
+2013-10-21    <dglaubman@CADT0734>
+
+	* TODO: remove rendering logic from convert: HTML tage / font size in the data file!: "label": "<span style='font-size:24px'>+</span>")
+	* TODO: animating the thing, seeing how each node reacts to an event 
+
+	

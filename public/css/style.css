@@ -2,6 +2,7 @@ body {
   font: 14px Helvetica Neue;
   text-rendering: optimizeLegibility;
   margin-top: 1em;
+  left: 40px;
   overflow-y: scroll;
   overflow-x: scroll;
 }
@@ -16,7 +17,7 @@ a:hover {
 }
 
 .body {
-  width: 900px;
+  width: 1000px;
   margin: auto;
 }
 
@@ -26,7 +27,7 @@ a:hover {
 
 .content {
   position: relative;
-  margin-left: 40px;
+  margin-left: 180px;
 }
 
 .content img {
@@ -37,7 +38,7 @@ a:hover {
 .sidebar {
   position: absolute;
   left: -160px;
-  width: 140px;
+  width: 200px;
   font-weight: 100;
 }
 
@@ -142,7 +143,6 @@ label {
 .edge text {
   font-weight: 300;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 16px;
 }
 
 .node text {
@@ -177,4 +177,31 @@ rect {
   fill: none;
   stroke: #333;
   stroke-width: 1.5px;
+}
+
+.edge .group text {
+    font-size: 24px;
+}
+
+.edge .default text {
+    font-weight: bold;
+}
+
+.edge .invert text {
+    font-size: 28px;
+    fill: red;
+}
+
+.edge .filter text {
+    font-size: 16px;
+    font-style: italic;
+}
+
+.edge .scale text {
+    font-size: 16px;
+}
+
+.edge .contract text {
+    font-size: 16px;
+    fill: blue;
 }
