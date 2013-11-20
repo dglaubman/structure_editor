@@ -1,6 +1,6 @@
 _ = require("underscore")
 fs = require("fs")
-{trace, logger} = require '../src/log'
+{trace, logger} = require './log'
 {argv} = require 'optimist'
 
 group = "group"
