@@ -50,10 +50,10 @@ convert = ( g ) ->
     _.each dag, (node) ->
       {name, type, children, opt} = node
       # print start engine cmd
-      cmds.push "start #{type} #{name} #{rak} #{opt or ''}"
+      cmds.push "start #{type} #{name} #{opt or ''}"
       # print start trigger cmd
       if children
-        cmds.push "start trigger #{name} #{rak} #{children}"
+        cmds.push "start trigger #{name} #{children} #{rak}"
       # create graph node
       nodes.push { id: ix[name], value: { label: name } }
       _.each children, (child) ->

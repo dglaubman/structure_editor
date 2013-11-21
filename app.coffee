@@ -11,8 +11,7 @@ app.configure 'development', ->
 
 app.get '/', (req, res) ->
   res.render 'index'
-
 app.listen(port)
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env)
+console.log("Express server listening on port %d in %s mode", port, app.settings.env)
 
 
