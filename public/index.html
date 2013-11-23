@@ -22,39 +22,60 @@ text.active {
 <body> 
 <div class="body">
 <div class="content">
-<div class="topbar"></div>
-
-<h1>Position Graph</h1>
-
-<div class="sidebar"><h3>
-  <ul>
-  <li><a class="posgraph" id="standard" href="./#standard">Standard positions</a></li><p/>
-  <li><a class="posgraph" id="contract" href="#contract">Contract positions</a></li><p/>
-  <li><a class="posgraph" id="qs" href="#">Filters</a></li><p/>
-  <li><a class="posgraph" id="netpos" href="#">Groups</a></li><p/>
-  <li><a class="posgraph" id="cat" href="#cat">Subject of a Cat Treaty</a></li><p/>
-  <li><a class="posgraph" id="program" href="#program">Pro Forma Program</a></li><p/>
-  <li><a class="posgraph" id="placed" href="#">Scaling a position</a></li><p/>
-  <li><a class="posgraph" id="assumed" href="#">Multiple namespaces</a></li><p/>
-  <li><a class="posgraph" id="choice" href="#">What if?</a></li><p/>
-  <li><a class="posgraph" id="sumnet" href="#">Sum of Net</a></li><p/>
-  <li><a class="posgraph" id="sumnet2" href="#">Sum of Net - overlap</a></li><p/>
-  <li><a class="posgraph" id="imported_wx2" href="#">WX treaty (placed)</a></li><p/>
-  <li><a class="posgraph" id="imported_wx" href="#">WX treaty (all)</a></li><p/>
-  <li><a class="posgraph" id="travelers" href="#">Travelers Inuring</a></li><p/>
-</ul></h3>
+<div class="topbar">
+    <a class="do_control" id="Start" href="#">Start DO</a>
+    <a class="do_control" id="Stop" href="#">Stop DO</a>
+    <a class="do_control" id="Run" href="#">Run</a>
 </div>
 
+<h1>Position Runner</h1>
+<div class="sidebar">
+  <ul>
+  <li><a class="posgraph" id="standard" href="#">Standard positions</a></li>
+  <li><a class="posgraph" id="contract" href="#">Contract positions</a></li>
+  <li><a class="posgraph" id="qs" href="#">Filters</a></li>
+  <li><a class="posgraph" id="netpos" href="#">Groups</a></li>
+  <li><a class="posgraph" id="cat" href="#">Subject of a Cat Treaty</a></li>
+  <li><a class="posgraph" id="program" href="#">Pro Forma Program</a></li>
+  <li><a class="posgraph" id="placed" href="#">Scaling a position</a></li>
+  <li><a class="posgraph" id="assumed" href="#">Multiple namespaces</a></li>
+  <li><a class="posgraph" id="choice" href="#">What if?</a></li>
+  <li><a class="posgraph" id="sumnet" href="#">Sum of Net</a></li>
+  <li><a class="posgraph" id="sumnet2" href="#">Sum of Net - overlap</a></li>
+  <li><a class="posgraph" id="imported_wx_small" href="#">WX treaty (small)</a></li>
+  <li><a class="posgraph" id="imported_wx" href="#">WX treaty (all)</a></li>
+  <li><a class="posgraph" id="travelers" href="#">Travelers Inuring</a></li>
+</ul>
+</div>
 <div id="chart"></div>
 </div>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="/js/dagre-d3.min.js"></script>
-<script src="/js/drawgraph.js"></script>
+
+<script src=http://codeorigin.jquery.com/jquery-1.10.2.min.js></script>
+<script src=http://d3js.org/d3.v3.min.js></script>
+<script src=/js/dagre-d3.min.js></script>
+<script src=/js/drawgraph.js></script>
+<script src=/js/AmqpClient.js></script>
+<script src=js/config.js></script>      
+<script src=js/Utils.js></script>
+<script src=js/consolelog.js></script>
+<script src=js/Controller.js></script>
+<script src=js/Communicator.js></script>
+<script src=js/Dispatch.js></script>	
+<script src=js/Client.js></script>
 
 <footer>
-  <div>
-    <input type="button" id="direction" value="Toggle"></input>
-    </div>
+    <section>
+	    <div class="history">
+	      <details>
+	      <summary>History</summary>
+	      <div id="console"></div>
+	    </details>
+	      <div><button  id="clear">Clear Log</button></div>
+	    </div>
+    </section>
+
   <aside><p>ver v0.1.0-2013-10-18
     <p>Built with <a href="http://d3js.org/">d3.js</a> and <a href="https://github.com/cpettitt/dagre-d3">dagre-d3</a>.
+      </aside>
 </footer>
+</div>
