@@ -1,3 +1,4 @@
 coffee -o public/js -c src
 coffee bin/convert.coffee public/data
+coffee bin/base.coffee --graphDir public/data --dotDir ../do-js/script
 coffee app.coffee $1

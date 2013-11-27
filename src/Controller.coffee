@@ -48,13 +48,13 @@ class Server
       stop name
       $( @widget ).css( "background-color", "lightgrey" )
 
-#  log: (text) => @logger.write text
+  log: (text) => @log.write text
 
   die: -> @widget.hide('slow', => @widget.remove() )
 
   updateLoad: (load) ->
     load = Math.min parseInt(load,10), 100
-#    @log.write load
+    @log.write load
     switch load
       when 100
         $( ".verticalBar", @widget ).css( "background-color", "red" )

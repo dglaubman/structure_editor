@@ -18,6 +18,16 @@
     $("#clear").on('click', function() {
       return log.clear();
     });
+    $(".posgraph").on("click", function(d) {
+      return update(this.id);
+    });
+    $("#direction").on("click", function(d) {
+      toggle();
+      return render(graph);
+    });
+    $("#node_sep_up").on("click", function(d) {
+      return render(graph);
+    });
     widgets = new Controller(log);
     widgets.stopServer = function(name) {
       return comm.publish(config.workX, "stop " + name, config.execQ);
@@ -36,7 +46,8 @@
       return log.write(body);
     };
     comm = new Communicator(log, messageHandler);
-    return comm.connect(config, config.credentials);
+    comm.connect(config, config.credentials);
+    return update("standard");
   });
 
 }).call(this);

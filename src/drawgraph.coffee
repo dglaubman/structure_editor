@@ -1,22 +1,14 @@
-graph = undefined
+root = exports ? window
 
-update = ( input ) ->
+root.update = update = ( input ) ->
   path = "data/#{input}.json"
   d3.json path, render
 
-layout = dagreD3.layout()
-
-toggle = () ->
-  dir = layout.rankDir
-  if dir is "TB" then dir is "LR" else dir is "TB"
-  layout.rankDir dir
-
-
-render = (adjacencies) ->
+root.render = render = (adjacencies) ->
   margin =
     top: 20, right: 20, bottom: 20, left: 20
   width = adjacencies.width or 920
-  height = adjacencies.height or 800
+  height = adjacencies.height or 900
   direction = adjacencies.direction or "TB"
   d3.selectAll("svg")
     .remove()
@@ -52,18 +44,8 @@ render = (adjacencies) ->
       d3.select("svg g") )
   graph = adjacencies
 
-d3.selectAll(".posgraph")
-  .on "click", (d) ->
-     update @id
 
-d3.selectAll("#direction")
-  .on "click", (d) ->
-    toggle()
-    render graph
+graph = undefined
 
-d3.selectAll("#node_sep_up")
-  .on "click", (d) ->
-    render graph
+layout = dagreD3.layout()
 
-
-update( "standard" )

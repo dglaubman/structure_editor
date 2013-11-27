@@ -17,6 +17,20 @@ $ ->
   $("#clear").on 'click', ->
     log.clear()
 
+  $(".posgraph")
+    .on "click", (d) ->
+      update @id
+
+  $("#direction")
+    .on "click", (d) ->
+      toggle()
+      render graph
+
+  $("#node_sep_up")
+    .on "click", (d) ->
+      render graph
+
+
   # Hook up controller and events for array of server widgets
   widgets = new Controller log
   widgets.stopServer = (name)  => comm.publish( config.workX, "stop #{name}", config.execQ )
@@ -33,3 +47,5 @@ $ ->
 
   comm = new Communicator( log, messageHandler )
   comm.connect config, config.credentials
+
+  update("standard")

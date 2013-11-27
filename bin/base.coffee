@@ -1,6 +1,6 @@
 _ = require("underscore")
 fs = require("fs")
-{trace, logger} = require './log'
+{fatal, error, trace, logger} = require './log'
 {argv} = require 'optimist'
 
 group = "group"
@@ -8,7 +8,12 @@ scale = "scale"
 contract = "contract"
 invert = "invert"
 
-prefix = argv.path or "."
+encode = (arg) -> encodeURIComponent arg
+decode = (arg) -> decodeURIComponent arg
+
+graphDir = argv.graphDir or "."
+dotDir = argv.dotDir or "."
+
 logger argv
 rak = argv.rak or 1
 
@@ -16,21 +21,21 @@ out = (path, data) ->
   fs.writeFile( path, data, (err) -> if err then throw err )
 
 outputGraph = (path, data) ->
-  out "#{prefix }/#{path}.json", data
+  out "#{graphDir}/#{path}.json", data
 
 outputDot = (path, data) ->
-  out "#{prefix }/#{path}.dot", data.join '\n'
+  out "#{dotDir}/#{path}.dot", data.join '\n'
 
 labelEdge = (type, opt) ->
   switch type
     when group
       '+'
     when scale
-      "#{(opt * 100).toFixed 1}%"
+      "#{(opt.val * 100).toFixed 1}%"
     when invert
       '-'
     when contract
-      opt
+      opt.desc
 
 
 convert = ( g ) ->
@@ -50,24 +55,33 @@ convert = ( g ) ->
     _.each dag, (node) ->
       {name, type, children, opt} = node
       # print start engine cmd
-      cmds.push "start #{type} #{name} #{opt or ''}"
+      cmds.push "start #{type} #{encode name} #{opt?.val or ''}"
       # print start trigger cmd
       if children
-        cmds.push "start trigger #{name} #{children} #{rak}"
+        if not Array.isArray children then throw "bad node '#{node.name}' -- children should be an array"
+        cmds.push "start trigger #{encode name} #{encode children.join(',')} #{rak}"
       # create graph node
-      nodes.push { id: ix[name], value: { label: name } }
-      _.each children, (child) ->
-        #trace child
-        # create links for node
-        edge = {
-          u: ix[name]
-          v: ix[child]
-          value: { type: type, label: labelEdge type, opt }
-        }
-        edges.push edge
-        trace edge
+      if name[0] isnt '~' # Dont show invert nodes, just label them as part of their group(s)
+        nodes.push { id: ix[name], value: { label: name } }
+        _.each children, (child) ->
+          #trace child
+          # create links for node
+          if child[0] is '~'
+            edge = {
+              u: ix[name]
+              v: ix[ child.substring 1 ]
+              value: { type: invert, label: labelEdge invert, opt }
+            }
+          else
+            edge = {
+              u: ix[name]
+              v: ix[child]
+              value: { type: type, label: labelEdge type, opt }
+            }
+          edges.push edge
+          trace edge
   catch e
-    trace edges
+   fatal "error traversing graph '#{tag}': #{e}"
   trace edges
   outputGraph tag, JSON.stringify {
     nodes
@@ -111,12 +125,12 @@ imported_wx = {
     name: "Acme:WX1.Placed"
     type: scale
     children: [ "Market:WX1" ]
-    opt: 0.4
+    opt: { val: 0.4 }
     }, {
     name: "Market:WX1"
     type: contract
     children: [ "Acme:PortA" ]
-    opt: "10x10"
+    opt: { val: "10x10", desc: "10M xs 10M" }
     }, {
     name: "Our:Net"
     type: group
@@ -137,12 +151,12 @@ imported_wx = {
     name: "Our:WX1.Ceded"
     type: scale
     children: [ "Our:WX1.Signed" ]
-    opt: 0.5
+    opt: { val: 0.5 }
     }, {
     name: "Our:WX1.Signed"
     type: scale
     children: [ "Market:WX1" ]
-    opt: 0.07
+    opt: { val: 0.07 }
     }
   ]
 }
@@ -183,12 +197,12 @@ imported_wx_small = {
     name: "Acme:WX1.Placed"
     type: scale
     children: [ "Market:WX1" ]
-    opt: 0.4
+    opt: { val: 0.4 }
     }, {
     name: "Market:WX1"
     type: contract
     children: [ "Acme:PortA" ]
-    opt: "10x10"
+    opt: {val: "10x10", desc: "10M xs 10M" }
     }, {
     name: "Our:Net"
     type: group
@@ -209,17 +223,278 @@ imported_wx_small = {
     name: "Our:WX1.Ceded"
     type: scale
     children: [ "Our:WX1.Signed" ]
-    opt: 0.5
+    opt: { val: 0.5 }
     }, {
     name: "Our:WX1.Signed"
     type: scale
     children: [ "Market:WX1" ]
-    opt: 0.07
+    opt: { val: 0.07 }
+    }
+  ]
+}
+
+netpos = {
+  tag: "netpos"
+  dag: [ {
+    name: "ABC, XYZ net of DEF, GHI"
+    type: group
+    children: [ "ABC", "XYZ", "~DEF", "~GHI"]
+    }, {
+    name: "ABC"
+    type: group
+    }, {
+    name: "XYZ"
+    type: group
+    }, {
+    name: "~DEF"
+    type: invert
+    children: ["DEF"]
+    }, {
+    name: "~GHI"
+    type: invert
+    children: ["GHI"]
+    }, {
+    name: "DEF"
+    type: group
+    }, {
+    name: "GHI"
+    type: group
+    }
+  ]
+}
+
+reins = {
+  tag: "reins"
+  dag: [ {
+    name: "Ceded"
+    type: group
+    children: [ "Fac", "PerRisk", "Cat"]
+    }, {
+    name: "Fac"
+    type: group
+    children: ["Fac1"]
+    }, {
+    name: "PerRisk"
+    type: group
+    children: ["SST", "PRT"]
+    }, {
+    name: "~Fac"
+    type: invert
+    children: ["Fac"]
+    }, {
+    name: "Gross net of SST"
+    type: group
+    children: ["Gross", "~SST"]
+    }, {
+    name: "~SST"
+    type: invert
+    children: ["SST"]
+    }, {
+    name: "PRT"
+    type: contract
+    opt: { val: "20x15", desc: "20M xs 15M per risk" }
+    children: ["Gross net of SST"]
+    }, {
+    name: "Fac1"
+    type: contract
+    opt: { val: "1x1", desc: "1M xs 1M {IBM Acct)" }
+    children: ["Gross"]
+    }, {
+    name: "SST"
+    type: contract
+    opt: { val: "sst", desc: "4 lines @ 250K " }
+    children: ["Gross net of Fac"]
+    }, {
+    name: "Gross net of Fac"
+    type: group
+    children: ["Gross", "~Fac"]
+    }, {
+    name: "Cat"
+    type: group
+    children: [ "Cat1.Placed", "Cat2.Placed"]
+    }, {
+    name: "Cat1.Placed"
+    type: scale
+    opt: { val: 0.3 }
+    children: [ "Cat1"]
+    }, {
+    name: "Cat2.Placed"
+    type: scale
+    opt: { val: 0.45 }
+    children: [ "Cat2"]
+    }, {
+    name: "Cat1"
+    type: contract
+    opt: { val: "20x5", desc: "20M xs 5M Wind" }
+    children: [ "Gross"]
+    }, {
+    name: "Cat2"
+    type: contract
+    opt: { val: "10x10", desc: "10M xs 10M" }
+    children: [ "Gross"]
+    }, {
+    name: "Gross"
+    type: group
+    }
+  ]
+}
+
+travelers = {
+  tag: "travelers"
+  dag: [ {
+    name: "Fac"
+    type: group
+    children: ["F1", "F2", "F3"]
+    }, {
+    name: "PerRisk"
+    type: group
+    children: ["PPR Layer1", "Fac", "SST"]
+    }, {
+    name: "Book"
+    type: group
+    }, {
+    name: "F1"
+    type: contract
+    opt: { val: "4x4", desc: "4M xs 4M" }
+    children: ["Book"]
+    }, {
+    name: "F2"
+    type: contract
+    opt: { val: "4x1", desc: "4M xs 1M" }
+    children: ["Book"]
+    }, {
+    name: "F3"
+    type: contract
+    opt: { val: "10x15", desc: "10M xs 15M" }
+    children: ["Book"]
+    }, {
+    name: "HighFac"
+    type: group
+    children: ["F3"]
+    }, {
+    name: "PPR Layer1"
+    type: contract
+    opt: { val: "20x15", desc: "20 xs 15 per risk" }
+    children: ["Book net of SST, HighFac"]
+    }, {
+    name: "SST"
+    type: contract
+    opt: { val: "sst", desc: "50% w/ 50M occ" }
+    children: ["Book net of Fac"]
+    }, {
+    name: "Book net of Fac"
+    type: group
+    children: ["Book", "~Fac"]
+    }, {
+    name: "~Fac"
+    type: invert
+    children: ["Fac"]
+    }, {
+    name: "~SST"
+    type: invert
+    children: [ "SST" ]
+    }, {
+    name: "~HighFac"
+    type: invert
+    children: [ "HighFac" ]
+    }, {
+    name: "Book net of SST, HighFac"
+    type: group
+    children: ["Book", "~SST", "~HighFac"]
+    }
+  ]
+}
+
+placed = {
+  tag: "placed"
+  dag: [ {
+    name: "Net"
+    type: group
+    children: [ "Gross", "~Ceded"]
+    }, {
+    name: "~Ceded"
+    type: invert
+    children: [ "Ceded"]
+    }, {
+    name: "Ceded"
+    type: group
+    children: [ "Fac", "PerRisk", "Cat"]
+    }, {
+    name: "Fac"
+    type: group
+    }, {
+    name: "PerRisk"
+    type: group
+    }, {
+    name: "Cat"
+    type: group
+    children: [ "Cat1.Placed", "Cat2.Placed"]
+    }, {
+    name: "Cat1.Placed"
+    type: scale
+    opt: { val: 0.3 }
+    children: [ "Cat1"]
+    }, {
+    name: "Cat2.Placed"
+    type: scale
+    opt: { val: 0.45 }
+    children: [ "Cat2"]
+    }, {
+    name: "Cat1"
+    type: contract
+    opt: { val: "20x5", desc: "20M xs 5M" }
+    children: [ "Gross"]
+    }, {
+    name: "Cat2"
+    type: contract
+    opt: { val: "10x10", desc: "10M xs 10M" }
+    children: [ "Gross"]
+    }, {
+    name: "Gross"
+    type: group
+    }
+  ]
+}
+
+standard = {
+  tag: "standard"
+  dag: [ {
+    name: "Net"
+    type: group
+    children: [ "Gross", "~Ceded"]
+    }, {
+    name: "~Ceded"
+    type: invert
+    children: [ "Ceded"]
+    }, {
+    name: "Ceded"
+    type: group
+    children: [ "Fac", "PerRisk", "Cat"]
+    }, {
+    name: "Gross"
+    type: group
+    children: [ "Direct", "Assumed"]
+    }, {
+    name: "Direct"
+    type: group
+    }, {
+    name: "Assumed"
+    type: group
+    }, {
+    name: "Fac"
+    type: group
+    }, {
+    name: "PerRisk"
+    type: group
+    }, {
+    name: "Cat"
+    type: group
+
     }
   ]
 }
 
 
-graphs = [ imported_wx, imported_wx_small ]
+graphs = [ imported_wx, imported_wx_small, netpos, placed, reins, travelers, standard ]
 convert graph for graph in graphs
 
