@@ -59,7 +59,7 @@ convert = ( g ) ->
       # print start trigger cmd
       if children
         if not Array.isArray children then throw "bad node '#{node.name}' -- children should be an array"
-        cmds.push "start trigger #{encode name} #{encode children.join(',')} #{rak}"
+        cmds.push "start trigger #{encode name} #{_.map(children, encode).join(',')} #{rak}"
       # create graph node
       if name[0] isnt '~' # Dont show invert nodes, just label them as part of their group(s)
         nodes.push { id: ix[name], value: { label: name } }
@@ -130,7 +130,7 @@ imported_wx = {
     name: "Market:WX1"
     type: contract
     children: [ "Acme:PortA" ]
-    opt: { val: "10x10", desc: "10M xs 10M" }
+    opt: { val: "Market:WX1", desc: "10M xs 10M" }
     }, {
     name: "Our:Net"
     type: group
@@ -202,7 +202,7 @@ imported_wx_small = {
     name: "Market:WX1"
     type: contract
     children: [ "Acme:PortA" ]
-    opt: {val: "10x10", desc: "10M xs 10M" }
+    opt: {val: "Market:WX1", desc: "10M xs 10M" }
     }, {
     name: "Our:Net"
     type: group
@@ -292,17 +292,17 @@ reins = {
     }, {
     name: "PRT"
     type: contract
-    opt: { val: "20x15", desc: "20M xs 15M per risk" }
+    opt: { val: "PRT", desc: "20M xs 15M per risk" }
     children: ["Gross net of SST"]
     }, {
     name: "Fac1"
     type: contract
-    opt: { val: "1x1", desc: "1M xs 1M {IBM Acct)" }
+    opt: { val: "Fac1", desc: "1M xs 1M {IBM Acct)" }
     children: ["Gross"]
     }, {
     name: "SST"
     type: contract
-    opt: { val: "sst", desc: "4 lines @ 250K " }
+    opt: { val: "SST", desc: "4 lines @ 250K " }
     children: ["Gross net of Fac"]
     }, {
     name: "Gross net of Fac"
@@ -325,12 +325,12 @@ reins = {
     }, {
     name: "Cat1"
     type: contract
-    opt: { val: "20x5", desc: "20M xs 5M Wind" }
+    opt: { val: "Cat1", desc: "20M xs 5M Wind" }
     children: [ "Gross"]
     }, {
     name: "Cat2"
     type: contract
-    opt: { val: "10x10", desc: "10M xs 10M" }
+    opt: { val: "Cat2", desc: "10M xs 10M" }
     children: [ "Gross"]
     }, {
     name: "Gross"
@@ -348,38 +348,38 @@ travelers = {
     }, {
     name: "PerRisk"
     type: group
-    children: ["PPR Layer1", "Fac", "SST"]
+    children: ["PPR_Layer1", "Fac", "SST"]
     }, {
     name: "Book"
     type: group
     }, {
     name: "F1"
     type: contract
-    opt: { val: "4x4", desc: "4M xs 4M" }
+    opt: { val: "F1", desc: "4M xs 4M" }
     children: ["Book"]
     }, {
     name: "F2"
     type: contract
-    opt: { val: "4x1", desc: "4M xs 1M" }
+    opt: { val: "F2", desc: "4M xs 1M" }
     children: ["Book"]
     }, {
     name: "F3"
     type: contract
-    opt: { val: "10x15", desc: "10M xs 15M" }
+    opt: { val: "F3", desc: "10M xs 15M" }
     children: ["Book"]
     }, {
     name: "HighFac"
     type: group
     children: ["F3"]
     }, {
-    name: "PPR Layer1"
+    name: "PPR_Layer1"
     type: contract
-    opt: { val: "20x15", desc: "20 xs 15 per risk" }
+    opt: { val: "PPR_Layer1", desc: "20 xs 15 per risk" }
     children: ["Book net of SST, HighFac"]
     }, {
     name: "SST"
     type: contract
-    opt: { val: "sst", desc: "50% w/ 50M occ" }
+    opt: { val: "SST", desc: "50% w/ 50M occ" }
     children: ["Book net of Fac"]
     }, {
     name: "Book net of Fac"
@@ -442,12 +442,12 @@ placed = {
     }, {
     name: "Cat1"
     type: contract
-    opt: { val: "20x5", desc: "20M xs 5M" }
+    opt: { val: "Cat1", desc: "20M xs 5M" }
     children: [ "Gross"]
     }, {
     name: "Cat2"
     type: contract
-    opt: { val: "10x10", desc: "10M xs 10M" }
+    opt: { val: "Cat2", desc: "10M xs 10M" }
     children: [ "Gross"]
     }, {
     name: "Gross"
