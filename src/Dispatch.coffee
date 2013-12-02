@@ -1,16 +1,15 @@
 # Dispatches messages from serverX exchange to view
 serverDispatcher = (controller, topic, body) ->
 
-  # topic :=   [ engine | trigger ] . [ ready | stopped ]
+  # topic :=   [ engine | trigger ] . [ ready | stopped | stat ]
   [ serverType, state ] = topic.split '.'
 
   switch state
 
-    when 'ready'
-      #  body :=   name: AAA/NN, load: NN
-      s =  body.replace( /\s/g, '')               # squeeze out whitespace
-      [ _1, name, _2, load ]  =  s.split /|/g  # split on : and ,
-      controller.ready serverType, name, load
+    when 'stat'
+      #  body :=   rak|#{rak}|pid|#{pid}|loss|#{currentLoss}
+      [ _1, rak, _2, pid, _3, loss ]  =  body.split /|/g  
+      controller.stat pid, loss.split ','
 
     when 'stopped'
       controller.stopped body

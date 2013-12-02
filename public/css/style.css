@@ -2,7 +2,7 @@ body {
   font: 14px Helvetica Neue;
   text-rendering: optimizeLegibility;
   margin-top: 1em;
-  left: 40px;
+  left: 0px;
   overflow-y: scroll;
   overflow-x: scroll;
 }
@@ -17,7 +17,7 @@ a:hover {
 }
 
 .body {
-  width: 1000px;
+  width: 920px;
   margin: auto;
 }
 
@@ -27,7 +27,7 @@ a:hover {
 
 .content {
   position: relative;
-  margin-left: 180px;
+  margin-left: 120px;
 }
 
 .content img {
@@ -40,7 +40,7 @@ a:hover {
 }
 .sidebar {
   position: absolute;
-  left: -160px;
+  left: -200px;
   width: 200px;
 }
 

@@ -11,7 +11,7 @@
     workX: 'workX',
     signalX: 'signalX',
     execQ: 'execQ',
-    url: 'ws://cadt0734.rms.com:8001/amqp',
+    url: 'ws://localhost:8001/amqp',
     virtualhost: "v" + semver,
     credentials: {
       username: 'guest',

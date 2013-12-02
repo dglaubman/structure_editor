@@ -1,15 +1,22 @@
 root = exports ? window
 
+nodeSep = 30
+rankDir = "TB"
+
+graph = undefined
+setGraph = (nodes) ->
+  graph = nodes
+ 
 root.update = update = ( input ) ->
   path = "data/#{input}.json"
   d3.json path, render
 
 root.render = render = (adjacencies) ->
+  setGraph adjacencies
   margin =
     top: 20, right: 20, bottom: 20, left: 20
   width = adjacencies.width or 920
   height = adjacencies.height or 900
-  direction = adjacencies.direction or "TB"
   d3.selectAll("svg")
     .remove()
   svg = d3.select("#chart")
@@ -37,6 +44,8 @@ root.render = render = (adjacencies) ->
     svg.attr "class", val.type
     if val.type is "choose" then svg.attr  "class", val.tag
 
+  layout = dagreD3.layout().nodeSep( nodeSep ).rankDir( rankDir )
+  
   renderer
     .layout(layout)
     .run(
@@ -44,8 +53,11 @@ root.render = render = (adjacencies) ->
       d3.select("svg g") )
   graph = adjacencies
 
+root.nodeSep = (n) ->
+  nodeSep = n 
+  render graph
 
-graph = undefined
-
-layout = dagreD3.layout()
-
+rankDir = "TB"
+root.toggle = ->
+    if rankDir is "TB" then rankDir = "LR" else rankDir = "TB"
+    render graph

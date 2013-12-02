@@ -21,7 +21,7 @@
       this.flow = __bind(this.flow, this);
       this.startRak = __bind(this.startRak, this);
       this.stopServer = __bind(this.stopServer, this);
-      this.startTrigger = __bind(this.startTrigger, this);
+      this.sling = __bind(this.sling, this);
       this.startAdapter = __bind(this.startAdapter, this);
       this.startEngine = __bind(this.startEngine, this);
       this.publish = __bind(this.publish, this);
@@ -78,16 +78,16 @@
       return this.publish(this.config.workX, "start adapter " + name, this.config.execQ);
     };
 
-    Communicator.prototype.startTrigger = function(name, rak, signals) {
-      return this.publish(this.config.workX, "start trigger " + name + " " + rak + " " + signals, this.config.execQ);
+    Communicator.prototype.sling = function(signal, test, rak) {
+      return this.publish(this.config.workX, "start sling " + signal + " " + test + " " + rak, this.config.execQ);
     };
 
     Communicator.prototype.stopServer = function(pid) {
       return this.publish(this.config.workX, "stop " + pid, this.config.execQ);
     };
 
-    Communicator.prototype.startRak = function(msg, signal) {
-      return this.publish(this.config.signalX, msg, signal);
+    Communicator.prototype.startRak = function(name) {
+      return this.publish(this.config.workX, "start dot " + name, this.config.execQ);
     };
 
     Communicator.prototype.flow = function(onOff) {

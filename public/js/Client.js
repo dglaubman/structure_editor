@@ -6,17 +6,11 @@
     semver = "0.1.1";
     log = new Log($("#console"));
     log.write("Starting up ...");
-    $("#disconnect").on('click', function(evt) {
-      return comm.disconnect();
-    });
-    $(".engine").on('click', function(evt) {
-      return comm.startEngine(this.textContent);
-    });
-    $(".adapter").on('click', function(evt) {
-      return comm.startAdapter(this.textContent);
-    });
     $("#clear").on('click', function() {
       return log.clear();
+    });
+    $("#start").on("click", function(d) {
+      return comm.startRak("travelers");
     });
     $(".posgraph").on("click", function(d) {
       return update(this.id);
@@ -26,6 +20,7 @@
       return render(graph);
     });
     $("#node_sep_up").on("click", function(d) {
+      nodeSep(30);
       return render(graph);
     });
     widgets = new Controller(log);

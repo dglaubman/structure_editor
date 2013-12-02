@@ -35,14 +35,14 @@ class Communicator
   startAdapter: (name) =>
     @publish @config.workX, "start adapter #{name}", @config.execQ
 
-  startTrigger: (name, rak, signals) =>
-    @publish @config.workX, "start trigger #{name} #{rak} #{signals}", @config.execQ
+  sling: (signal, test, rak) =>
+    @publish @config.workX, "start sling #{signal} #{test} #{rak}", @config.execQ
 
   stopServer: (pid) =>
     @publish @config.workX, "stop #{pid}", @config.execQ
 
-  startRak: (msg, signal) =>
-    @publish @config.signalX, msg, signal
+  startRak: (name) =>
+    @publish @config.workX, "start dot #{name}", @config.execQ
 
   flow: ( onOff ) =>
     @exposureChannel.flowChannel onOff

@@ -5,17 +5,12 @@ $ ->
   log.write "Starting up ..."
 
   # Hook up controls on page
-  $("#disconnect").on 'click', (evt) ->
-    comm.disconnect()
-
-  $(".engine").on 'click', (evt) ->
-    comm.startEngine @textContent
-
-  $(".adapter").on 'click', (evt) ->
-    comm.startAdapter @textContent
-
   $("#clear").on 'click', ->
     log.clear()
+
+  $("#start")
+    .on "click", (d) ->
+      comm.startRak "travelers"
 
   $(".posgraph")
     .on "click", (d) ->
@@ -28,6 +23,7 @@ $ ->
 
   $("#node_sep_up")
     .on "click", (d) ->
+      nodeSep 30
       render graph
 
 

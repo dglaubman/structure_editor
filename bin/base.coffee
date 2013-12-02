@@ -15,7 +15,6 @@ graphDir = argv.graphDir or "."
 dotDir = argv.dotDir or "."
 
 logger argv
-rak = argv.rak or 1
 
 out = (path, data) ->
   fs.writeFile( path, data, (err) -> if err then throw err )
@@ -36,7 +35,6 @@ labelEdge = (type, opt) ->
       '-'
     when contract
       opt.desc
-
 
 convert = ( g ) ->
   {tag, dag} = g
@@ -59,7 +57,7 @@ convert = ( g ) ->
       # print start trigger cmd
       if children
         if not Array.isArray children then throw "bad node '#{node.name}' -- children should be an array"
-        cmds.push "start trigger #{encode name} #{_.map(children, encode).join(',')} #{rak}"
+        cmds.push "start trigger #{encode name} #{_.map(children, encode).join(',')}"
       # create graph node
       if name[0] isnt '~' # Dont show invert nodes, just label them as part of their group(s)
         nodes.push { id: ix[name], value: { label: name } }
@@ -493,7 +491,6 @@ standard = {
     }
   ]
 }
-
 
 graphs = [ imported_wx, imported_wx_small, netpos, placed, reins, travelers, standard ]
 convert graph for graph in graphs
