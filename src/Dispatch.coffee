@@ -8,7 +8,7 @@ serverDispatcher = (controller, topic, body) ->
 
     when 'stat'
       #  body :=   rak|#{rak}|pid|#{pid}|loss|#{currentLoss}
-      [ _1, rak, _2, pid, _3, loss ]  =  body.split /|/g  
+      [ _1, rak, _2, pid, _3, loss ]  =  body.split "|"
       controller.stat pid, loss.split ','
 
     when 'stopped'

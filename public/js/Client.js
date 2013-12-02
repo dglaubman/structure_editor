@@ -33,12 +33,10 @@
       body = m.body.getString(Charset.UTF8);
       switch (m.args.exchange) {
         case config.signalX:
-          signalDispatcher(widgets, topic, body);
-          break;
+          return signalDispatcher(widgets, topic, body);
         case config.serverX:
-          serverDispatcher(widgets, topic, body);
+          return serverDispatcher(widgets, topic, body);
       }
-      return log.write(body);
     };
     comm = new Communicator(log, messageHandler);
     comm.connect(config, config.credentials);

@@ -12,6 +12,10 @@
       this.log = log;
     }
 
+    Controller.prototype.stat = function(pid, losses) {
+      return this.log.write("" + pid + ": " + losses);
+    };
+
     Controller.prototype.ready = function(type, name, load) {
       var server;
       server = cache[name] != null ? cache[name] : cache[name] = make(type, name, this.stopServer, this.log);
@@ -22,9 +26,7 @@
       return unmake(name);
     };
 
-    Controller.prototype.dataReady = function(at, text) {
-      return logger.write("" + at + " signal: " + (JSON.stringify(text)));
-    };
+    Controller.prototype.dataReady = function(at, text) {};
 
     Controller.prototype.stopServer = function(event) {
       return alert("please set action for Controller.stopServer");
@@ -101,7 +103,6 @@
     Server.prototype.updateLoad = function(load) {
       var color;
       load = Math.min(parseInt(load, 10), 100);
-      this.log.write(load);
       switch (load) {
         case 100:
           $(".verticalBar", this.widget).css("background-color", "red");

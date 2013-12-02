@@ -39,7 +39,7 @@ $ ->
         signalDispatcher widgets, topic, body
       when config.serverX
         serverDispatcher widgets, topic, body
-    log.write body
+    #log.write body
 
   comm = new Communicator( log, messageHandler )
   comm.connect config, config.credentials

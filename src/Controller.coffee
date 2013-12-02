@@ -4,6 +4,9 @@ class root.Controller
 
   constructor: (@log) ->
 
+  stat: (pid, losses) ->
+     @log.write "#{pid}: #{losses}"
+
   ready: (type, name, load) ->
     server = cache[name] ?= make( type, name, @stopServer, @log )
     server.updateLoad load
@@ -12,7 +15,7 @@ class root.Controller
     unmake name
 
   dataReady: (at, text) ->
-    logger.write "#{at} signal: #{JSON.stringify(text)}"
+ #   @log.write "#{at} signal: #{JSON.stringify(text)}"
 
   stopServer: (event) -> alert "please set action for Controller.stopServer"
 
@@ -54,7 +57,7 @@ class Server
 
   updateLoad: (load) ->
     load = Math.min parseInt(load,10), 100
-    @log.write load
+#    @log.write load
     switch load
       when 100
         $( ".verticalBar", @widget ).css( "background-color", "red" )
