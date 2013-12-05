@@ -32,28 +32,9 @@
       return alert("please set action for Controller.stopServer");
     };
 
-    make = function(type, name, stopServer) {
-      var next, slot;
-      next = $.inArray(1, avail);
-      if (next !== -1) {
-        avail[next] = 0;
-        inuse[name] = next;
-        slot = $("ul.template." + type).children().clone();
-        $("ul.target." + type + "s").append(slot);
-        return new Server(slot, type, name, stopServer);
-      }
-    };
+    make = function(type, name, stopServer) {};
 
-    unmake = function(name) {
-      var widget;
-      widget = cache[name];
-      if (widget != null) {
-        widget.die();
-      }
-      delete cache[name];
-      avail[inuse[name]] = 1;
-      return delete inuse[name];
-    };
+    unmake = function(name) {};
 
     numSlots = 30;
 
@@ -76,17 +57,9 @@
 
   Server = (function() {
     function Server(widget, type, name, stop, log) {
-      var at,
-        _this = this;
       this.widget = widget;
       this.log = log;
       this.log = __bind(this.log, this);
-      at = name;
-      $(".at", this.widget).html(at);
-      $(".close", this.widget).on('click', function() {
-        stop(name);
-        return $(_this.widget).css("background-color", "lightgrey");
-      });
     }
 
     Server.prototype.log = function(text) {
@@ -100,19 +73,7 @@
       });
     };
 
-    Server.prototype.updateLoad = function(load) {
-      var color;
-      load = Math.min(parseInt(load, 10), 100);
-      switch (load) {
-        case 100:
-          $(".verticalBar", this.widget).css("background-color", "red");
-          break;
-        default:
-          color = Math.floor(load * 256 / 100);
-          $(".verticalBar", this.widget).css("background-color", "rgb(" + color + ",255,0)");
-      }
-      return $(".verticalBar", this.widget).css("height", "" + load + "%");
-    };
+    Server.prototype.updateLoad = function(load) {};
 
     return Server;
 

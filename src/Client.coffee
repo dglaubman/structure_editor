@@ -1,47 +1,50 @@
-$ ->
-  #
-  semver = "0.1.1"            # Semantic versioning - semver.org
-  log = new Log( $("#console") )
-  log.write "Starting up ..."
+# client -- application entry point - hooks up handlers and controls
 
-  # Hook up controls on page
-  $("#clear").on 'click', ->
-    log.clear()
+log = new Log( d3.select("#console") )
+log.write "Starting up ..."
 
-  $("#start")
-    .on "click", (d) ->
-      comm.startRak "travelers"
+currentGraph = "standard"
 
-  $(".posgraph")
-    .on "click", (d) ->
-      update @id
+# Hook up controls on page
+d3.select("#clear").on 'click', ->
+  log.clear()
 
-  $("#direction")
-    .on "click", (d) ->
-      toggle()
-      render graph
+d3.select("#start")
+  .on "click", (d) ->
+    comm.startRak currentGraph
 
-  $("#node_sep_up")
-    .on "click", (d) ->
-      nodeSep 30
-      render graph
+d3.selectAll(".posgraph")
+  .on "click", (d) ->
+    update @id
+    currentGraph = @id
 
+d3.select("#direction")
+  .on "click", (d) ->
+    toggle()
+    render graph
 
-  # Hook up controller and events for array of server widgets
-  widgets = new Controller log
-  widgets.stopServer = (name)  => comm.publish( config.workX, "stop #{name}", config.execQ )
+d3.select("#node_sep_up")
+  .on "click", (d) ->
+    nodeSep += 10
+    render graph
 
-  messageHandler = (m) ->
-    topic = m.args.routingKey
-    body = m.body.getString(Charset.UTF8)
-    switch m.args.exchange
-      when config.signalX
-        signalDispatcher widgets, topic, body
-      when config.serverX
-        serverDispatcher widgets, topic, body
-    #log.write body
+# Hook up controller
+widgets = new Controller log
 
-  comm = new Communicator( log, messageHandler )
-  comm.connect config, config.credentials
+widgets.stopServer = (name)  =>
+  comm.publish( config.workX, "stop #{name}", config.execQ )
 
-  update("standard")
+messageHandler = (m) ->
+  topic = m.args.routingKey
+  body = m.body.getString(Charset.UTF8)
+  switch m.args.exchange
+    when config.signalX
+      signalDispatcher widgets, topic, body
+    when config.serverX
+      serverDispatcher widgets, topic, body
+  #log.write body
+
+comm = new Communicator( log, messageHandler )
+comm.connect config, config.credentials
+
+update currentGraph

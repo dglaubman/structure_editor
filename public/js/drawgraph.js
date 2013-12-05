@@ -52,8 +52,7 @@
       }
     });
     layout = dagreD3.layout().nodeSep(nodeSep).rankDir(rankDir);
-    renderer.layout(layout).run(dagreD3.json.decode(nodes, edges), d3.select("svg g"));
-    return graph = adjacencies;
+    return renderer.layout(layout).run(dagreD3.json.decode(nodes, edges), d3.select("svg g"));
   };
 
   root.nodeSep = function(n) {

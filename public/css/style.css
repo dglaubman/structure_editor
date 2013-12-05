@@ -204,3 +204,16 @@ rect {
     font-size: 16px;
     fill: blue;
 }
+
+
+.background {
+  fill: #eee;
+}
+
+line {
+  stroke: #fff;
+}
+
+text.active {
+  fill: red;
+}

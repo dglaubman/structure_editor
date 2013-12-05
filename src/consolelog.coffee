@@ -7,7 +7,7 @@ class root.Log
 
   write: (message) ->
     if @lines++  > Log.MaxLines then @clear()
-    @targ.prepend( "<pre>#{message}</pre>" )
+    @targ.append("pre").text "#{message}"
 
   clear: () ->
     @targ.html ''

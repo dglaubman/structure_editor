@@ -14,7 +14,7 @@
       if (this.lines++ > Log.MaxLines) {
         this.clear();
       }
-      return this.targ.prepend("<pre>" + message + "</pre>");
+      return this.targ.append("pre").text("" + message);
     };
 
     Log.prototype.clear = function() {

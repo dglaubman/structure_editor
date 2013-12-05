@@ -6,7 +6,7 @@ rankDir = "TB"
 graph = undefined
 setGraph = (nodes) ->
   graph = nodes
- 
+
 root.update = update = ( input ) ->
   path = "data/#{input}.json"
   d3.json path, render
@@ -45,16 +45,15 @@ root.render = render = (adjacencies) ->
     if val.type is "choose" then svg.attr  "class", val.tag
 
   layout = dagreD3.layout().nodeSep( nodeSep ).rankDir( rankDir )
-  
+
   renderer
     .layout(layout)
     .run(
       dagreD3.json.decode(nodes, edges),
       d3.select("svg g") )
-  graph = adjacencies
 
 root.nodeSep = (n) ->
-  nodeSep = n 
+  nodeSep = n
   render graph
 
 rankDir = "TB"
