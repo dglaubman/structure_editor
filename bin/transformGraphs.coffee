@@ -54,7 +54,7 @@ convert = ( g ) ->
       # print start engine cmd
       switch type
         when scale
-          cmds.push "start scale #{encode name} opt"   # opt is scale factor
+          cmds.push "start scale #{encode name} #{opt}"   # opt is scale factor
         when contract
           cmds.push "start contract #{encode name} #{encode name}"   # cdl filename is same as contract name
         else
