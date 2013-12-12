@@ -4,7 +4,7 @@ path = require 'path'
 
 {log, fatal, error, trace, logger} = require './log'
 {argv} = require 'optimist'
-{group, scale, contract, invert} = require './ops'
+{group, scale, contract, invert, filter} = require './ops'
 
 logger argv
 
@@ -34,6 +34,8 @@ labelEdge = (type, opt) ->
       '-'
     when contract
       opt                           # contract description
+    when filter
+      opt                           # filter description
 
 convert = ( g ) ->
   {tag, dag} = g
@@ -57,6 +59,8 @@ convert = ( g ) ->
           cmds.push "start scale #{encode name} #{opt}"   # opt is scale factor
         when contract
           cmds.push "start contract #{encode name} #{encode name}"   # cdl filename is same as contract name
+        when filter
+          cmds.push "start filter #{encode name} #{encode name}"   # filter filename is same as filter name
         else
           cmds.push "start #{type} #{encode name}"
 

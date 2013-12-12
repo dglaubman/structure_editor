@@ -11,6 +11,11 @@ serverDispatcher = (controller, topic, body) ->
       [ _1, rak, _2, pid, _3, loss ]  =  body.split "|"
       controller.stat pid, loss.split ','
 
+    when 'ready'
+      #  body :=   rak|#{rak}|pid|#{pid}|loss|#{currentLoss}
+      [ _1, rak, _2, pid, _3, loss ]  =  body.split "|"
+      controller.stat pid, loss.split ','
+
     when 'stopped'
       controller.stopped body
 

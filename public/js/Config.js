@@ -9,7 +9,6 @@
   root.config = {
     serverX: 'serverX',
     workX: 'workX',
-    signalX: 'signalX',
     execQ: 'execQ',
     url: 'ws://localhost:8001/amqp',
     virtualhost: "v" + semver,

@@ -3,7 +3,13 @@
 log = new Log( d3.select("#console") )
 log.write "Starting up ..."
 
-currentGraph = "standard"
+currentGraph = ""
+
+graphClickHandler = (d) ->
+  d3.select( "##{currentGraph}" ).classed 'selected', false
+  d3.select(@).classed 'selected', true
+  update @id
+  currentGraph = @id
 
 # Hook up controls on page
 d3.select("#clear").on 'click', ->
@@ -14,9 +20,7 @@ d3.select("#start")
     comm.startRak currentGraph
 
 d3.selectAll(".posgraph")
-  .on "click", (d) ->
-    update @id
-    currentGraph = @id
+  .on "click", graphClickHandler
 
 d3.select("#direction")
   .on "click", (d) ->
@@ -47,4 +51,6 @@ messageHandler = (m) ->
 comm = new Communicator( log, messageHandler )
 comm.connect config, config.credentials
 
-update currentGraph
+# Load the Standard positions graph
+graphClickHandler.call( document.getElementById "standard" )
+

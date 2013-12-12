@@ -78,6 +78,9 @@ h1 {
 .sidebar {
   color: #666;
 }
+.sidebar .selected {
+  color: #222;
+}
 
 .sidebar ul {
   padding-left: 0;
@@ -187,7 +190,7 @@ rect {
 }
 
 .edge .invert text {
-    font-size: 28px;
+    font-size: 32px;
     fill: red;
 }
 
@@ -217,3 +220,9 @@ line {
 text.active {
   fill: red;
 }
+
+div #chart {
+    width: 920px;
+    height: 900px;
+}
+

@@ -4,8 +4,6 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Communicator = (function() {
-    Communicator.prototype.semver = "0.1.1";
-
     function Communicator(log, onmessage) {
       var _this = this;
       this.log = log;
@@ -13,7 +11,6 @@
       this.doBind = __bind(this.doBind, this);
       this.listen = __bind(this.listen, this);
       this.serverChannelOpenHandler = __bind(this.serverChannelOpenHandler, this);
-      this.exposureChannelOpenHandler = __bind(this.exposureChannelOpenHandler, this);
       this.publishChannelOpenHandler = __bind(this.publishChannelOpenHandler, this);
       this.channelOpenHandler = __bind(this.channelOpenHandler, this);
       this.onMessageDefault = __bind(this.onMessageDefault, this);
@@ -33,7 +30,6 @@
       this.amqp.addEventListener("error", function(e) {
         return _this.log.write("error: " + e.message);
       });
-      this.portIndex = 0;
     }
 
     Communicator.prototype.connect = function(config, credentials, onconnected) {
@@ -48,7 +44,6 @@
         _this.log.write("CONNECTED");
         _this.channelsReady = 0;
         _this.publishChannel = _this.amqp.openChannel(_this.publishChannelOpenHandler);
-        _this.exposureChannel = _this.amqp.openChannel(_this.exposureChannelOpenHandler);
         return _this.serverChannel = _this.amqp.openChannel(_this.serverChannelOpenHandler);
       });
     };
@@ -91,7 +86,6 @@
     };
 
     Communicator.prototype.flow = function(onOff) {
-      this.exposureChannel.flowChannel(onOff);
       return this.serverChannel.flowChannel(onOff);
     };
 
@@ -114,17 +108,13 @@
         return _this.log.write("close '" + exchange + "' channel ok");
       });
       this.channelsReady++;
-      if (this.channelsReady === 3) {
+      if (this.channelsReady === 2) {
         return this.doBind();
       }
     };
 
     Communicator.prototype.publishChannelOpenHandler = function(evt) {
       return this.channelOpenHandler(this.publishChannel, this.config.workX, 'direct');
-    };
-
-    Communicator.prototype.exposureChannelOpenHandler = function(evt) {
-      return this.channelOpenHandler(this.exposureChannel, this.config.signalX, 'topic');
     };
 
     Communicator.prototype.serverChannelOpenHandler = function(evt) {
@@ -139,15 +129,12 @@
     };
 
     Communicator.prototype.doBind = function() {
-      var autoDelete, durable, eQName, exclusive, noAck, noLocal, noWait, passive, qArgs, sQName, tag;
-      this.exposureChannel.onmessage = this.onmessage;
+      var autoDelete, durable, exclusive, noAck, noLocal, noWait, passive, qArgs, sQName, tag;
       this.serverChannel.onmessage = this.onmessage;
-      eQName = "exposureQ" + (new Date().getTime());
       sQName = "serverQ" + (new Date().getTime());
       passive = durable = autoDelete = noWait = exclusive = noLocal = noAck = true;
       qArgs = null;
       tag = "";
-      this.exposureChannel.declareQueue(eQName, !passive, !durable, exclusive, autoDelete, !noWait).bindQueue(eQName, this.config.signalX, "#", !noWait).consumeBasic(eQName, tag, !noLocal, noAck, noWait, !exclusive);
       this.serverChannel.declareQueue(sQName, !passive, !durable, exclusive, autoDelete, !noWait).bindQueue(sQName, this.config.serverX, "#", !noWait).consumeBasic(sQName, tag, !noLocal, noAck, noWait, !exclusive);
       return typeof this.onconnected === "function" ? this.onconnected() : void 0;
     };

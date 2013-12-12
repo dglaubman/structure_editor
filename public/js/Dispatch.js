@@ -3,11 +3,14 @@
   var root, serverDispatcher, signalDispatcher;
 
   serverDispatcher = function(controller, topic, body) {
-    var loss, pid, rak, serverType, state, _1, _2, _3, _ref, _ref1;
+    var loss, pid, rak, serverType, state, _1, _2, _3, _ref, _ref1, _ref2;
     _ref = topic.split('.'), serverType = _ref[0], state = _ref[1];
     switch (state) {
       case 'stat':
         _ref1 = body.split("|"), _1 = _ref1[0], rak = _ref1[1], _2 = _ref1[2], pid = _ref1[3], _3 = _ref1[4], loss = _ref1[5];
+        return controller.stat(pid, loss.split(','));
+      case 'ready':
+        _ref2 = body.split("|"), _1 = _ref2[0], rak = _ref2[1], _2 = _ref2[2], pid = _ref2[3], _3 = _ref2[4], loss = _ref2[5];
         return controller.stat(pid, loss.split(','));
       case 'stopped':
         return controller.stopped(body);

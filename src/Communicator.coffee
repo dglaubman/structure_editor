@@ -1,21 +1,17 @@
 class Communicator
 
-  semver: "0.1.1"
-
   constructor: (@log, @onmessage = @onMessageDefault) ->
     @amqp = new AmqpClient()
     @amqp.addEventListener "close", =>
       @log.write "DISCONNECTED"
     @amqp.addEventListener "error", (e) =>
       @log.write "error: #{e.message}"
-    @portIndex = 0
 
   connect: ( @config, credentials, @onconnected) ->
     @amqp.connect {url: config.url, virtualHost: config.virtualhost, credentials: credentials} , (evt) =>
         @log.write "CONNECTED"
         @channelsReady = 0
         @publishChannel = @amqp.openChannel @publishChannelOpenHandler
-        @exposureChannel = @amqp.openChannel @exposureChannelOpenHandler
         @serverChannel = @amqp.openChannel @serverChannelOpenHandler
 
   disconnect: =>
@@ -45,7 +41,6 @@ class Communicator
     @publish @config.workX, "start dot #{name}", @config.execQ
 
   flow: ( onOff ) =>
-    @exposureChannel.flowChannel onOff
     @serverChannel.flowChannel onOff
 
   errorHandler: (evt) =>
@@ -62,13 +57,10 @@ class Communicator
     channel.addEventListener "close", =>
       @log.write "close '#{exchange}' channel ok"
     @channelsReady++
-    @doBind()  if @channelsReady is 3
+    @doBind()  if @channelsReady is 2
 
   publishChannelOpenHandler: (evt) =>
     @channelOpenHandler @publishChannel, @config.workX, 'direct'
-
-  exposureChannelOpenHandler: (evt) =>
-    @channelOpenHandler @exposureChannel, @config.signalX, 'topic'
 
   serverChannelOpenHandler: (evt) =>
     @channelOpenHandler @serverChannel, @config.serverX, 'topic'
@@ -79,18 +71,13 @@ class Communicator
 
   doBind: =>
 
-    @exposureChannel.onmessage = @onmessage
     @serverChannel.onmessage = @onmessage
-    eQName = "exposureQ#{new Date().getTime()}"
     sQName = "serverQ#{new Date().getTime()}"
 
     passive = durable = autoDelete = noWait = exclusive = noLocal = noAck = true
     qArgs = null
     tag = ""
 
-    @exposureChannel.declareQueue(eQName, not passive, not durable, exclusive, autoDelete, not noWait)
-      .bindQueue(eQName, @config.signalX, "#", not noWait)
-      .consumeBasic eQName, tag, not noLocal, noAck, noWait, not exclusive
     @serverChannel.declareQueue(sQName, not passive, not durable, exclusive, autoDelete, not noWait)
       .bindQueue(sQName, @config.serverX, "#", not noWait)
       .consumeBasic sQName, tag, not noLocal, noAck, noWait, not exclusive

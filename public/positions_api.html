@@ -1,0 +1,375 @@
+
+<!-- saved from url=(0033)file:///D:/tmp/2/burl4048so1.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body><h1>Positions API</h1>
+
+<h2>Position</h2>
+
+<p>A (loss) Position represents a named collection of losses, and an operation which writes to this collection. There are six types of positions, corresponding to the following operations:</p>
+
+<ul>
+<li>Group -- groups the losses from one or more input positions.</li>
+<li>Invert -- inverts its input position.</li>
+<li>Scale -- multiplies each loss from its input position by a constant factor</li>
+<li>Contract -- applies a specified contract payout function to its subject (input) position.</li>
+<li>Filter -- applies a predicate function to its input position. Losses for which the predicate is true are written to the position.</li>
+<li>Branch -- chooses one of its two input positions, based on a criterion. One of the positions may be marked as the default.</li>
+</ul>
+
+<p>Positions may be created, retrieved, modified, or deleted via the API. <br>
+(Note: Contract positions are managed indirectly thru Contracts API.)</p>
+
+<p>A Position corresponds to a node in a directed acyclic graph, where the edges consist of arrows from the position to its input position(s).
+Given a Position (or set of Positions), the API also supports retrieving the subgraph of dependent positions.</p>
+
+<h3>Creation</h3>
+
+<h3><code>POST /positions</code></h3>
+
+<p>Creates a new position.</p>
+
+<blockquote>
+  <p><strong>Input</strong>: Name, Namespace, Operation are required. Most operations require exactly one input position. Scale and contract have operation specific param. <br>
+  <strong>Output</strong>: A representation of  the newly created Position resource <br>
+  <strong>Validations</strong>:  </p>
+  
+  <blockquote>
+    <p>Fully qualified name ("namespace:name") must be unique within tenant (else HTTP error 409). <br>
+    Input positions must exist, but may be of any type. <br>
+    Output position must not exist prior to the POST. <br>
+    Other validations differ by position type (see examples)  </p>
+  </blockquote>
+</blockquote>
+
+<h4>Examples:</h4>
+
+<blockquote>
+  <p><strong>Creating a leaf position</strong> <br>
+  A leaf position is a group with no children. <br>
+  As such, its source of loss is external to Position DB (for example, a CSE) <br>
+  We can augment this resource with an external identifier of its source, if this proves useful.  </p>
+  
+  <p>Request:  </p>
+</blockquote>
+
+<pre><code>        POST /positions
+        {
+            "Name": "Book",
+            "NS":  "Acme",
+            "Op": "Group",
+        }
+</code></pre>
+
+<blockquote>
+  <p>Reply:  </p>
+</blockquote>
+
+<pre><code>       201 Created
+       Location: /positions/1
+
+       {
+           "Name": "Book",
+           "NS": "Acme",
+           "FQName": "Acme:Book",
+           "Op": "Group",
+           "Links":
+           [  {"href": "/positions/1", "rel": "self"} ]
+       }
+</code></pre>
+
+<blockquote>
+  <p><strong>Creating a scaled position</strong> <br>
+  Note: the scale factor is always positive. Invert a scaled position to multiply by a negative factor.  </p>
+  
+  <p>Request:  </p>
+</blockquote>
+
+<pre><code>        POST /positions
+
+        {
+            "Name": "TreatyA.Placed",
+            "NS":  "Market",
+            "Op": "Scale",
+            "Factor": 0.4,
+            "Subject": "Market:TreatyA"
+        }
+</code></pre>
+
+<blockquote>
+  <p>Reply:  </p>
+</blockquote>
+
+<pre><code>       201 Created
+       Location: /positions/101
+
+       {
+           "Name": "TreatyA.Placed",
+           "NS": "Market",
+           "FQName": "Market:TreatyA.Placed",
+           "Op": "Scale",
+           "Factor": 0.4,
+           "Links":
+           [   {"href": "/positions/101", "rel": "self"},
+               {"href": "/positions/100", "rel": "subject"},
+           ]
+       }
+</code></pre>
+
+<blockquote>
+  <p><strong>Creating an inverted position</strong> <br>
+  An inverted position by convention has the same name as its subject, prefaced with a tilde(~).  </p>
+  
+  <p>Request:  </p>
+</blockquote>
+
+<pre><code>        POST /positions
+
+        {
+            "Name": "~TreatyA.Placed",
+            "NS":  "Market",
+            "Op": "Invert",
+            "Subject": "Market:TreatyA.Placed"
+        }
+</code></pre>
+
+<blockquote>
+  <p>Reply:  </p>
+</blockquote>
+
+<pre><code>       201 Created
+       Location: /positions/102
+
+       {
+           "Name": "~TreatyA.Placed",
+           "NS": "Market",
+           "FQName": "~Market:TreatyA.Placed",
+           "Op": "Invert",
+           "Links":
+               {"href": "/positions/101", "rel": "subject"},              # this is the placed position  
+               {"href": "/positions/102", "rel": "self"},                 # this is the inverted placed position  
+           ]
+       }
+</code></pre>
+
+<blockquote>
+  <p><strong>Creating a group position</strong> <br>
+  Note: To create a net position, invert then group.  </p>
+  
+  <p>Request:  </p>
+</blockquote>
+
+<pre><code>        POST /positions
+
+        {
+            "Name": "Book net of Market:TreatyB.Placed",
+            "NS":  "Acme",
+            "Op": "Group",
+            "Subject": ["Acme:Book", "~Market:TreatyB.Placed"]
+        }
+</code></pre>
+
+<blockquote>
+  <p>Reply:  </p>
+</blockquote>
+
+<pre><code>       201 Created
+       Location: /positions/103
+
+       {
+           "Name": "Book net of Market:TreatyB.Placed",
+           "NS": "Acme",
+           "FQName": "Acme:Book net of Market:TreatyB.Placed",
+           "Op": "Group",
+           "Links":
+           [   {"href": "/positions/103", "rel": "self"},
+               {"href": "/positions/1", "rel": "subject"},
+               {"href": "/positions/102", "rel": "subject"}
+           ]
+       }
+</code></pre>
+
+<blockquote>
+  <p><strong>Creating a contract position</strong> <br>
+  Unlike other positions, contract positions are created/modified indirectly via the Contract API. <br>
+  Thus, a POST to /contracts creates a Contract resource (with CDL and decls) and an Ouput Position resource (corresponding to Contract Name).  </p>
+  
+  <p>Request:  </p>
+</blockquote>
+
+<pre><code>        POST /contracts
+
+             "Declarations
+                 Name is My:Cat1
+                 Subject is Acme:Book net of Market:Treaty.Placed
+              Covers
+                 100% Share of 10M xs 10M"
+</code></pre>
+
+<blockquote>
+  <p>Reply:  </p>
+</blockquote>
+
+<pre><code>       201 Created
+       Location: /contracts/2
+
+       {
+           "Name": "Cat1",
+           "NS": "My",
+           "FQName": "My:Cat1"
+           "Links":
+           [   {"href": "/contracts/2", "rel": "self"},
+               {"href": "/contracts/2/declarations", "rel": "declarations"},
+               {"href": "/contracts/2/text", "rel": "cdl"},
+               {"href": "/positions/103", "rel": "subject"},                   
+               {"href": "/positions/104", "rel": "output"},
+           ]
+       }
+</code></pre>
+
+<blockquote>
+  <p><strong>Creating a filter position</strong> <br>
+  Note: predicate syntax should match standard usage on RMS(one). <br>
+  Predicate places resolution requirements on its subject (TBD).  </p>
+  
+  <p>Request:  </p>
+</blockquote>
+
+<pre><code>        POST /positions
+
+        {
+            "Name": "Book.Comm",
+            "NS":  "Acme",
+            "Op": "Filter",
+            "Predicate": "LOB is commercial",
+            "Subject": ["Acme:Book"]
+        }
+</code></pre>
+
+<blockquote>
+  <p>Reply:  </p>
+</blockquote>
+
+<pre><code>       201 Created
+       Location: /positions/105
+
+       {
+           "Name": "Book.Comm",
+           "NS": "Acme",
+           "FQName": "Acme:Book.Comm",
+           "Op": "Filter",
+           "Predicate": "LOB is commercial",
+           "Links":
+           [   {"href": "/positions/105", "rel": "self"},
+               {"href": "/positions/1", "rel": "subject"},
+           ]
+       }
+</code></pre>
+
+<blockquote>
+  <p><strong>Creating a branch position</strong> <br>
+  Unlike a filter, a branch operation only allows one choice through. <br>
+  A branch could depend on a RAP setting or attributes of the actual subject loss. <br>
+  Both input positions must exist when this method is called.  </p>
+  
+  <p>Request:  </p>
+</blockquote>
+
+<pre><code>        POST /positions
+
+        {
+            "Name": "Assumed",
+            "NS":  "My",
+            "Op": "Cat1",
+            "Expression": "if status is quoted then my:cat1.written else my:cat1.signed"
+            "Subject": ["My:Cat1.Signed", "My:Cat1.Written"]
+        }
+</code></pre>
+
+<blockquote>
+  <p>Reply:  </p>
+</blockquote>
+
+<pre><code>       201 Created
+       Location: /positions/108
+
+       {
+           "Name": "Assumed,
+           "NS": "My",
+           "FQName": "My:Assumed",
+           "Op": "Branch",
+           "Expression": "if status is quoted then my:cat1.written else my:cat1.signed"
+           "Links":
+           [   {"href": "/positions/108", "rel": "self"},
+               {"href": "/positions/106", "rel": "subject, default"},
+               {"href": "/positions/107", "rel": "subject"}
+           ]
+       }
+</code></pre>
+
+<h2>Position Graph</h2>
+
+<p>This is a read/only API and thus supports GET. A possible end-point is /positions/graph, also providing a search string which corresponds to one or more positions. <br>
+The output is a list containing the transitive closure of the search results and their subject positions (possibly limited by a depth param).  </p>
+
+<h3><code>GET /positions/graph?search-str</code></h3>
+
+<h4>Example</h4>
+
+<blockquote>
+  <p><em>* Get the position graph starting from My:Cat1 *</em></p>
+  
+  <p>Request:  </p>
+</blockquote>
+
+<pre><code>    GET /positions/graph/?fqname=my:cat1
+</code></pre>
+
+<blockquote>
+  <p>Reply:</p>
+</blockquote>
+
+<pre><code>    200 OK
+
+    [   {
+            "FQName": "My:Cat1",                                                 # the Contract's output position
+            "Op": "Contract",
+            "Links": [
+                { "href": "/positions/104", "rel": "self" },
+                { "href": "/positions/103", "rel": "subject" },
+                { "href": "/contracts/2", "rel": "contract" } ] },
+        {
+            "FQName": "Acme:Book net of Market:TreatyA.Placed",                 # the Contract's subject position
+            "Op": "Group",
+            "Links: [
+                { "href": "/positions/103", "rel": "self" },
+                { "href": "/positions/1", "rel": "subject" },                   # Acme:Book
+                { "href": "/positions/102", "rel": "subject" } ] },             # ~Market:TreatyA.Placed
+
+       {
+            "FQName": "Acme:Book",                                              # the leaf
+            "Op": "Group",
+            "Links": [
+                { "href": "/positions/1", "rel": "self" } ] },
+       {
+            "FQName": "~Market:TreatyA.Placed",                                 # the inversion
+            "Op": "Invert",
+            "Links: [
+                { "href": "/positions/102", "rel": "self" },
+                { "href": "/positions/101", "rel": "subject" } ] },
+       {
+            "FQName": "Market:TreatyA.Placed",                                 # the scaling
+            "Op": "Scale",
+            "Factor": 0.4,
+            "Links: [
+                { "href": "/positions/101", "rel": "self" },
+                { "href": "/positions/100", "rel": "subject" } ] },
+
+       {
+            "FQName": "Market:TreatyA",                                        # treaty (also on Acme:Book, but not shown in above examples)
+            "Op": "Contract",
+            "Links: [
+                { "href": "/positions/100", "rel": "self" },
+                { "href": "/contracts/1", "rel": "contract" }
+                { "href": "/positions/1", "rel": "subject" } ] }
+    ]
+</code></pre>
+</body></html>
