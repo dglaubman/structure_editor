@@ -3,7 +3,7 @@
 log = new Log( d3.select("#console") )
 log.write "Starting up ..."
 
-currentGraph = ""
+currentGraph = "standard"
 
 graphClickHandler = (d) ->
   d3.select( "##{currentGraph}" ).classed 'selected', false
@@ -17,7 +17,7 @@ d3.select("#clear").on 'click', ->
 
 d3.select("#start")
   .on "click", (d) ->
-    comm.startRak currentGraph
+    comm.startSubscription currentGraph, origin()
 
 d3.selectAll(".posgraph")
   .on "click", graphClickHandler
@@ -42,15 +42,15 @@ messageHandler = (m) ->
   topic = m.args.routingKey
   body = m.body.getString(Charset.UTF8)
   switch m.args.exchange
-    when config.signalX
-      signalDispatcher widgets, topic, body
     when config.serverX
       serverDispatcher widgets, topic, body
-  #log.write body
 
+origin( frames["timestamp"].document.body.innerText )
 comm = new Communicator( log, messageHandler )
 comm.connect config, config.credentials
 
 # Load the Standard positions graph
-graphClickHandler.call( document.getElementById "standard" )
+graphClickHandler.call( document.getElementById currentGraph )
+
+
 

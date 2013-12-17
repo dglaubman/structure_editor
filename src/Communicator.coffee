@@ -25,20 +25,14 @@ class Communicator
     @publishChannel.publishBasic {body: body, exchange: exchange, routingKey: routingKey}
 
 
-  startEngine: (name) =>
-    @publish @config.workX, "start engine #{name}", @config.execQ
-
-  startAdapter: (name) =>
-    @publish @config.workX, "start adapter #{name}", @config.execQ
-
   sling: (signal, test, rak) =>
     @publish @config.workX, "start sling #{signal} #{test} #{rak}", @config.execQ
 
   stopServer: (pid) =>
     @publish @config.workX, "stop #{pid}", @config.execQ
 
-  startRak: (name) =>
-    @publish @config.workX, "start dot #{name}", @config.execQ
+  startSubscription: (name, uid) =>
+    @publish @config.workX, "start subscription #{name} #{uid}", @config.execQ
 
   flow: ( onOff ) =>
     @serverChannel.flowChannel onOff

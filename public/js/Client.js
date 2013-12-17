@@ -21,7 +21,7 @@
   });
 
   d3.select("#start").on("click", function(d) {
-    return comm.startRak(currentGraph);
+    return comm.startSubscription(currentGraph, origin());
   });
 
   d3.selectAll(".posgraph").on("click", graphClickHandler);
@@ -47,12 +47,12 @@
     topic = m.args.routingKey;
     body = m.body.getString(Charset.UTF8);
     switch (m.args.exchange) {
-      case config.signalX:
-        return signalDispatcher(widgets, topic, body);
       case config.serverX:
         return serverDispatcher(widgets, topic, body);
     }
   };
+
+  origin(frames["timestamp"].document.body.innerText);
 
   comm = new Communicator(log, messageHandler);
 

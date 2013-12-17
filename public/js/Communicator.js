@@ -16,11 +16,9 @@
       this.onMessageDefault = __bind(this.onMessageDefault, this);
       this.errorHandler = __bind(this.errorHandler, this);
       this.flow = __bind(this.flow, this);
-      this.startRak = __bind(this.startRak, this);
+      this.startSubscription = __bind(this.startSubscription, this);
       this.stopServer = __bind(this.stopServer, this);
       this.sling = __bind(this.sling, this);
-      this.startAdapter = __bind(this.startAdapter, this);
-      this.startEngine = __bind(this.startEngine, this);
       this.publish = __bind(this.publish, this);
       this.disconnect = __bind(this.disconnect, this);
       this.amqp = new AmqpClient();
@@ -65,14 +63,6 @@
       });
     };
 
-    Communicator.prototype.startEngine = function(name) {
-      return this.publish(this.config.workX, "start engine " + name, this.config.execQ);
-    };
-
-    Communicator.prototype.startAdapter = function(name) {
-      return this.publish(this.config.workX, "start adapter " + name, this.config.execQ);
-    };
-
     Communicator.prototype.sling = function(signal, test, rak) {
       return this.publish(this.config.workX, "start sling " + signal + " " + test + " " + rak, this.config.execQ);
     };
@@ -81,8 +71,8 @@
       return this.publish(this.config.workX, "stop " + pid, this.config.execQ);
     };
 
-    Communicator.prototype.startRak = function(name) {
-      return this.publish(this.config.workX, "start dot " + name, this.config.execQ);
+    Communicator.prototype.startSubscription = function(name, uid) {
+      return this.publish(this.config.workX, "start subscription " + name + " " + uid, this.config.execQ);
     };
 
     Communicator.prototype.flow = function(onOff) {

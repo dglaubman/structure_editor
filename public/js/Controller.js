@@ -16,10 +16,8 @@
       return this.log.write("" + pid + ": " + losses);
     };
 
-    Controller.prototype.ready = function(type, name, load) {
-      var server;
-      server = cache[name] != null ? cache[name] : cache[name] = make(type, name, this.stopServer, this.log);
-      return server.updateLoad(load);
+    Controller.prototype.ready = function(sender, dot, rak) {
+      return this.log.write("" + sender + ": " + dot + " on " + rak);
     };
 
     Controller.prototype.stopped = function(name) {

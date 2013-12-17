@@ -226,3 +226,6 @@ div #chart {
     height: 900px;
 }
 
+#timestamp {
+    height: 40px;
+}

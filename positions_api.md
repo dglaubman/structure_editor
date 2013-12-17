@@ -13,7 +13,7 @@ A (loss) Position represents a named collection of losses, and an operation whic
 * Filter -- applies a predicate function to its input position. Losses for which the predicate is true are written to the position.
 * Branch -- chooses one of its two input positions, based on a criterion. One of the positions may be marked as the default.
 
-Positions may be created, retrieved, modified, or deleted via the API.  
+Positions may be created, retrieved, modified, or deleted via the API.  git add s
 (Note: Contract positions are managed indirectly thru Contracts API.)
 
 A Position corresponds to a node in a directed acyclic graph, where the edges consist of arrows from the position to its input position(s).

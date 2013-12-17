@@ -5,11 +5,13 @@ class root.Controller
   constructor: (@log) ->
 
   stat: (pid, losses) ->
-     @log.write "#{pid}: #{losses}"
+    @log.write "#{pid}: #{losses}"
 
-  ready: (type, name, load) ->
-    server = cache[name] ?= make( type, name, @stopServer, @log )
-    server.updateLoad load
+  ready: (sender, dot, rak) ->
+    @log.write "#{sender}: #{dot} on #{rak}"
+
+    # server = cache[name] ?= make( type, name, @stopServer, @log )
+    # server.updateLoad load
 
   stopped: (name) ->
     unmake name
