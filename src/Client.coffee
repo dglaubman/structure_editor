@@ -5,6 +5,15 @@ log.write "Starting up ..."
 
 currentGraph = "standard"
 
+# get timestamp from server. This will be used to differentiate requests from different clients
+ticket = undefined
+d3.text './ts', (err, now) ->
+  if err
+    log.write err
+  else
+    ticket = "ticket.#{now}"
+
+
 graphClickHandler = (d) ->
   d3.select( "##{currentGraph}" ).classed 'selected', false
   d3.select(@).classed 'selected', true
@@ -17,7 +26,7 @@ d3.select("#clear").on 'click', ->
 
 d3.select("#start")
   .on "click", (d) ->
-    comm.startSubscription currentGraph, origin()
+    comm.startSubscription currentGraph, ticket
 
 d3.selectAll(".posgraph")
   .on "click", graphClickHandler
@@ -27,15 +36,10 @@ d3.select("#direction")
     toggle()
     render graph
 
-d3.select("#node_sep_up")
-  .on "click", (d) ->
-    nodeSep += 10
-    render graph
-
 # Hook up controller
-widgets = new Controller log
+controller = new Controller log
 
-widgets.stopServer = (name)  =>
+controller.stopServer = (name)  =>
   comm.publish( config.workX, "stop #{name}", config.execQ )
 
 messageHandler = (m) ->
@@ -43,14 +47,10 @@ messageHandler = (m) ->
   body = m.body.getString(Charset.UTF8)
   switch m.args.exchange
     when config.serverX
-      serverDispatcher widgets, topic, body
+      serverDispatcher controller, body
 
-origin( frames["timestamp"].document.body.innerText )
-comm = new Communicator( log, messageHandler )
+comm = new Communicator( log, messageHandler, ticket )
 comm.connect config, config.credentials
 
 # Load the Standard positions graph
 graphClickHandler.call( document.getElementById currentGraph )
-
-
-

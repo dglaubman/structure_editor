@@ -1,32 +1,20 @@
 root = exports ? window
 
 # Dispatches messages from serverX exchange to view
-root.serverDispatcher = (controller, topic, body) ->
+root.serverDispatcher = (controller, body) ->
 
-  # topic :=   [ engine | trigger ] . [ ready | stopped | stat ]
-  [ serverType, state ] = topic.split '.'
+  [ state, msg... ] = body.split '|'
 
   switch state
 
     when 'stat'
-      #  body :=   rak|#{rak}|name|#{name}|loss|#{currentLoss}
-      [ _1, rak, _2, name, _3, loss ]  =  body.split "|"
-      controller.stat name, loss.split ','
+      [ _1, track, _2, position, _3, loss ]  =  msg
+      controller.stat track, position, loss
 
     when 'ready'
-      #  body :=   dot|#{dot}|rak|#{rak}|pid|#{pid}
-      [ _1, sender, _2, dot, _3, rak ]  =  body.split "|"
-      controller.ready sender, dot, rak
+      [ _1, route, _2, track ] = msg
+      controller.ready route, track
 
     when 'stopped'
-      controller.stopped body
-
-_origin = ""
-root.origin = (args) ->
-  if args
-    _origin = args
-  else
-    _origin
-
-
-
+      [ _1, type, _2, name ]
+      controller.stopped type, name

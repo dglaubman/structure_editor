@@ -4,17 +4,18 @@ class root.Controller
 
   constructor: (@log) ->
 
-  stat: (pid, losses) ->
-    @log.write "#{pid}: #{losses}"
+  stat: (track, position, loss) ->
+    @log.write "#{position}: #{loss}"
 
-  ready: (sender, dot, rak) ->
-    @log.write "#{sender}: #{dot} on #{rak}"
+  ready: (route, track) ->
+    @log.write "#{route} on #{track}"
 
     # server = cache[name] ?= make( type, name, @stopServer, @log )
     # server.updateLoad load
 
-  stopped: (name) ->
-    unmake name
+  stopped: (type, name) ->
+    @log.write "recd stopped signal for #{type} #{name}"
+
 
   dataReady: (at, text) ->
  #   @log.write "#{at} signal: #{JSON.stringify(text)}"

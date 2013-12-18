@@ -1,6 +1,6 @@
 class Communicator
 
-  constructor: (@log, @onmessage = @onMessageDefault) ->
+  constructor: (@log, @onmessage = @onMessageDefault, @serverTopic = "#") ->
     @amqp = new AmqpClient()
     @amqp.addEventListener "close", =>
       @log.write "DISCONNECTED"
@@ -25,14 +25,14 @@ class Communicator
     @publishChannel.publishBasic {body: body, exchange: exchange, routingKey: routingKey}
 
 
-  sling: (signal, test, rak) =>
-    @publish @config.workX, "start sling #{signal} #{test} #{rak}", @config.execQ
+  sling: (signal, test, track) =>
+    @publish @config.workX, "start sling #{signal} #{test} #{track}", @config.execQ
 
   stopServer: (pid) =>
     @publish @config.workX, "stop #{pid}", @config.execQ
 
   startSubscription: (name, uid) =>
-    @publish @config.workX, "start subscription #{name} #{uid}", @config.execQ
+    @publish @config.workX, "#{uid} unused start subscription #{name}", @config.execQ
 
   flow: ( onOff ) =>
     @serverChannel.flowChannel onOff
@@ -73,7 +73,7 @@ class Communicator
     tag = ""
 
     @serverChannel.declareQueue(sQName, not passive, not durable, exclusive, autoDelete, not noWait)
-      .bindQueue(sQName, @config.serverX, "#", not noWait)
+      .bindQueue(sQName, @config.serverX, @serverTopic, not noWait)
       .consumeBasic sQName, tag, not noLocal, noAck, noWait, not exclusive
     @onconnected?()
 

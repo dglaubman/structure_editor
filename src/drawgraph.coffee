@@ -7,7 +7,7 @@ graph = undefined
 setGraph = (nodes) ->
   graph = nodes
 
-root.update = update = ( input ) ->
+root.update = update = (input) ->
   path = "data/#{input}.json"
   d3.json path, render
 
@@ -38,7 +38,6 @@ root.render = render = (adjacencies) ->
     svg.attr  "id", "node-" + u
 
   renderer.drawEdgeLabel  (graph, e, svg) ->
-
     oldDrawEdgeLabel graph, e, svg
     val = graph._edges[e].value
     svg.attr "class", val.type

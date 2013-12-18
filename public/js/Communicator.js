@@ -4,10 +4,11 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Communicator = (function() {
-    function Communicator(log, onmessage) {
+    function Communicator(log, onmessage, serverTopic) {
       var _this = this;
       this.log = log;
       this.onmessage = onmessage != null ? onmessage : this.onMessageDefault;
+      this.serverTopic = serverTopic != null ? serverTopic : "#";
       this.doBind = __bind(this.doBind, this);
       this.listen = __bind(this.listen, this);
       this.serverChannelOpenHandler = __bind(this.serverChannelOpenHandler, this);
@@ -63,8 +64,8 @@
       });
     };
 
-    Communicator.prototype.sling = function(signal, test, rak) {
-      return this.publish(this.config.workX, "start sling " + signal + " " + test + " " + rak, this.config.execQ);
+    Communicator.prototype.sling = function(signal, test, track) {
+      return this.publish(this.config.workX, "start sling " + signal + " " + test + " " + track, this.config.execQ);
     };
 
     Communicator.prototype.stopServer = function(pid) {
@@ -72,7 +73,7 @@
     };
 
     Communicator.prototype.startSubscription = function(name, uid) {
-      return this.publish(this.config.workX, "start subscription " + name + " " + uid, this.config.execQ);
+      return this.publish(this.config.workX, "" + uid + " unused start subscription " + name, this.config.execQ);
     };
 
     Communicator.prototype.flow = function(onOff) {
@@ -125,7 +126,7 @@
       passive = durable = autoDelete = noWait = exclusive = noLocal = noAck = true;
       qArgs = null;
       tag = "";
-      this.serverChannel.declareQueue(sQName, !passive, !durable, exclusive, autoDelete, !noWait).bindQueue(sQName, this.config.serverX, "#", !noWait).consumeBasic(sQName, tag, !noLocal, noAck, noWait, !exclusive);
+      this.serverChannel.declareQueue(sQName, !passive, !durable, exclusive, autoDelete, !noWait).bindQueue(sQName, this.config.serverX, this.serverTopic, !noWait).consumeBasic(sQName, tag, !noLocal, noAck, noWait, !exclusive);
       return typeof this.onconnected === "function" ? this.onconnected() : void 0;
     };
 

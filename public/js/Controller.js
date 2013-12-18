@@ -12,16 +12,16 @@
       this.log = log;
     }
 
-    Controller.prototype.stat = function(pid, losses) {
-      return this.log.write("" + pid + ": " + losses);
+    Controller.prototype.stat = function(track, position, loss) {
+      return this.log.write("" + position + ": " + loss);
     };
 
-    Controller.prototype.ready = function(sender, dot, rak) {
-      return this.log.write("" + sender + ": " + dot + " on " + rak);
+    Controller.prototype.ready = function(route, track) {
+      return this.log.write("" + route + " on " + track);
     };
 
-    Controller.prototype.stopped = function(name) {
-      return unmake(name);
+    Controller.prototype.stopped = function(type, name) {
+      return this.log.write("recd stopped signal for " + type + " " + name);
     };
 
     Controller.prototype.dataReady = function(at, text) {};
