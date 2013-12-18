@@ -1,13 +1,13 @@
 class Communicator
 
-  constructor: (@log, @onmessage = @onMessageDefault, @serverTopic = "#") ->
+  constructor: (@log, @onmessage = @onMessageDefault) ->
     @amqp = new AmqpClient()
     @amqp.addEventListener "close", =>
       @log.write "DISCONNECTED"
     @amqp.addEventListener "error", (e) =>
       @log.write "error: #{e.message}"
 
-  connect: ( @config, credentials, @onconnected) ->
+  connect: ( @config, credentials, @serverTopic = "#", @onconnected) ->
     @amqp.connect {url: config.url, virtualHost: config.virtualhost, credentials: credentials} , (evt) =>
         @log.write "CONNECTED"
         @channelsReady = 0

@@ -9,13 +9,18 @@
 
   currentGraph = "standard";
 
-  ticket = void 0;
+  ticket = function() {
+    return log.write("Ticket undefined");
+  };
 
   d3.text('./ts', function(err, now) {
     if (err) {
       return log.write(err);
     } else {
-      return ticket = "ticket." + now;
+      ticket = function() {
+        return "ticket." + now;
+      };
+      return comm.connect(config, config.credentials, ticket());
     }
   });
 
@@ -31,7 +36,7 @@
   });
 
   d3.select("#start").on("click", function(d) {
-    return comm.startSubscription(currentGraph, ticket);
+    return comm.startSubscription(currentGraph, ticket());
   });
 
   d3.selectAll(".posgraph").on("click", graphClickHandler);
@@ -57,9 +62,7 @@
     }
   };
 
-  comm = new Communicator(log, messageHandler, ticket);
-
-  comm.connect(config, config.credentials);
+  comm = new Communicator(log, messageHandler);
 
   graphClickHandler.call(document.getElementById(currentGraph));
 

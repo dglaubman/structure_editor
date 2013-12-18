@@ -6,12 +6,13 @@ log.write "Starting up ..."
 currentGraph = "standard"
 
 # get timestamp from server. This will be used to differentiate requests from different clients
-ticket = undefined
+ticket = -> log.write "Ticket undefined"
 d3.text './ts', (err, now) ->
   if err
     log.write err
   else
-    ticket = "ticket.#{now}"
+    ticket = -> "ticket.#{now}"
+    comm.connect config, config.credentials, ticket()
 
 
 graphClickHandler = (d) ->
@@ -26,7 +27,7 @@ d3.select("#clear").on 'click', ->
 
 d3.select("#start")
   .on "click", (d) ->
-    comm.startSubscription currentGraph, ticket
+    comm.startSubscription currentGraph, ticket()
 
 d3.selectAll(".posgraph")
   .on "click", graphClickHandler
@@ -49,8 +50,7 @@ messageHandler = (m) ->
     when config.serverX
       serverDispatcher controller, body
 
-comm = new Communicator( log, messageHandler, ticket )
-comm.connect config, config.credentials
+comm = new Communicator( log, messageHandler )
 
 # Load the Standard positions graph
 graphClickHandler.call( document.getElementById currentGraph )

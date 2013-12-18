@@ -4,11 +4,10 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Communicator = (function() {
-    function Communicator(log, onmessage, serverTopic) {
+    function Communicator(log, onmessage) {
       var _this = this;
       this.log = log;
       this.onmessage = onmessage != null ? onmessage : this.onMessageDefault;
-      this.serverTopic = serverTopic != null ? serverTopic : "#";
       this.doBind = __bind(this.doBind, this);
       this.listen = __bind(this.listen, this);
       this.serverChannelOpenHandler = __bind(this.serverChannelOpenHandler, this);
@@ -31,9 +30,10 @@
       });
     }
 
-    Communicator.prototype.connect = function(config, credentials, onconnected) {
+    Communicator.prototype.connect = function(config, credentials, serverTopic, onconnected) {
       var _this = this;
       this.config = config;
+      this.serverTopic = serverTopic != null ? serverTopic : "#";
       this.onconnected = onconnected;
       return this.amqp.connect({
         url: config.url,
