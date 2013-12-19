@@ -12,7 +12,7 @@ app.get '/', (req, res) ->
   res.render 'index'
 
 app.get '/ts', (req, res) ->
-  res.send "#{Date.now()}"
+  res.send "vizpos.#{Date.now()}"
 
 app.listen(port)
 console.log("Express server listening on port %d in %s mode", port, app.settings.env)

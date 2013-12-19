@@ -11,7 +11,7 @@ d3.text './ts', (err, now) ->
   if err
     log.write err
   else
-    ticket = -> "ticket.#{now}"
+    ticket = -> now
     comm.connect config, config.credentials, ticket()
 
 
@@ -35,7 +35,6 @@ d3.selectAll(".posgraph")
 d3.select("#direction")
   .on "click", (d) ->
     toggle()
-    render graph
 
 # Hook up controller
 controller = new Controller log
@@ -50,7 +49,7 @@ messageHandler = (m) ->
     when config.serverX
       serverDispatcher controller, body
 
-comm = new Communicator( log, messageHandler )
+comm = new Communicator( log, messageHandler)
 
 # Load the Standard positions graph
 graphClickHandler.call( document.getElementById currentGraph )

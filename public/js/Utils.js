@@ -11,4 +11,8 @@
     }
   };
 
+  root.encode = function(str) {
+    return encodeURIComponent(str);
+  };
+
 }).call(this);

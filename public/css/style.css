@@ -208,6 +208,14 @@ rect {
     fill: blue;
 }
 
+.stat rect {
+    width: 40px;
+    height: 20px;
+}
+.stat text {
+    font-size: 22px;
+    fill: green;
+}
 
 .background {
   fill: #eee;

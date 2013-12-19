@@ -18,7 +18,7 @@
       return log.write(err);
     } else {
       ticket = function() {
-        return "ticket." + now;
+        return now;
       };
       return comm.connect(config, config.credentials, ticket());
     }
@@ -42,8 +42,7 @@
   d3.selectAll(".posgraph").on("click", graphClickHandler);
 
   d3.select("#direction").on("click", function(d) {
-    toggle();
-    return render(graph);
+    return toggle();
   });
 
   controller = new Controller(log);
