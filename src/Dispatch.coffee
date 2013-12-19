@@ -8,8 +8,9 @@ root.serverDispatcher = (controller, body) ->
   switch state
 
     when 'stat'
-      [ _1, track, _2, position, _3, loss ]  =  msg
-      controller.stat track, position, loss
+      [ _1, track, _2, position, _3, lossez ]  =  msg
+      losses = lossez.split ','
+      losses.forEach (loss) -> controller.stat track, position, loss
 
     when 'ready'
       [ _1, route, _2, track ] = msg

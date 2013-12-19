@@ -31,12 +31,12 @@ class root.Controller
   format = (number) ->
     switch
       when number >= 1000000000
-        "#{number / 1000000000}B"
+        "#{(number / 1000000000).toFixed(2)}B"
       when number >= 1000000
-        "#{number / 1000000}M"
+        "#{(number / 1000000).toFixed(2)}M"
       when number >= 1000
-        "#{number / 1000}K"
+        "#{(number / 1000).toFixed(1)}K"
       else
-        number
+        number.toFixed 0
 
 

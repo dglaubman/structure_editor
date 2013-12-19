@@ -6,12 +6,15 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : window;
 
   root.serverDispatcher = function(controller, body) {
-    var loss, msg, position, route, state, track, _1, _2, _3, _ref;
+    var losses, lossez, msg, position, route, state, track, _1, _2, _3, _ref;
     _ref = body.split('|'), state = _ref[0], msg = 2 <= _ref.length ? __slice.call(_ref, 1) : [];
     switch (state) {
       case 'stat':
-        _1 = msg[0], track = msg[1], _2 = msg[2], position = msg[3], _3 = msg[4], loss = msg[5];
-        return controller.stat(track, position, loss);
+        _1 = msg[0], track = msg[1], _2 = msg[2], position = msg[3], _3 = msg[4], lossez = msg[5];
+        losses = lossez.split(',');
+        return losses.forEach(function(loss) {
+          return controller.stat(track, position, loss);
+        });
       case 'ready':
         _1 = msg[0], route = msg[1], _2 = msg[2], track = msg[3];
         return controller.ready(route, track);

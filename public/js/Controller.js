@@ -45,13 +45,13 @@
     format = function(number) {
       switch (false) {
         case !(number >= 1000000000):
-          return "" + (number / 1000000000) + "B";
+          return "" + ((number / 1000000000).toFixed(2)) + "B";
         case !(number >= 1000000):
-          return "" + (number / 1000000) + "M";
+          return "" + ((number / 1000000).toFixed(2)) + "M";
         case !(number >= 1000):
-          return "" + (number / 1000) + "K";
+          return "" + ((number / 1000).toFixed(1)) + "K";
         default:
-          return number;
+          return number.toFixed(0);
       }
     };
 
