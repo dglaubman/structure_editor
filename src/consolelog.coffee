@@ -2,8 +2,12 @@ root = exports ? window
 
 # Set up a LIFO log
 class root.Log
-  constructor: (@targ) ->
+  constructor: (@targ, @verbose = true) ->
     @lines = 0
+
+  log: (message) ->
+    return unless @verbose
+    @write message
 
   write: (message) ->
     if @lines++  > Log.MaxLines then @clear()
@@ -12,5 +16,8 @@ class root.Log
   clear: () ->
     @targ.html ''
     @lines = 0
+
+  toggle: () ->
+    @verbose = not @verbose
 
   Log.MaxLines = 500

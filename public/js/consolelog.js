@@ -5,10 +5,18 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : window;
 
   root.Log = (function() {
-    function Log(targ) {
+    function Log(targ, verbose) {
       this.targ = targ;
+      this.verbose = verbose != null ? verbose : true;
       this.lines = 0;
     }
+
+    Log.prototype.log = function(message) {
+      if (!this.verbose) {
+        return;
+      }
+      return this.write(message);
+    };
 
     Log.prototype.write = function(message) {
       if (this.lines++ > Log.MaxLines) {
@@ -20,6 +28,10 @@
     Log.prototype.clear = function() {
       this.targ.html('');
       return this.lines = 0;
+    };
+
+    Log.prototype.toggle = function() {
+      return this.verbose = !this.verbose;
     };
 
     Log.MaxLines = 500;

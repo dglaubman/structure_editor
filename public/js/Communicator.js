@@ -90,13 +90,13 @@
 
     Communicator.prototype.channelOpenHandler = function(channel, exchange, type, label) {
       var _this = this;
-      this.log.write("open '" + exchange + "' channel ok");
+      this.log.log("open '" + exchange + "' channel ok");
       channel.declareExchange(exchange, type, false, false, false);
       channel.addEventListener("declareexchange", function() {
-        return _this.log.write("declare '" + exchange + "' exchange ok");
+        return _this.log.log("declare '" + exchange + "' exchange ok");
       });
       channel.addEventListener("close", function() {
-        return _this.log.write("close '" + exchange + "' channel ok");
+        return _this.log.log("close '" + exchange + "' channel ok");
       });
       this.channelsReady++;
       if (this.channelsReady === 2) {
@@ -115,7 +115,7 @@
     Communicator.prototype.listen = function(channel, event, label) {
       var _this = this;
       return channel.addEventListener(event, function() {
-        return _this.log.write("" + event + " for '" + label + "' ok");
+        return _this.log.log("" + event + " for '" + label + "' ok");
       });
     };
 

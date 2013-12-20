@@ -1,6 +1,6 @@
 root = exports ? window
 
-nodeSep = 40
+nodeSep = 60
 rankDir = "TB"
 
 _graph = undefined
@@ -10,17 +10,19 @@ root.graph = graph = (adjacencies) ->
   else
     _graph
 
+# read in a position graph, and render it
 root.update = update = (input) ->
   path = "data/#{input}.json"
   d3.json path, render
 
+# remove previous rendering and render current graph
 root.render = render = (adjacencies) ->
   graph adjacencies
   margin =
     top: 20, right: 20, bottom: 20, left: 20
   width = adjacencies.width or 920
   height = adjacencies.height or 900
-  d3.selectAll("svg")
+  d3.selectAll("svg.chart")
     .remove()
 
   svg = d3.select("#chart")
@@ -28,6 +30,7 @@ root.render = render = (adjacencies) ->
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .style("margin-left", -margin.left + "px")
+      .classed("chart", true)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
@@ -53,7 +56,7 @@ root.render = render = (adjacencies) ->
     .layout(layout)
     .run(
       dagreD3.json.decode(nodes, edges),
-      d3.select("svg g") )
+      d3.select("#chart svg g") )
 
   d3.selectAll("svg .node")
     .append('g')

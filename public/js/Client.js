@@ -45,6 +45,10 @@
     return toggle();
   });
 
+  d3.select("#verbose").on("click", function(d) {
+    return log.toggle();
+  });
+
   controller = new Controller(log);
 
   controller.stopServer = function(name) {

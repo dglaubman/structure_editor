@@ -13,7 +13,7 @@
 
     Controller.prototype.stat = function(track, position, loss) {
       var _ref, _ref1;
-      this.log.write("" + position + ": " + loss);
+      this.log.log("" + position + ": " + loss);
       return (_ref = tracks[track]) != null ? (_ref1 = _ref[position]) != null ? _ref1.text(format(loss)) : void 0 : void 0;
     };
 
@@ -51,7 +51,7 @@
         case !(number >= 1000):
           return "" + ((number / 1000).toFixed(1)) + "K";
         default:
-          return number.toFixed(0);
+          return number;
       }
     };
 

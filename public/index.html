@@ -14,11 +14,10 @@
     <a class="do_control" id="start" href="#">Start DO</a>
     <a class="do_control" id="stop" href="#">Stop DO</a>
     <a class="do_control" id="run" href="#">Run</a>
-    <a class="do_control" id="direction" href="#">Toggle layout</a>
-
-</div>
 
 <h1>Position Runner</h1>
+
+</div>
 <div class="sidebar">
   <ul>
   <li><a class="posgraph" id="standard" href="#">Standard positions</a></li>
@@ -37,6 +36,8 @@
   <li><a class="posgraph" id="travelers" href="#">Travelers Inuring</a></li>
 </ul>
 </div>
+
+
 <div id="chart"></div>
 </div>
 
@@ -54,6 +55,12 @@
   <aside><p>ver v0.1.0-2013-10-18
     <p>Built with <a href="http://d3js.org/">d3.js</a> and <a href="https://github.com/cpettitt/dagre-d3">dagre-d3</a>.
       </aside>
+
+  <div><input type=checkbox id=verbose checked=checked>Verbose
+       <input type=checkbox id=direction checked=checked>Vertical
+  </div>
+
+
 </footer>
 </div>
 <script src=//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.min.js></script>

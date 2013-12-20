@@ -232,8 +232,43 @@ text.active {
 div #chart {
     width: 920px;
     height: 900px;
+    position: relative;
+    left: 0px;
 }
 
 #timestamp {
     height: 40px;
 }
+
+.info {
+    width: 120px;
+    height: 60px;
+}
+
+.latest {
+    display: block;
+    height: 30%;
+    width: 100%;
+} 
+
+.verticalBarGraph {
+    height: 60%;
+    width: 50%;
+    float: right;
+    position: relative;
+    display: block;
+    margin-right: 10px;
+}
+	
+.verticalBar {
+	border: 1px solid #555;
+	bottom: 0;
+	list-style:none;
+	padding: 0;
+	position: absolute;
+	text-align: center;
+        background-color: green;
+	height: 25%;
+	width: 100px;
+	display: inline-block;
+	}

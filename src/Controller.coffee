@@ -5,7 +5,7 @@ class root.Controller
   constructor: (@log) ->
 
   stat: (track, position, loss) ->
-    @log.write "#{position}: #{loss}"
+    @log.log "#{position}: #{loss}"
     tracks[track]?[position]?.text format loss
 
   ready: (route, track) ->
@@ -37,6 +37,6 @@ class root.Controller
       when number >= 1000
         "#{(number / 1000).toFixed(1)}K"
       else
-        number.toFixed 0
+        number
 
 

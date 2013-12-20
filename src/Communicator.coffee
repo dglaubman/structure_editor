@@ -44,12 +44,12 @@ class Communicator
     @log.write "#{msg.args.routingKey}> #{msg.body.getString( Charset.UTF8 )}"
 
   channelOpenHandler: (channel, exchange, type, label) =>
-    @log.write "open '#{exchange}' channel ok"
+    @log.log "open '#{exchange}' channel ok"
     channel.declareExchange exchange, type, false, false, false
     channel.addEventListener "declareexchange", =>
-      @log.write "declare '#{exchange}' exchange ok"
+      @log.log "declare '#{exchange}' exchange ok"
     channel.addEventListener "close", =>
-      @log.write "close '#{exchange}' channel ok"
+      @log.log "close '#{exchange}' channel ok"
     @channelsReady++
     @doBind()  if @channelsReady is 2
 
@@ -61,7 +61,7 @@ class Communicator
 
   listen: (channel, event, label) =>
     channel.addEventListener event, =>
-      @log.write "#{event} for '#{label}' ok"
+      @log.log "#{event} for '#{label}' ok"
 
   doBind: =>
 

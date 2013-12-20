@@ -1,11 +1,11 @@
 # client -- application entry point - hooks up handlers and controls
 
-log = new Log( d3.select("#console") )
+log = new Log( d3.select("#console"))
 log.write "Starting up ..."
 
 currentGraph = "standard"
 
-# get timestamp from server. This will be used to differentiate requests from different clients
+# Get ticket from server. This will be used to differentiate requests from different clients.
 ticket = -> log.write "Ticket undefined"
 d3.text './ts', (err, now) ->
   if err
@@ -35,6 +35,10 @@ d3.selectAll(".posgraph")
 d3.select("#direction")
   .on "click", (d) ->
     toggle()
+
+d3.select("#verbose")
+  .on "click", (d) ->
+    log.toggle()
 
 # Hook up controller
 controller = new Controller log

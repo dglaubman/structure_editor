@@ -4,7 +4,7 @@
 
   root = typeof exports !== "undefined" && exports !== null ? exports : window;
 
-  nodeSep = 40;
+  nodeSep = 60;
 
   rankDir = "TB";
 
@@ -35,8 +35,8 @@
     };
     width = adjacencies.width || 920;
     height = adjacencies.height || 900;
-    d3.selectAll("svg").remove();
-    svg = d3.select("#chart").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).style("margin-left", -margin.left + "px").append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    d3.selectAll("svg.chart").remove();
+    svg = d3.select("#chart").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).style("margin-left", -margin.left + "px").classed("chart", true).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     nodes = adjacencies.nodes;
     edges = adjacencies.edges;
     renderer = new dagreD3.Renderer();
@@ -56,7 +56,7 @@
       }
     });
     layout = dagreD3.layout().nodeSep(nodeSep).rankDir(rankDir);
-    renderer.layout(layout).run(dagreD3.json.decode(nodes, edges), d3.select("svg g"));
+    renderer.layout(layout).run(dagreD3.json.decode(nodes, edges), d3.select("#chart svg g"));
     return d3.selectAll("svg .node").append('g').classed('stat', true).attr("transform", "translate(0, 40)").append('text').text(function(d) {
       return d;
     });
