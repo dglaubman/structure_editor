@@ -5,6 +5,7 @@ exports.graph = {
   dag: [ {
     name: "PortA"
     type: group
+    opt: 25000000
     }, {
     name: "TreatyB"
     type: contract

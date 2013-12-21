@@ -13,6 +13,7 @@ exports.graph = {
     }, {
     name: "Acme:PortA"
     type: group
+    opt: 25000000
     }, {
     name: "~Acme:Ceded"
     type: invert

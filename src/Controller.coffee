@@ -2,31 +2,48 @@ root = exports ? window
 
 class root.Controller
 
-  constructor: (@log) ->
+  log = comm = leaves = undefined
+
+  constructor: (console) ->
+    log = console
+
+  start: (callback) =>
+    getTicket (ticket) =>
+      comm = new Communicator( log, messageHandler this)
+      comm.connect config, ticket, callback
+
+  subscribe: (graph) ->
+    comm.startSubscription graph
 
   stat: (track, position, loss) ->
-    @log.log "#{position}: #{loss}"
-    tracks[track]?[position]?.text format loss
+    log.log "#{position}: #{loss}"
+    return log.write "error: stat expected track #{@track}, rec'd #{track}" unless track is @track
+    positions[position]?.text format loss
 
   ready: (route, track) ->
-    @log.write "#{route} on #{track}"
+    log.write "#{route} on #{track}"
     nodes = graph().nodes
+    leaves = graph().initial
     positions = tracks[track] or= {}
     d3.selectAll(".stat text").each (d,i) ->
       x = d3.select this
-      x.text ""
-      positions[encode nodes[i].value.label] = x
+      key = nodes[i].value.label
+      initial = leaves[key] or  ""  # initial value
+      x.text format initial
+      positions[encode key] = x
+    @track = track
+
+  run: (numIter) ->
+    d3.entries( leaves )
+      .forEach (entry) ->
+        comm.startFeed entry.key, @track, entry.Value, numIter
 
   stopped: (type, name) ->
-    @log.write "recd stopped signal for #{type} #{name}"
-
-
-  dataReady: (at, text) ->
- #   @log.write "#{at} signal: #{JSON.stringify(text)}"
-
-  stopServer: (event) -> alert "please set action for Controller.stopServer"
+    log.write "recd stopped signal for #{type} #{name}"
 
   tracks = {}
+  positions = undefined
+  leaves = undefined
 
   format = (number) ->
     switch
@@ -39,4 +56,16 @@ class root.Controller
       else
         number
 
+messageHandler = (controller) -> (m) ->
+  topic = m.args.routingKey
+  body = m.body.getString(Charset.UTF8)
+  switch m.args.exchange
+    when config.serverX
+      serverDispatcher controller, body
 
+getTicket = (callback) ->
+  d3.text './ts', (err, ticket) ->
+    if err
+      log.write err
+    else
+      callback ticket

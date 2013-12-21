@@ -1,8 +1,5 @@
 root = exports ? window
 
-nodeSep = 60
-rankDir = "TB"
-
 _graph = undefined
 root.graph = graph = (adjacencies) ->
   if arguments.length > 0
@@ -14,6 +11,7 @@ root.graph = graph = (adjacencies) ->
 root.update = update = (input) ->
   path = "data/#{input}.json"
   d3.json path, render
+  input
 
 # remove previous rendering and render current graph
 root.render = render = (adjacencies) ->
@@ -65,11 +63,14 @@ root.render = render = (adjacencies) ->
     .append('text')
       .text( (d) -> d )
 
-root.nodeSep = (n) ->
-  nodeSep = n
+WIDE = 60
+NARROW = 30
+nodeSep = WIDE
+root.toggleNodeSeparation = () ->
+  if  nodeSep is WIDE then nodeSep = NARROW else nodeSep = WIDE
   render graph()
 
 rankDir = "TB"
-root.toggle = ->
+root.toggleDirection = ->
     if rankDir is "TB" then rankDir = "LR" else rankDir = "TB"
     render graph()

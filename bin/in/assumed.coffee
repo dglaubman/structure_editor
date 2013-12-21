@@ -1,11 +1,15 @@
 {group, scale, contract, invert} = require '../ops'
 
 exports.graph = {
-  tag: "placed"
+  tag: "assumed"
   dag: [ {
     name: "Net"
     type: group
     children: [ "Gross", "~Ceded"]
+    }, {
+    name: "Gross"
+    type: group
+    opt: 30000000
     }, {
     name: "~Ceded"
     type: invert
@@ -25,6 +29,14 @@ exports.graph = {
     type: group
     children: [ "Cat1.Placed", "Cat2.Placed"]
     }, {
+    name: "Cat1"
+    type: group
+    opt: 5000000
+    }, {
+    name: "Cat2"
+    type: group
+    opt: 7000000
+    }, {
     name: "Cat1.Placed"
     type: scale
     opt:  0.3
@@ -35,19 +47,23 @@ exports.graph = {
     opt:  0.45
     children: [ "Cat2"]
     }, {
-    name: "Cat1"
-    type: contract
-    opt:  "20M xs 5M"
-    children: [ "Gross"]
+    name: "My:Cat1.Signed"
+    type: scale
+    opt:  0.06
+    children: [ "Cat1"]
     }, {
-    name: "Cat2"
-    type: contract
-    opt: "10M xs 10M"
-    children: [ "Gross"]
+    name: "My:Cat2.Signed"
+    type: scale
+    opt:  0.045
+    children: [ "Cat2"]
     }, {
-    name: "Gross"
+    name: "My:Program1"
     type: group
-    opt: 30000000
+    children: [ "My:Cat1.Signed", "My:Cat2.Signed"]
+    }, {
+    name: "My:Assumed"
+    type: group
+    children: [ "My:Program1"]
     }
   ]
 }

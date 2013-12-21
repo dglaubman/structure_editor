@@ -13,6 +13,7 @@ exports.graph = {
     }, {
     name: "Book"
     type: group
+    opt: 35000000
     }, {
     name: "F1"
     type: contract

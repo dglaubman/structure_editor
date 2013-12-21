@@ -7,8 +7,8 @@ class Communicator
     @amqp.addEventListener "error", (e) =>
       @log.write "error: #{e.message}"
 
-  connect: ( @config, credentials, @serverTopic = "#", @onconnected) ->
-    @amqp.connect {url: config.url, virtualHost: config.virtualhost, credentials: credentials} , (evt) =>
+  connect: ( @config, @serverTopic = "#", @onconnected) ->
+    @amqp.connect {url: config.url, virtualHost: config.virtualhost, credentials: config.credentials} , (evt) =>
         @log.write "CONNECTED"
         @channelsReady = 0
         @publishChannel = @amqp.openChannel @publishChannelOpenHandler
@@ -31,8 +31,11 @@ class Communicator
   stopServer: (pid) =>
     @publish @config.workX, "stop #{pid}", @config.execQ
 
-  startSubscription: (name, uid) =>
-    @publish @config.workX, "#{uid} unused start subscription #{name}", @config.execQ
+  startSubscription: (name) =>
+    @publish @config.workX, "#{@serverTopic} unused start subscription #{name}", @config.execQ
+
+  startFeed: (name, track, maxLoss, numIter) =>
+    @publish @config.workX, "unused #{track} start feed #{name} #{maxLoss} #{numIter}", @config.execQ
 
   flow: ( onOff ) =>
     @serverChannel.flowChannel onOff

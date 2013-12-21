@@ -48,6 +48,7 @@ convert = ( g ) ->
   nodes = []
   edges = []
   cmds = []
+  leaves = {}
   #trace ix
 
   try
@@ -68,6 +69,8 @@ convert = ( g ) ->
       if children
         if not Array.isArray children then throw "bad node '#{node.name}' -- children should be an array"
         cmds.push "start trigger #{encode name} #{_.map(children, encode).join(',')}"
+      else  # only groups can be leaves. 'opt' holds their initial value.
+        leaves[name] = opt or 0
       # create graph node
       if name[0] isnt '~' # Dont show invert nodes, just label them as part of their group(s)
         nodes.push { id: ix[name], value: { label: name } }
@@ -94,6 +97,7 @@ convert = ( g ) ->
   outputGraph tag, JSON.stringify {
     nodes
     edges
+    initial: leaves
   }, undefined, 2
 
   outputDot tag, cmds

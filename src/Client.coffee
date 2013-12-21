@@ -4,22 +4,10 @@ log = new Log( d3.select("#console"))
 log.write "Starting up ..."
 
 currentGraph = "standard"
-
-# Get ticket from server. This will be used to differentiate requests from different clients.
-ticket = -> log.write "Ticket undefined"
-d3.text './ts', (err, now) ->
-  if err
-    log.write err
-  else
-    ticket = -> now
-    comm.connect config, config.credentials, ticket()
-
-
 graphClickHandler = (d) ->
   d3.select( "##{currentGraph}" ).classed 'selected', false
   d3.select(@).classed 'selected', true
-  update @id
-  currentGraph = @id
+  currentGraph = update @id
 
 # Hook up controls on page
 d3.select("#clear").on 'click', ->
@@ -27,14 +15,26 @@ d3.select("#clear").on 'click', ->
 
 d3.select("#start")
   .on "click", (d) ->
-    comm.startSubscription currentGraph, ticket()
+    controller.subscribe currentGraph
+
+d3.select("#runOne")
+  .on "click", (d) ->
+     controller.run 1
+
+d3.select("#run")
+  .on "click", (d) ->
+     controller.run 1000
 
 d3.selectAll(".posgraph")
   .on "click", graphClickHandler
 
 d3.select("#direction")
   .on "click", (d) ->
-    toggle()
+    toggleDirection()
+
+d3.select("#node_sep")
+  .on "click", (d) ->
+    toggleNodeSeparation()
 
 d3.select("#verbose")
   .on "click", (d) ->
@@ -42,18 +42,7 @@ d3.select("#verbose")
 
 # Hook up controller
 controller = new Controller log
+controller.start ->
+  # Load the Standard positions graph
+  graphClickHandler.call( document.getElementById currentGraph )
 
-controller.stopServer = (name)  =>
-  comm.publish( config.workX, "stop #{name}", config.execQ )
-
-messageHandler = (m) ->
-  topic = m.args.routingKey
-  body = m.body.getString(Charset.UTF8)
-  switch m.args.exchange
-    when config.serverX
-      serverDispatcher controller, body
-
-comm = new Communicator( log, messageHandler)
-
-# Load the Standard positions graph
-graphClickHandler.call( document.getElementById currentGraph )

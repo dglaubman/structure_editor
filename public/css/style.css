@@ -272,3 +272,8 @@ div #chart {
 	width: 100px;
 	display: inline-block;
 	}
+
+fieldset {
+    display: inline-block;
+    
+}

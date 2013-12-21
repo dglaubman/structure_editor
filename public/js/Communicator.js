@@ -16,6 +16,7 @@
       this.onMessageDefault = __bind(this.onMessageDefault, this);
       this.errorHandler = __bind(this.errorHandler, this);
       this.flow = __bind(this.flow, this);
+      this.startFeed = __bind(this.startFeed, this);
       this.startSubscription = __bind(this.startSubscription, this);
       this.stopServer = __bind(this.stopServer, this);
       this.sling = __bind(this.sling, this);
@@ -30,7 +31,7 @@
       });
     }
 
-    Communicator.prototype.connect = function(config, credentials, serverTopic, onconnected) {
+    Communicator.prototype.connect = function(config, serverTopic, onconnected) {
       var _this = this;
       this.config = config;
       this.serverTopic = serverTopic != null ? serverTopic : "#";
@@ -38,7 +39,7 @@
       return this.amqp.connect({
         url: config.url,
         virtualHost: config.virtualhost,
-        credentials: credentials
+        credentials: config.credentials
       }, function(evt) {
         _this.log.write("CONNECTED");
         _this.channelsReady = 0;
@@ -72,8 +73,12 @@
       return this.publish(this.config.workX, "stop " + pid, this.config.execQ);
     };
 
-    Communicator.prototype.startSubscription = function(name, uid) {
-      return this.publish(this.config.workX, "" + uid + " unused start subscription " + name, this.config.execQ);
+    Communicator.prototype.startSubscription = function(name) {
+      return this.publish(this.config.workX, "" + this.serverTopic + " unused start subscription " + name, this.config.execQ);
+    };
+
+    Communicator.prototype.startFeed = function(name, track, maxLoss, numIter) {
+      return this.publish(this.config.workX, "unused " + track + " start feed " + name + " " + maxLoss + " " + numIter, this.config.execQ);
     };
 
     Communicator.prototype.flow = function(onOff) {

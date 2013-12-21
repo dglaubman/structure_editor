@@ -21,18 +21,23 @@ exports.graph = {
     }, {
     name: "Direct"
     type: group
+    opt: 50000000
     }, {
     name: "Assumed"
     type: group
+    opt: 20000000
     }, {
     name: "Fac"
     type: group
+    opt: 5000000
     }, {
     name: "PerRisk"
     type: group
+    opt: 12000000
     }, {
     name: "Cat"
     type: group
+    opt: 10000000
     }
   ]
 }

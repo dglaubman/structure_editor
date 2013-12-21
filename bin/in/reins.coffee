@@ -72,6 +72,7 @@ exports.graph = {
     }, {
     name: "Gross"
     type: group
+    opt: 40000000
     }
   ]
 }

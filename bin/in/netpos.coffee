@@ -9,9 +9,11 @@ exports.graph = {
     }, {
     name: "ABC"
     type: group
+    opt: 5000000
     }, {
     name: "XYZ"
     type: group
+    opt: 3000000
     }, {
     name: "~DEF"
     type: invert

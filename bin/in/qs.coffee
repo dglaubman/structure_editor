@@ -10,6 +10,7 @@ exports.graph = {
     }, {
     name: "PortA"
     type: group
+    opt: 1000000
     }, {
     name: "PortA.Comm"
     type: filter
