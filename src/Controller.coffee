@@ -2,7 +2,7 @@ root = exports ? window
 
 class root.Controller
 
-  log = comm = leaves = undefined
+  log = comm = leaves = positions = undefined
 
   constructor: (console) ->
     log = console
@@ -35,14 +35,13 @@ class root.Controller
 
   run: (numIter) ->
     d3.entries( leaves )
-      .forEach (entry) ->
-        comm.startFeed entry.key, @track, entry.Value, numIter
+      .forEach (entry) =>
+        comm.startFeed entry.key, @track, entry.value, numIter
 
   stopped: (type, name) ->
     log.write "recd stopped signal for #{type} #{name}"
 
   tracks = {}
-  positions = undefined
   leaves = undefined
 
   format = (number) ->

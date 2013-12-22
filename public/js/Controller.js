@@ -8,7 +8,7 @@
   root.Controller = (function() {
     var comm, format, leaves, log, positions, tracks;
 
-    log = comm = leaves = void 0;
+    log = comm = leaves = positions = void 0;
 
     function Controller(console) {
       this.start = __bind(this.start, this);
@@ -37,7 +37,7 @@
     };
 
     Controller.prototype.ready = function(route, track) {
-      var nodes, positions;
+      var nodes;
       log.write("" + route + " on " + track);
       nodes = graph().nodes;
       leaves = graph().initial;
@@ -54,8 +54,9 @@
     };
 
     Controller.prototype.run = function(numIter) {
+      var _this = this;
       return d3.entries(leaves).forEach(function(entry) {
-        return comm.startFeed(entry.key, this.track, entry.Value, numIter);
+        return comm.startFeed(entry.key, _this.track, entry.value, numIter);
       });
     };
 
@@ -64,8 +65,6 @@
     };
 
     tracks = {};
-
-    positions = void 0;
 
     leaves = void 0;
 
