@@ -3,7 +3,7 @@
 exports.graph = {
   tag: "sumnet2"
   dag: [ {
-    name: "Cat1"
+    name: "Cat3"
     type: contract
     opt: "20M xs 5M"
     children: ["PreCat"]

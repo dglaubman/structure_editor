@@ -2,7 +2,7 @@ root = exports ? window
 
 # Set up a LIFO log
 class root.Log
-  constructor: (@targ, @verbose = true) ->
+  constructor: (@targ, @verbose = false) ->
     @lines = 0
 
   log: (message) ->

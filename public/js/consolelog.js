@@ -7,7 +7,7 @@
   root.Log = (function() {
     function Log(targ, verbose) {
       this.targ = targ;
-      this.verbose = verbose != null ? verbose : true;
+      this.verbose = verbose != null ? verbose : false;
       this.lines = 0;
     }
 

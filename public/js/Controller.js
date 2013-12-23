@@ -6,7 +6,7 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : window;
 
   root.Controller = (function() {
-    var comm, format, id, leaves, log, positions, tracks;
+    var comm, format, id, leaves, log, positions;
 
     log = comm = leaves = positions = id = void 0;
 
@@ -43,7 +43,7 @@
       log.write("" + route + " on " + track);
       nodes = graph().nodes;
       leaves = graph().initial;
-      positions = tracks[track] || (tracks[track] = {});
+      positions = {};
       d3.selectAll(".stat text").each(function(d, i) {
         var initial, key, x;
         x = d3.select(this);
@@ -68,8 +68,6 @@
       return log.write("recd stopped signal for " + type + " " + name);
     };
 
-    tracks = {};
-
     leaves = void 0;
 
     format = function(number) {
@@ -80,6 +78,8 @@
           return "" + ((number / 1000000).toFixed(2)) + "M";
         case !(number >= 1000):
           return "" + ((number / 1000).toFixed(1)) + "K";
+        case number !== "":
+          return "";
         case !(number < 1):
           return "0";
         default:

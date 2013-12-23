@@ -31,11 +31,11 @@ exports.graph = {
     }, {
     name: "Cat1"
     type: group
-    opt: 5000000
+    opt: 1000000
     }, {
     name: "Cat2"
     type: group
-    opt: 7000000
+    opt: 1000000
     }, {
     name: "Cat1.Placed"
     type: scale

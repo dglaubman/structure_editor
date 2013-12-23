@@ -37,12 +37,12 @@ exports.graph = {
     }, {
     name: "Cat1"
     type: contract
-    opt:  "20M xs 5M"
+    opt:  "10M xs 10M"
     children: [ "Gross"]
     }, {
     name: "Cat2"
     type: contract
-    opt: "10M xs 10M"
+    opt: "10M xs 20M"
     children: [ "Gross"]
     }, {
     name: "Gross"

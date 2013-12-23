@@ -25,7 +25,7 @@ class root.Controller
     log.write "#{route} on #{track}"
     nodes = graph().nodes
     leaves = graph().initial
-    positions = tracks[track] or= {}
+    positions = {}
     d3.selectAll(".stat text").each (d,i) ->
       x = d3.select this
       key = nodes[i].value.label
@@ -43,7 +43,6 @@ class root.Controller
   stopped: (type, name) ->
     log.write "recd stopped signal for #{type} #{name}"
 
-  tracks = {}
   leaves = undefined
 
   format = (number) ->
@@ -54,8 +53,10 @@ class root.Controller
         "#{(number / 1000000).toFixed(2)}M"
       when number >= 1000
         "#{(number / 1000).toFixed(1)}K"
+      when number is ""
+        ""
       when number < 1
-       "0"
+        "0"
       else
         number
 
