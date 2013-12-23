@@ -28,13 +28,22 @@
     };
 
     Controller.prototype.stat = function(track, position, losses) {
-      var _ref;
-      log.log("" + position + ": " + losses.length);
+      var num, x, _ref;
       if (track !== this.track) {
         return log.write("error: stat expected track " + this.track + ", rec'd " + track);
       }
       if (losses.length > 0) {
-        return (_ref = positions[position]) != null ? _ref.text(format(losses[losses.length - 1])) : void 0;
+        _ref = positions[position] || [
+          {
+            text: function() {
+              return 0;
+            }
+          }, 0
+        ], x = _ref[0], num = _ref[1];
+        num += losses.length;
+        log.log("" + position + ": " + num);
+        x.text(format(losses[losses.length - 1]));
+        return positions[position] = [x, num];
       }
     };
 
@@ -50,7 +59,7 @@
         key = nodes[i].value.label;
         initial = leaves[key] || "";
         x.text(format(initial));
-        return positions[encode(key)] = x;
+        return positions[encode(key)] = [x, 0];
       });
       return this.track = track;
     };

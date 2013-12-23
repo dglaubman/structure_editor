@@ -16,10 +16,13 @@ class root.Controller
     comm.startSubscription graph
 
   stat: (track, position, losses) ->
-    log.log "#{position}: #{losses.length}"
     return log.write "error: stat expected track #{@track}, rec'd #{track}" unless track is @track
     if losses.length > 0
-      positions[position]?.text format losses[losses.length - 1]
+      [x,num] =  positions[position] or [{text: -> 0}, 0]
+      num +=  losses.length
+      log.log "#{position}: #{num}"
+      x.text format losses[losses.length - 1]
+      positions[position] = [x,num]
 
   ready: (route, track) ->
     log.write "#{route} on #{track}"
@@ -31,7 +34,7 @@ class root.Controller
       key = nodes[i].value.label
       initial = leaves[key] or  ""  # initial value
       x.text format initial
-      positions[encode key] = x
+      positions[encode key] = [x,0]
     @track = track
 
   run: (numIter) ->

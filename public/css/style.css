@@ -17,7 +17,7 @@ a:hover {
 }
 
 .body {
-  width: 920px;
+  width: 840px;
   margin: auto;
 }
 
@@ -27,7 +27,7 @@ a:hover {
 
 .content {
   position: relative;
-  margin-left: 120px;
+  margin-left: 180px;
 }
 
 .content img {
@@ -41,7 +41,7 @@ a:hover {
 .sidebar {
   position: absolute;
   left: -200px;
-  width: 200px;
+  width: 160px;
 }
 
 .gallery {
