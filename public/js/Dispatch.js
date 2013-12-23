@@ -12,9 +12,7 @@
       case 'stat':
         _1 = msg[0], track = msg[1], _2 = msg[2], position = msg[3], _3 = msg[4], lossez = msg[5];
         losses = lossez.split(',');
-        return losses.forEach(function(loss) {
-          return controller.stat(track, position, loss);
-        });
+        return controller.stat(track, position, losses);
       case 'ready':
         _1 = msg[0], route = msg[1], _2 = msg[2], track = msg[3];
         return controller.ready(route, track);

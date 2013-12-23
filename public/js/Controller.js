@@ -6,9 +6,9 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : window;
 
   root.Controller = (function() {
-    var comm, format, leaves, log, positions, tracks;
+    var comm, format, id, leaves, log, positions, tracks;
 
-    log = comm = leaves = positions = void 0;
+    log = comm = leaves = positions = id = void 0;
 
     function Controller(console) {
       this.start = __bind(this.start, this);
@@ -27,13 +27,15 @@
       return comm.startSubscription(graph);
     };
 
-    Controller.prototype.stat = function(track, position, loss) {
+    Controller.prototype.stat = function(track, position, losses) {
       var _ref;
-      log.log("" + position + ": " + loss);
+      log.log("" + position + ": " + losses.length);
       if (track !== this.track) {
         return log.write("error: stat expected track " + this.track + ", rec'd " + track);
       }
-      return (_ref = positions[position]) != null ? _ref.text(format(loss)) : void 0;
+      if (losses.length > 0) {
+        return (_ref = positions[position]) != null ? _ref.text(format(losses[losses.length - 1])) : void 0;
+      }
     };
 
     Controller.prototype.ready = function(route, track) {
@@ -54,9 +56,11 @@
     };
 
     Controller.prototype.run = function(numIter) {
-      var _this = this;
+      var sequence,
+        _this = this;
+      sequence = Date.now();
       return d3.entries(leaves).forEach(function(entry) {
-        return comm.startFeed(entry.key, _this.track, entry.value, numIter);
+        return comm.startFeed("Start_" + entry.key, _this.track, entry.value, numIter, sequence);
       });
     };
 
@@ -76,6 +80,8 @@
           return "" + ((number / 1000000).toFixed(2)) + "M";
         case !(number >= 1000):
           return "" + ((number / 1000).toFixed(1)) + "K";
+        case !(number < 1):
+          return "0";
         default:
           return number;
       }

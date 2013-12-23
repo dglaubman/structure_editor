@@ -2,7 +2,7 @@ root = exports ? window
 
 class root.Controller
 
-  log = comm = leaves = positions = undefined
+  log = comm = leaves = positions = id = undefined
 
   constructor: (console) ->
     log = console
@@ -15,10 +15,11 @@ class root.Controller
   subscribe: (graph) ->
     comm.startSubscription graph
 
-  stat: (track, position, loss) ->
-    log.log "#{position}: #{loss}"
+  stat: (track, position, losses) ->
+    log.log "#{position}: #{losses.length}"
     return log.write "error: stat expected track #{@track}, rec'd #{track}" unless track is @track
-    positions[position]?.text format loss
+    if losses.length > 0
+      positions[position]?.text format losses[losses.length - 1]
 
   ready: (route, track) ->
     log.write "#{route} on #{track}"
@@ -34,9 +35,10 @@ class root.Controller
     @track = track
 
   run: (numIter) ->
+    sequence = Date.now()
     d3.entries( leaves )
       .forEach (entry) =>
-        comm.startFeed entry.key, @track, entry.value, numIter
+        comm.startFeed "Start_#{entry.key}", @track, entry.value, numIter, sequence
 
   stopped: (type, name) ->
     log.write "recd stopped signal for #{type} #{name}"
@@ -52,6 +54,8 @@ class root.Controller
         "#{(number / 1000000).toFixed(2)}M"
       when number >= 1000
         "#{(number / 1000).toFixed(1)}K"
+      when number < 1
+       "0"
       else
         number
 

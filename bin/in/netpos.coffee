@@ -25,9 +25,11 @@ exports.graph = {
     }, {
     name: "DEF"
     type: group
+    opt: 120000
     }, {
     name: "GHI"
     type: group
+    opt: 250000
     }
   ]
 }

@@ -5,7 +5,7 @@ exports.graph = {
   dag: [ {
     name: "Cat1"
     type: contract
-    opt: "10M xs 10M"
+    opt: "20M xs 5M"
     children: ["PreCat"]
     }, {
     name: "PreCat"
@@ -36,7 +36,7 @@ exports.graph = {
     }, {
     name: "A"
     type: group
-    opt: 1000000
+    opt: 15000000
     }, {
     name: "B"
     type: contract
@@ -49,7 +49,7 @@ exports.graph = {
     }, {
     name: "C"
     type: group
-    opt: 3000000
+    opt: 10000000
     }, {
     name: "D"
     type: contract

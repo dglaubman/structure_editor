@@ -34,8 +34,8 @@ class Communicator
   startSubscription: (name) =>
     @publish @config.workX, "#{@serverTopic} unused start subscription #{name}", @config.execQ
 
-  startFeed: (name, track, maxLoss, numIter) =>
-    @publish @config.workX, "unused #{track} start feed #{name} #{maxLoss} #{numIter}", @config.execQ
+  startFeed: (name, track, maxLoss, numIter, sequence) =>
+    @publish @config.workX, "#{sequence} #{track} start feed #{name} #{maxLoss} #{numIter}", @config.execQ
 
   flow: ( onOff ) =>
     @serverChannel.flowChannel onOff

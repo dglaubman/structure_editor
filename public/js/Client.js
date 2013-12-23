@@ -22,12 +22,16 @@
     return controller.subscribe(currentGraph);
   });
 
-  d3.select("#runOne").on("click", function(d) {
+  d3.select("#run_one").on("click", function(d) {
     return controller.run(1);
   });
 
-  d3.select("#run").on("click", function(d) {
+  d3.select("#run_many").on("click", function(d) {
     return controller.run(1000);
+  });
+
+  d3.select("#run_many2").on("click", function(d) {
+    return controller.run(10000);
   });
 
   d3.selectAll(".posgraph").on("click", graphClickHandler);

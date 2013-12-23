@@ -17,13 +17,17 @@ d3.select("#start")
   .on "click", (d) ->
     controller.subscribe currentGraph
 
-d3.select("#runOne")
+d3.select("#run_one")
   .on "click", (d) ->
      controller.run 1
 
-d3.select("#run")
+d3.select("#run_many")
   .on "click", (d) ->
      controller.run 1000
+
+d3.select("#run_many2")
+  .on "click", (d) ->
+     controller.run 10000
 
 d3.selectAll(".posgraph")
   .on "click", graphClickHandler

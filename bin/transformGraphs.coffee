@@ -71,6 +71,7 @@ convert = ( g ) ->
         cmds.push "start trigger #{encode name} #{_.map(children, encode).join(',')}"
       else  # only groups can be leaves. 'opt' holds their initial value.
         leaves[name] = opt or 0
+        cmds.push "start trigger #{encode name} Start_#{encode name}"
       # create graph node
       if name[0] isnt '~' # Dont show invert nodes, just label them as part of their group(s)
         nodes.push { id: ix[name], value: { label: name } }

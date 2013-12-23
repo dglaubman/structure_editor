@@ -12,8 +12,9 @@
 <div class="topbar">
     <a class="do_control" id="api" href="./positions_api.html">Position API</a>
     <a class="do_control" id="start" href="#">Start DO</a>
-    <a class="do_control" id="stop" href="#">Stop DO</a>
-    <a class="do_control" id="run" href="#">Run</a>
+    <a class="do_control" id="run_one" href="#">Run One</a>
+    <a class="do_control" id="run_many" href="#">Run 1K</a>
+    <a class="do_control" id="run_many2" href="#">Run 10K</a>
 
 <h1>Position Runner</h1>
 
@@ -22,16 +23,12 @@
   <ul>
   <li><a class="posgraph" id="standard" href="#">Standard positions</a></li>
   <li><a class="posgraph" id="contract" href="#">Contract positions</a></li>
-  <li><a class="posgraph" id="qs" href="#">Filters</a></li>
   <li><a class="posgraph" id="netpos" href="#">Groups</a></li>
   <li><a class="posgraph" id="program" href="#">Pro Forma Program</a></li>
   <li><a class="posgraph" id="placed" href="#">Scaling a position</a></li>
   <li><a class="posgraph" id="assumed" href="#">Multiple namespaces</a></li>
-  <li><a class="posgraph" id="choice" href="#">What if?</a></li>
-  <li><a class="posgraph" id="sumnet" href="#">Sum of Net</a></li>
   <li><a class="posgraph" id="sumnet2" href="#">Sum of Net - overlap</a></li>
-  <li><a class="posgraph" id="imported_wx_small" href="#">WX treaty (small)</a></li>
-  <li><a class="posgraph" id="imported_wx" href="#">WX treaty (all)</a></li>
+  <li><a class="posgraph" id="imported_wx" href="#">WX treaty</a></li>
   <li><a class="posgraph" id="travelers" href="#">Travelers Inuring</a></li>
 </ul>
 </div>
@@ -60,30 +57,30 @@
 	   <label for=direction>Wide Spacing</label>
 	   <input type=checkbox id=node_sep checked=checked>
 	 </fieldset>
-	 <fieldset>
-	   <legend>Iterations:</legend>
-	   <label for=iter_1>1</label>
-	   <input type=radio id=iter_1 value=1 name=num_iter>&nbsp;&nbsp;
-	   <label for=iter_10>10</label>
-	   <input type=radio id=iter_10 value=10 name=num_iter>&nbsp;&nbsp;
-	   <label for=iter_1K>1K</label>
-	   <input type=radio id=iter_1K value=1000 name=num_iter checked>&nbsp;&nbsp;
-	   <label for=iter_10K>10K</label>
-	   <input type=radio id=iter_10K value=10000 name=num_iter>
-	 </fieldset>
-	 <fieldset>
-	   <legend>Max Loss:</legend>
-	   <label for=loss_1>1</label>
-	   <input type=radio id=loss_1 value=1 name=max_loss>&nbsp;&nbsp;
-	   <label for=loss_1M>1M</label>
-	   <input type=radio id=loss_1M value=1000000 name=max_loss>&nbsp;&nbsp;
-	   <label for=loss_5M>5M</label>
-	   <input type=radio id=loss_5M value=5000000 name=max_loss>&nbsp;&nbsp;
-	   <label for=loss_10M>10M</label>
-	   <input type=radio id=loss_10M value=10000000 name=max_loss>&nbsp;&nbsp;
-	   <label for=loss_25M>25M</label>
-	   <input type=radio id=loss_25M value=25000000 name=max_loss checked>
-	 </fieldset>
+	 <!-- <fieldset> -->
+	 <!--   <legend>Iterations:</legend> -->
+	 <!--   <label for=iter_1>1</label> -->
+	 <!--   <input type=radio id=iter_1 value=1 name=num_iter>&nbsp;&nbsp; -->
+	 <!--   <label for=iter_10>10</label> -->
+	 <!--   <input type=radio id=iter_10 value=10 name=num_iter>&nbsp;&nbsp; -->
+	 <!--   <label for=iter_1K>1K</label> -->
+	 <!--   <input type=radio id=iter_1K value=1000 name=num_iter checked>&nbsp;&nbsp; -->
+	 <!--   <label for=iter_10K>10K</label> -->
+	 <!--   <input type=radio id=iter_10K value=10000 name=num_iter> -->
+	 <!-- </fieldset> -->
+	 <!-- <fieldset> -->
+	 <!--   <legend>Max Loss:</legend> -->
+	 <!--   <label for=loss_1>1</label> -->
+	 <!--   <input type=radio id=loss_1 value=1 name=max_loss>&nbsp;&nbsp; -->
+	 <!--   <label for=loss_1M>1M</label> -->
+	 <!--   <input type=radio id=loss_1M value=1000000 name=max_loss>&nbsp;&nbsp; -->
+	 <!--   <label for=loss_5M>5M</label> -->
+	 <!--   <input type=radio id=loss_5M value=5000000 name=max_loss>&nbsp;&nbsp; -->
+	 <!--   <label for=loss_10M>10M</label> -->
+	 <!--   <input type=radio id=loss_10M value=10000000 name=max_loss>&nbsp;&nbsp; -->
+	 <!--   <label for=loss_25M>25M</label> -->
+	 <!--   <input type=radio id=loss_25M value=25000000 name=max_loss checked> -->
+	 <!-- </fieldset> -->
   </section>
 
   <aside><p>ver v0.1.0-2013-10-18

@@ -77,8 +77,8 @@
       return this.publish(this.config.workX, "" + this.serverTopic + " unused start subscription " + name, this.config.execQ);
     };
 
-    Communicator.prototype.startFeed = function(name, track, maxLoss, numIter) {
-      return this.publish(this.config.workX, "unused " + track + " start feed " + name + " " + maxLoss + " " + numIter, this.config.execQ);
+    Communicator.prototype.startFeed = function(name, track, maxLoss, numIter, sequence) {
+      return this.publish(this.config.workX, "" + sequence + " " + track + " start feed " + name + " " + maxLoss + " " + numIter, this.config.execQ);
     };
 
     Communicator.prototype.flow = function(onOff) {
