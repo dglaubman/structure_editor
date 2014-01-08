@@ -1,69 +1,75 @@
-{group, scale, contract, invert} = require '../ops'
+{group, scale, contract, invert, comment} = require '../ops'
 
 exports.graph = {
   tag: "assumed"
   dag: [ {
-    name: "Net"
+    name: "AIG:Net"
     type: group
-    children: [ "Gross", "~Ceded"]
+    children: [ "AIG:Gross", "~AIG:Ceded"]
     }, {
-    name: "Gross"
+    name: "AIG:Gross"
     type: group
     opt: 30000000
     }, {
-    name: "~Ceded"
+    name: "~AIG:Ceded"
     type: invert
-    children: [ "Ceded"]
+    children: [ "AIG:Ceded"]
     }, {
-    name: "Ceded"
+    name: "AIG:Ceded"
     type: group
-    children: [ "Fac", "PerRisk", "Cat"]
+    children: [ "AIG:Fac", "AIG:PerRisk", "AIG:Cat"]
     }, {
-    name: "Fac"
-    type: group
-    }, {
-    name: "PerRisk"
+    name: "AIG:Fac"
     type: group
     }, {
-    name: "Cat"
+    name: "AIG:PerRisk"
     type: group
-    children: [ "Cat1.Placed", "Cat2.Placed"]
     }, {
-    name: "Cat1"
+    name: "AIG:Cat"
     type: group
-    opt: 1000000
+    children: [ "AIG:Cat1.Placed", "AIG:Cat2.Placed"]
     }, {
-    name: "Cat2"
+    name: "AIG:Cat1"
     type: group
     opt: 1000000
     }, {
-    name: "Cat1.Placed"
+    name: "AIG:Cat2"
+    type: group
+    opt: 1000000
+    }, {
+    name: "AIG:Cat1.Placed"
     type: scale
     opt:  0.3
-    children: [ "Cat1"]
+    children: [ "AIG:Cat1"]
     }, {
-    name: "Cat2.Placed"
+    name: "AIG:Cat2.Placed"
     type: scale
     opt:  0.45
-    children: [ "Cat2"]
+    children: [ "AIG:Cat2"]
     }, {
-    name: "My:Cat1.Signed"
+    name: "my:Cat1.Signed"
     type: scale
     opt:  0.06
-    children: [ "Cat1"]
+    children: [ "AIG:Cat1"]
     }, {
-    name: "My:Cat2.Signed"
+    name: "my:Cat2.Signed"
     type: scale
     opt:  0.045
-    children: [ "Cat2"]
+    children: [ "AIG:Cat2"]
     }, {
-    name: "My:Program1"
+    name: "my:Program1"
     type: group
-    children: [ "My:Cat1.Signed", "My:Cat2.Signed"]
+    children: [ "my:Cat1.Signed", "my:Cat2.Signed"]
     }, {
-    name: "My:Assumed"
+    name: "my:Assumed"
     type: group
-    children: [ "My:Program1"]
+    children: [ "my:Program1"]
+    }, {
+    name: "my:Our positions"
+    type: comment
+    }, {
+    name: "AIG:AIG's positions"
+    type: comment
     }
   ]
 }

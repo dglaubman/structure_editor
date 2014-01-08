@@ -56,7 +56,7 @@
       d3.selectAll(".stat text").each(function(d, i) {
         var initial, key, x;
         x = d3.select(this);
-        key = nodes[i].value.label;
+        key = nodes[i].value.key;
         initial = leaves[key] || "";
         x.text(format(initial));
         return positions[encode(key)] = [x, 0];
@@ -69,7 +69,7 @@
         _this = this;
       sequence = Date.now();
       return d3.entries(leaves).forEach(function(entry) {
-        return comm.startFeed("Start_" + entry.key, _this.track, entry.value, numIter, sequence);
+        return comm.startFeed("Start_" + (encode(entry.key)), _this.track, entry.value, numIter, sequence);
       });
     };
 

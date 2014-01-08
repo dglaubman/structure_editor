@@ -21,6 +21,7 @@ class root.Controller
       [x,num] =  positions[position] or [{text: -> 0}, 0]
       num +=  losses.length
       log.log "#{position}: #{num}"
+#      losses.forEach x.observe
       x.text format losses[losses.length - 1]
       positions[position] = [x,num]
 
@@ -31,7 +32,7 @@ class root.Controller
     positions = {}
     d3.selectAll(".stat text").each (d,i) ->
       x = d3.select this
-      key = nodes[i].value.label
+      key = nodes[i].value.key
       initial = leaves[key] or  ""  # initial value
       x.text format initial
       positions[encode key] = [x,0]
@@ -41,7 +42,7 @@ class root.Controller
     sequence = Date.now()
     d3.entries( leaves )
       .forEach (entry) =>
-        comm.startFeed "Start_#{entry.key}", @track, entry.value, numIter, sequence
+        comm.startFeed "Start_#{encode entry.key}", @track, entry.value, numIter, sequence
 
   stopped: (type, name) ->
     log.write "recd stopped signal for #{type} #{name}"

@@ -15,6 +15,7 @@ root.update = update = (input) ->
 
 # remove previous rendering and render current graph
 root.render = render = (adjacencies) ->
+  colors = colorBuilder()
   graph adjacencies
   margin =
     top: 20, right: 20, bottom: 20, left: 20
@@ -38,13 +39,15 @@ root.render = render = (adjacencies) ->
   oldDrawNode = renderer.drawNode()
   oldDrawEdgeLabel = renderer.drawEdgeLabel()
 
-  renderer.drawNode  (graph, u, svg) ->
-    oldDrawNode graph, u, svg
+  renderer.drawNode  (g, u, svg) ->
+    key = g._nodes[u].value.key
+    oldDrawNode g, u, svg
     svg.attr  "id", "node-" + u
+    svg.classed (colors key), true
 
-  renderer.drawEdgeLabel  (graph, e, svg) ->
-    oldDrawEdgeLabel graph, e, svg
-    val = graph._edges[e].value
+  renderer.drawEdgeLabel  (g, e, svg) ->
+    oldDrawEdgeLabel g, e, svg
+    val = g._edges[e].value
     svg.attr "class", val.type
     if val.type is "choose" then svg.attr  "class", val.tag
 
@@ -61,11 +64,18 @@ root.render = render = (adjacencies) ->
     .classed('stat', true)
     .attr("transform", "translate(0, 40)")
     .append('text')
-      .text( (d) -> d )
+
+colorBuilder = () ->
+  namespaces = { my: 'ns-0', Our: 'ns-0', _none_: 'ns-0' }
+  index = 1
+  (key) ->
+    [ns, barename] = key.split ':'
+    if not barename then ns = "_none_"
+    namespaces[ns] or= "ns-#{index++}"
 
 WIDE = 60
 NARROW = 30
-nodeSep = WIDE
+nodeSep = NARROW
 root.toggleNodeSeparation = () ->
   if  nodeSep is WIDE then nodeSep = NARROW else nodeSep = WIDE
   render graph()

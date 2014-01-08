@@ -1,4 +1,4 @@
-{group, scale, contract, invert} = require '../ops'
+{group, scale, contract, invert, comment} = require '../ops'
 
 exports.graph = {
   tag: "imported_wx"
@@ -68,6 +68,15 @@ exports.graph = {
     type: scale
     children: [ "Market:WX1" ]
     opt: 0.07
+    }, {
+    name: "Our:Our positions"
+    type: comment
+    }, {
+    name: "Market:Market"
+    type: comment
+    }, {
+    name: "Acme:Acme"
+    type: comment
     }
   ]
 }

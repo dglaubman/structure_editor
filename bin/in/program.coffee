@@ -1,18 +1,18 @@
-{group, scale, contract, invert} = require '../ops'
+{group, scale, contract, invert, comment} = require '../ops'
 
 exports.graph = {
   tag: "program"
   dag: [{
-    name: "Program1"
+    name: "Market:Program1"
     type: group
-    children: ["Cat1", "Cat2"]
+    children: ["Market:Cat1", "Market:Cat2"]
     }, {
-    name: "Cat1"
+    name: "Market:Cat1"
     type: contract
     opt: "10M xs 10M"
     children: ["ABC, XYZ net of DEF, GHI"]
     }, {
-    name: "Cat2"
+    name: "Market:Cat2"
     type: contract
     opt: "10M xs 20M"
     children: ["ABC, XYZ net of DEF, GHI"]
@@ -43,7 +43,9 @@ exports.graph = {
     }, {
     name: "GHI"
     type: group
-    opt: 2000000
+    }, {
+    name: "Market:Offered to market"
+    type: comment
     }
   ]
 }

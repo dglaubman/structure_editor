@@ -1,33 +1,33 @@
-{group, scale, contract, invert} = require '../ops'
+{group, scale, contract, invert, comment} = require '../ops'
 
 exports.graph = {
   tag: "netpos"
   dag: [ {
-    name: "ABC, XYZ net of DEF, GHI"
+    name: "Our:ABC, XYZ net of DEF, GHI"
     type: group
-    children: [ "ABC", "XYZ", "~DEF", "~GHI"]
+    children: [ "Our:ABC", "Our:XYZ", "~Our:DEF", "~Our:GHI"]
     }, {
-    name: "ABC"
+    name: "Our:ABC"
     type: group
     opt: 5000000
     }, {
-    name: "XYZ"
+    name: "Our:XYZ"
     type: group
     opt: 3000000
     }, {
-    name: "~DEF"
+    name: "~Our:DEF"
     type: invert
-    children: ["DEF"]
+    children: ["Our:DEF"]
     }, {
-    name: "~GHI"
+    name: "~Our:GHI"
     type: invert
-    children: ["GHI"]
+    children: ["Our:GHI"]
     }, {
-    name: "DEF"
+    name: "Our:DEF"
     type: group
     opt: 120000
     }, {
-    name: "GHI"
+    name: "Our:GHI"
     type: group
     opt: 250000
     }

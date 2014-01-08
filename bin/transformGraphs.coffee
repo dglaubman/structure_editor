@@ -4,12 +4,16 @@ path = require 'path'
 
 {log, fatal, error, trace, logger} = require './log'
 {argv} = require 'optimist'
-{group, scale, contract, invert, filter} = require './ops'
+{group, scale, contract, invert, filter, comment} = require './ops'
 
 logger argv
 
 encode = (arg) -> encodeURIComponent arg
 decode = (arg) -> decodeURIComponent arg
+
+base = (fqn) ->
+  [ns, barename] = fqn.split ':'
+  barename or ns
 
 graphDir = argv.graphDir or "."
 dotDir = argv.dotDir or "."
@@ -49,7 +53,7 @@ convert = ( g ) ->
   edges = []
   cmds = []
   leaves = {}
-  #trace ix
+  trace ix
 
   try
     _.each dag, (node) ->
@@ -62,19 +66,21 @@ convert = ( g ) ->
           cmds.push "start contract #{encode name} #{encode name}"   # cdl filename is same as contract name
         when filter
           cmds.push "start filter #{encode name} #{encode name}"   # filter filename is same as filter name
-        else
+        when invert
+          cmds.push "start #{type} #{encode name}"
+        when group
           cmds.push "start #{type} #{encode name}"
 
       # print start trigger cmd
       if children
         if not Array.isArray children then throw "bad node '#{node.name}' -- children should be an array"
         cmds.push "start trigger #{encode name} #{_.map(children, encode).join(',')}"
-      else  # only groups can be leaves. 'opt' holds their initial value.
+      else if type is group # only groups can be leaves. 'opt' holds their initial value.
         leaves[name] = opt or 0
         cmds.push "start trigger #{encode name} Start_#{encode name}"
       # create graph node
       if name[0] isnt '~' # Dont show invert nodes, just label them as part of their group(s)
-        nodes.push { id: ix[name], value: { label: name } }
+        nodes.push { id: ix[name], value: { key: name, label: base name } }
         _.each children, (child) ->
           #trace child
           # create links for node

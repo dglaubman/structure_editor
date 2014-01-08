@@ -217,6 +217,15 @@ rect {
     fill: green;
 }
 
+.ns-1 rect {
+   fill: lightgreen;
+}
+.ns-2 rect {
+   fill: pink;
+}
+.ns-3 rect {
+   fill: lightblue;
+}
 .background {
   fill: #eee;
 }
