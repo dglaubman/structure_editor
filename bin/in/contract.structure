@@ -1,0 +1,8 @@
+structure
+    CedantA:PortA is 25000000
+
+    Contract TreatyB
+      declarations
+        subject is CedantA:PortA
+        description is {10M xs 10M}
+      covers 100% share of 10000000 xs 10000000

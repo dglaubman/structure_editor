@@ -1,0 +1,11 @@
+Structure
+  Net is Gross - Ceded
+  Ceded is Fac + PerRisk + Cat
+  Gross is Direct + Assumed
+
+  Direct is 50000000
+  Assumed is 23000000
+
+  Fac is 5000000
+  Cat is 5000000
+  PerRisk is 5000000

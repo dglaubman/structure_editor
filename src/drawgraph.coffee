@@ -19,7 +19,7 @@ root.render = render = (adjacencies) ->
   graph adjacencies
   margin =
     top: 20, right: 20, bottom: 20, left: 20
-  width = adjacencies.width or 920
+  width = adjacencies.width or 1500
   height = adjacencies.height or 900
   d3.selectAll("svg.chart")
     .remove()

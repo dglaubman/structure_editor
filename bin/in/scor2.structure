@@ -1,0 +1,31 @@
+structure
+	{SCOR Global} is 
+	     {S20:ASIA PACIF.} +
+	     S22:AUSTRALIA +
+	     S11:CANADA +
+	     S5:GERMANY +
+	     S6:ITALIA +
+	     {S10:RE US} +
+	     S2:REASS. + 
+	     S17:SWITZERLAND +
+	     S1:UK
+
+	 {S20:ASIA PACIF.} is 
+	     S20:Specialty +
+             S20:Treaty
+
+	 S20:Specialty is
+	     {S20:Specialty Hong-Kong} +
+	     {S20:Specialty Singapore}
+
+	 S20:Treaty is
+	     S20:Beijing +
+	     S20:Hong-Kong +
+	     S20:India +
+	     S20:Labuan +
+	     S20:Seoul +
+	     S20:Singapore +
+	     S20:Tokyo
+
+
+

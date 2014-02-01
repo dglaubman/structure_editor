@@ -17,7 +17,7 @@ a:hover {
 }
 
 .body {
-  width: 840px;
+  width: 90%;
   margin: auto;
 }
 
@@ -100,7 +100,6 @@ h1 {
   font-weight: 300;
   margin-left: 40px;
   padding-top: 3em;
-  width: 900px;
 /*  clear: left; */
 }
 

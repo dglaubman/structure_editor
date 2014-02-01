@@ -1,10 +1,12 @@
 Positions API
 ================
+> Version 3. 1/28/2014
 
 Position
 --------
 
-A (loss) Position represents a named collection of losses, and an operation which writes to this collection. There are six types of positions, corresponding to the following operations:
+A (loss) Position represents a named collection of losses, and an operation which writes to this collection.
+There are six types of positions, corresponding to the following operations:
 
 * Group -- groups the losses from one or more input positions.
 * Invert -- inverts its input position.
@@ -13,7 +15,7 @@ A (loss) Position represents a named collection of losses, and an operation whic
 * Filter -- applies a predicate function to its input position. Losses for which the predicate is true are written to the position.
 * Branch -- chooses one of its two input positions, based on a criterion. One of the positions may be marked as the default.
 
-Positions may be created, retrieved, modified, or deleted via the API.  git add s
+Positions may be created, retrieved, modified, or deleted via the API.
 (Note: Contract positions are managed indirectly thru Contracts API.)
 
 A Position corresponds to a node in a directed acyclic graph, where the edges consist of arrows from the position to its input position(s).
@@ -45,9 +47,7 @@ Creates a new position.
 
 	        POST /positions
 		    {
-				"Name": "Book",
-				"NS":  "Acme",
-				"Op": "Group",
+				"Name": "Acme:Book",
 			}
 
 
@@ -57,9 +57,7 @@ Creates a new position.
 		   Location: /positions/1
 
 	       {
-			   "Name": "Book",
-	           "NS": "Acme",
-	           "FQName": "Acme:Book",
+	           "Name": "Acme:Book",
 	           "Op": "Group",
 	           "Links":
 			   [  {"href": "/positions/1", "rel": "self"} ]
@@ -74,8 +72,7 @@ Creates a new position.
 	        POST /positions
 
 	        {
-				"Name": "TreatyA.Placed",
-				"NS":  "Market",
+				"Name": "Market:TreatyA.Placed",
 				"Op": "Scale",
 				"Factor": 0.4,
 				"Subject": "Market:TreatyA"
@@ -88,9 +85,8 @@ Creates a new position.
 		   Location: /positions/101
 
 	       {
-			   "Name": "TreatyA.Placed",
+			   "Name": "Market:TreatyA.Placed",
 	           "NS": "Market",
-			   "FQName": "Market:TreatyA.Placed",
 			   "Op": "Scale",
 			   "Factor": 0.4,
 	           "Links":
@@ -108,8 +104,7 @@ Creates a new position.
 	        POST /positions
 
 	        {
-				"Name": "~TreatyA.Placed",
-				"NS":  "Market",
+				"Name": "Market:~TreatyA.Placed",
 				"Op": "Invert",
 				"Subject": "Market:TreatyA.Placed"
 			}
