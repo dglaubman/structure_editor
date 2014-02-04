@@ -9,6 +9,13 @@ exports.graph = {
     }, {
     name: "Acme:Gross"
     type: group
+    children: [ "Acme:Direct", "Acme:Assumed" ]
+    }, {
+    name: "Acme:Assumed"
+    type: group
+    }, {
+    name: "Acme:Direct"
+    type: group
     children: [ "Acme:PortA" ]
     }, {
     name: "Acme:PortA"
@@ -45,7 +52,14 @@ exports.graph = {
     }, {
     name: "Our:Net"
     type: group
-    children: [ "Our:Assumed", "~Our:Ceded" ]
+    children: [ "Our:Gross", "~Our:Ceded" ]
+    }, {
+    name: "Our:Gross"
+    type: group
+    children: [ "Our:Direct", "Our:Assumed" ]
+    }, {
+    name: "Our:Direct"
+    type: group
     }, {
     name: "~Our:Ceded"
     type: invert

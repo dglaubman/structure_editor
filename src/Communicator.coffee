@@ -25,6 +25,7 @@ class Communicator
     @publishChannel.publishBasic {body: body, exchange: exchange, routingKey: routingKey}
 
 
+  # deprecated
   sling: (signal, test, track) =>
     @publish @config.workX, "start sling #{signal} #{test} #{track}", @config.execQ
 

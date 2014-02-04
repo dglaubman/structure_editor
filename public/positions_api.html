@@ -1,6 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<!-- saved from url=(0033)file:///D:/tmp/2/burl4048so1.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body><h1>Positions API</h1>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>positions_api.html</title>
+
+</head>
+
+<body>
+
+<h1>Positions API</h1>
+
+<blockquote>
+  <p>Version 2. 1/21/2014</p>
+</blockquote>
 
 <h2>Position</h2>
 
@@ -28,14 +43,14 @@ Given a Position (or set of Positions), the API also supports retrieving the sub
 <p>Creates a new position.</p>
 
 <blockquote>
-  <p><strong>Input</strong>: Name, Namespace, Operation are required. Most operations require exactly one input position. Scale and contract have operation specific param. <br>
-  <strong>Output</strong>: A representation of  the newly created Position resource <br>
+  <p><strong>Input</strong>: Name, Namespace, Operation are required. Most operations require exactly one input position. Scale and contract have operation specific param. <br />
+  <strong>Output</strong>: A representation of  the newly created Position resource <br />
   <strong>Validations</strong>:  </p>
   
   <blockquote>
-    <p>Fully qualified name ("namespace:name") must be unique within tenant (else HTTP error 409). <br>
-    Input positions must exist, but may be of any type. <br>
-    Output position must not exist prior to the POST. <br>
+    <p>Fully qualified name ("namespace:name") must be unique within tenant (else HTTP error 409). <br />
+    Input positions must exist, but may be of any type. <br />
+    Output position must not exist prior to the POST. <br />
     Other validations differ by position type (see examples)  </p>
   </blockquote>
 </blockquote>
@@ -43,9 +58,9 @@ Given a Position (or set of Positions), the API also supports retrieving the sub
 <h4>Examples:</h4>
 
 <blockquote>
-  <p><strong>Creating a leaf position</strong> <br>
-  A leaf position is a group with no children. <br>
-  As such, its source of loss is external to Position DB (for example, a CSE) <br>
+  <p><strong>Creating a leaf position</strong> <br />
+  A leaf position is a group with no children. <br />
+  As such, its source of loss is external to Position DB (for example, a CSE) <br />
   We can augment this resource with an external identifier of its source, if this proves useful.  </p>
   
   <p>Request:  </p>
@@ -77,7 +92,7 @@ Given a Position (or set of Positions), the API also supports retrieving the sub
 </code></pre>
 
 <blockquote>
-  <p><strong>Creating a scaled position</strong> <br>
+  <p><strong>Creating a scaled position</strong> <br />
   Note: the scale factor is always positive. Invert a scaled position to multiply by a negative factor.  </p>
   
   <p>Request:  </p>
@@ -115,7 +130,7 @@ Given a Position (or set of Positions), the API also supports retrieving the sub
 </code></pre>
 
 <blockquote>
-  <p><strong>Creating an inverted position</strong> <br>
+  <p><strong>Creating an inverted position</strong> <br />
   An inverted position by convention has the same name as its subject, prefaced with a tilde(~).  </p>
   
   <p>Request:  </p>
@@ -151,7 +166,7 @@ Given a Position (or set of Positions), the API also supports retrieving the sub
 </code></pre>
 
 <blockquote>
-  <p><strong>Creating a group position</strong> <br>
+  <p><strong>Creating a group position</strong> <br />
   Note: To create a net position, invert then group.  </p>
   
   <p>Request:  </p>
@@ -188,8 +203,8 @@ Given a Position (or set of Positions), the API also supports retrieving the sub
 </code></pre>
 
 <blockquote>
-  <p><strong>Creating a contract position</strong> <br>
-  Unlike other positions, contract positions are created/modified indirectly via the Contract API. <br>
+  <p><strong>Creating a contract position</strong> <br />
+  Unlike other positions, contract positions are created/modified indirectly via the Contract API. <br />
   Thus, a POST to /contracts creates a Contract resource (with CDL and decls) and an Ouput Position resource (corresponding to Contract Name).  </p>
   
   <p>Request:  </p>
@@ -226,8 +241,8 @@ Given a Position (or set of Positions), the API also supports retrieving the sub
 </code></pre>
 
 <blockquote>
-  <p><strong>Creating a filter position</strong> <br>
-  Note: predicate syntax should match standard usage on RMS(one). <br>
+  <p><strong>Creating a filter position</strong> <br />
+  Note: predicate syntax should match standard usage on RMS(one). <br />
   Predicate places resolution requirements on its subject (TBD).  </p>
   
   <p>Request:  </p>
@@ -265,9 +280,9 @@ Given a Position (or set of Positions), the API also supports retrieving the sub
 </code></pre>
 
 <blockquote>
-  <p><strong>Creating a branch position</strong> <br>
-  Unlike a filter, a branch operation only allows one choice through. <br>
-  A branch could depend on a RAP setting or attributes of the actual subject loss. <br>
+  <p><strong>Creating a branch position</strong> <br />
+  Unlike a filter, a branch operation only allows one choice through. <br />
+  A branch could depend on a RAP setting or attributes of the actual subject loss. <br />
   Both input positions must exist when this method is called.  </p>
   
   <p>Request:  </p>
@@ -307,7 +322,7 @@ Given a Position (or set of Positions), the API also supports retrieving the sub
 
 <h2>Position Graph</h2>
 
-<p>This is a read/only API and thus supports GET. A possible end-point is /positions/graph, also providing a search string which corresponds to one or more positions. <br>
+<p>This is a read/only API and thus supports GET. A possible end-point is /positions/graph, also providing a search string which corresponds to one or more positions. <br />
 The output is a list containing the transitive closure of the search results and their subject positions (possibly limited by a depth param).  </p>
 
 <h3><code>GET /positions/graph?search-str</code></h3>
@@ -372,4 +387,6 @@ The output is a list containing the transitive closure of the search results and
                 { "href": "/positions/1", "rel": "subject" } ] }
     ]
 </code></pre>
-</body></html>
+
+</body>
+</html>

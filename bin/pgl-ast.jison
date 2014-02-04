@@ -12,11 +12,20 @@ id		      [a-z][a-z0-9:_/.]*
 "is"		      return 'IS'
 "structure"	      return 'STRUCTURE'
 
+/* mini-cdl */
+"contract"	      return 'CONTRACT'
+"declarations"	      return 'DECLARATIONS'
+"covers"	      return 'COVERS'
+"share"		      return 'SHARE'
+"of"                  return 'OF'
+"xs"		      return 'XS'
+
 "+"		      return 'PLUS'
 "-"		      return 'MINUS'
 "*"		      return 'TIMES'
 "/"		      return 'DIV'
 "@"		      return 'AT'
+"%"                   return 'PERCENT'
 
 {id}		      return 'WORD'		      
 {digit}+"."?{digit}*  return 'NUMBER'
@@ -32,6 +41,8 @@ id		      [a-z][a-z0-9:_/.]*
    //    accountKey: 'd161d32d678546ebbc43c3ac70a40e523d9d6093', 
    //    appName: 'PGL Application'
    //    });
+
+    var under = require( 'underscore' );
 
     var inversions = [];
     function invert( element ) {
@@ -70,7 +81,8 @@ id		      [a-z][a-z0-9:_/.]*
 %%
 /* rules */
 structure :
-    STRUCTURE positions		{ inversions.forEach(invert, $2); printGraph( $2 ) }
+    STRUCTURE positions	contracts	
+    	      			{ inversions.forEach(invert, $2); printGraph( $2.concat( $3 ) ) }
     ;
 
 positions : 
@@ -113,5 +125,36 @@ factor : NUMBER
 
 leaf :
     NUMBER			
+    ;
+
+contracts :
+    contract                    { $$ = [ $1 ] }
+    | contracts contract	{ $1.push( $2 ); $$ = $1 }
+    ;
+
+contract :
+    CONTRACT  declaration-part cover-part { $$ = [ $2.name, 'contract', [ $2.subject ], [ $3, $2.description ] ] }
+    ;
+
+declaration-part :
+    DECLARATIONS declarations			{ $$ = under.object( $2 ) }
+    ;
+
+declarations :
+    declaration					{ $$ = [ $1 ] }
+    | declarations declaration 		       	{ $1.push( $2 ); $$ = $1 }
+    ;
+
+declaration :
+    name IS name				{ $$ = [$1, $3] }
+    ;
+
+cover-part :
+    COVERS cover				{ $$ = $2 }
+    ;
+
+cover :
+    NUMBER PERCENT SHARE OF NUMBER XS NUMBER    { 
+    	   $$ = ['' + $1 + $2, $3, $4, $5,$6,$7].join(' ') }
     ;
 

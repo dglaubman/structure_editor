@@ -37,7 +37,7 @@ labelEdge = (type, opt) ->
     when invert
       '-'
     when contract
-      opt                           # contract description
+      opt[1]                        # contract description
     when filter
       opt                           # filter description
 
@@ -72,7 +72,8 @@ convert = ( tag, dag ) ->
         when scale
           cmds.push "start scale #{encode name} #{opt}"   # opt is scale factor
         when contract
-          cmds.push "start contract #{encode name} #{encode name}"   # cdl filename is same as contract name
+          cmds.push "start inline #{encode name} #{encode opt[0]}"   # send cdl inline
+#          cmds.push "start contract #{encode name} #{encode name}"   # cdl filename is same as contract name
         when filter
           cmds.push "start filter #{encode name} #{encode name}"   # filter filename is same as filter name
         when invert
