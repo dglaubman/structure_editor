@@ -1,26 +1,30 @@
 root = exports ? window
+convert = require( './public/js/compile2.js' )
 
-_graph = undefined
-root.graph = graph = (adjacencies) ->
-  if arguments.length > 0
-    _graph = adjacencies
-  else
-    _graph
+prop = (val) ->
+  _ = val
+  (v) ->
+    if v then _ = v else _
+
+root.structure = prop { name: "standard" }
 
 # read in a position graph, and render it
-root.update = update = (input) ->
-  path = "data/#{input}.json"
-  d3.json path, render
-  input
+root.update = update = (name) ->
+  path = "data/#{name}.structure"
+  d3.text path, (text) ->
+    structure { name, text }    # set global structure name and text
+    render structure
 
 # remove previous rendering and render current graph
-root.render = render = (adjacencies) ->
+root.render = render = (structure) ->
+  { dag, cmds } = convert structure().text
+  structure().dag = dag
+  structure().cmds = cmds
   colors = colorBuilder()
-  graph adjacencies
   margin =
     top: 20, right: 20, bottom: 20, left: 20
-  width = adjacencies.width or 1500
-  height = adjacencies.height or 900
+  width = dag.width or 1500
+  height = dag.height or 2500
   d3.selectAll("svg.chart")
     .remove()
 
@@ -33,8 +37,8 @@ root.render = render = (adjacencies) ->
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-  nodes = adjacencies.nodes
-  edges = adjacencies.edges
+  nodes = dag.nodes
+  edges = dag.edges
   renderer = new dagreD3.Renderer()
   oldDrawNode = renderer.drawNode()
   oldDrawEdgeLabel = renderer.drawEdgeLabel()
@@ -43,7 +47,7 @@ root.render = render = (adjacencies) ->
     key = g._nodes[u].value.key
     oldDrawNode g, u, svg
     svg.attr  "id", "node-" + u
-    svg.classed (colors key), true
+    svg.style "fill", colors(key)
 
   renderer.drawEdgeLabel  (g, e, svg) ->
     oldDrawEdgeLabel g, e, svg
@@ -66,21 +70,23 @@ root.render = render = (adjacencies) ->
     .append('text')
 
 colorBuilder = () ->
-  namespaces = { my: 'ns-0', Our: 'ns-0', _none_: 'ns-0' }
+  namespaces = { my: 0, Our: 0, _none_: 0 }
   index = 1
+  palette = d3.scale.category20c().domain(d3.range(20))
   (key) ->
     [ns, barename] = key.split ':'
     if not barename then ns = "_none_"
-    namespaces[ns] or= "ns-#{index++}"
+    c = namespaces[ns] or= index++
+    palette (c * 3) % 20
 
 WIDE = 60
 NARROW = 30
 nodeSep = NARROW
 root.toggleNodeSeparation = () ->
   if  nodeSep is WIDE then nodeSep = NARROW else nodeSep = WIDE
-  render graph()
+  render structure
 
 rankDir = "TB"
 root.toggleDirection = ->
     if rankDir is "TB" then rankDir = "LR" else rankDir = "TB"
-    render graph()
+    render structure

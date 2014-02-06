@@ -150,16 +150,16 @@ label {
   font-weight: 300;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 18px;
+  fill: black;
 }
 
 rect {
-  fill: #fff;
+#  fill: #fff;
 }
 
 .node rect {
   stroke-width: 2px;
   stroke: #333;
-  fill: none;
 }
 
 #node-CLOSED rect {
@@ -216,15 +216,6 @@ rect {
     fill: green;
 }
 
-.ns-1 rect {
-   fill: lightgreen;
-}
-.ns-2 rect {
-   fill: pink;
-}
-.ns-3 rect {
-   fill: lightblue;
-}
 .background {
   fill: #eee;
 }
@@ -284,4 +275,8 @@ div #chart {
 fieldset {
     display: inline-block;
     
+}
+
+#chart {
+    overflow-y: auto;
 }

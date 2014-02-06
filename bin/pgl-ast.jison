@@ -3,7 +3,7 @@
 
 alpha                 [a-z]
 digit		      [0-9]
-id		      [a-z][a-z0-9:_/.]*
+id		      [a-z][-a-z0-9:_/.]*
 
 %%
 
@@ -19,6 +19,7 @@ id		      [a-z][a-z0-9:_/.]*
 "share"		      return 'SHARE'
 "of"                  return 'OF'
 "xs"		      return 'XS'
+'unlimited'	      return 'UNLIMITED'
 
 "+"		      return 'PLUS'
 "-"		      return 'MINUS'
@@ -30,20 +31,26 @@ id		      [a-z][a-z0-9:_/.]*
 {id}		      return 'WORD'		      
 {digit}+"."?{digit}*  return 'NUMBER'
 "{"[^}]*"}"	      return 'PHRASE'
+<<EOF>>               return 'EOF'
 
 /lex
 
 %start structure
 
 %{
+
+
    // NodeTime profiling
    // require('nodetime').profile({
    //    accountKey: 'd161d32d678546ebbc43c3ac70a40e523d9d6093', 
    //    appName: 'PGL Application'
    //    });
+    if (!process.hrtime) {
+       process.hrtime = require('browser-process-hrtime')
+    }
 
     var under = require( 'underscore' );
-
+    var inspect = require('util').log;
     var inversions = [];
     function invert( element ) {
     	this.push( [ "~" + element, "invert", [ element ] ] )
@@ -51,7 +58,7 @@ id		      [a-z][a-z0-9:_/.]*
 
     var trace = function() {
     	var start = process.hrtime();
-	var error = require('util').error;
+	var error = require('util').inspect;
 	return function( msg ) {
 	   var elapsed = process.hrtime( start );
 	   error( elapsed[0] + "." + Math.floor( elapsed[1] / 1e6 ) + " s: " + msg );
@@ -60,7 +67,7 @@ id		      [a-z][a-z0-9:_/.]*
 
     function unwrap( phrase ) {
         var parts = phrase.split( /[}{]/ );
-	require('assert').equal( parts.length, 3, "Phrase be surrounded by curlybraces" );
+	require('assert').equal( parts.length, 3, "Phrase must be surrounded by curlybraces: " + phrase );
 	return parts[1].trim();
     }
 
@@ -72,7 +79,7 @@ id		      [a-z][a-z0-9:_/.]*
     	trace( "generated positions" );
     	var tmp = pretty( positions )
 	trace( "generated JSON" );
-        console.log( tmp );
+	inspect( tmp );
 	trace( "done" );
     }
 
@@ -82,7 +89,7 @@ id		      [a-z][a-z0-9:_/.]*
 /* rules */
 structure :
     STRUCTURE positions	contracts	
-    	      			{ inversions.forEach(invert, $2); printGraph( $2.concat( $3 ) ) }
+    	      			{ inversions.forEach(invert, $2); inversions = []; return $2.concat( $3 )  }
     ;
 
 positions : 
@@ -128,12 +135,13 @@ leaf :
     ;
 
 contracts :
-    contract                    { $$ = [ $1 ] }
-    | contracts contract	{ $1.push( $2 ); $$ = $1 }
+    contract                    { if (!under.isEmpty($1)) $$ = [ $1 ] }
+    | contracts contract	{ if (!under.isEmpty($2)) $1.push( $2 ); $$ = $1 }
     ;
 
 contract :
-    CONTRACT  declaration-part cover-part { $$ = [ $2.name, 'contract', [ $2.subject ], [ $3, $2.description ] ] }
+    EOF                         { $$ = []  }
+    | CONTRACT  declaration-part cover-part { $$ = [ $2.name, 'contract', [ $2.subject ], [ $3, $2.description ] ] }
     ;
 
 declaration-part :
@@ -146,15 +154,19 @@ declarations :
     ;
 
 declaration :
-    name IS name				{ $$ = [$1, $3] }
+    name IS name				{ $$ = [$1.toLowerCase(), $3] }
     ;
 
 cover-part :
-    COVERS cover				{ $$ = $2 }
+    | COVERS cover				{ $$ = $2 }
     ;
 
 cover :
-    NUMBER PERCENT SHARE OF NUMBER XS NUMBER    { 
+    NUMBER PERCENT SHARE OF limit-amount XS NUMBER    { 
     	   $$ = ['' + $1 + $2, $3, $4, $5,$6,$7].join(' ') }
     ;
 
+limit-amount :  
+    NUMBER
+    | UNLIMITED
+    ;

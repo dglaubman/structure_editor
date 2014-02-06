@@ -32,8 +32,9 @@ class Communicator
   stopServer: (pid) =>
     @publish @config.workX, "stop #{pid}", @config.execQ
 
-  startSubscription: (name) =>
-    @publish @config.workX, "#{@serverTopic} unused start subscription #{name}", @config.execQ
+  startSubscription: (structure) =>
+    {name, cmds} = structure
+    @publish @config.workX, "#{@serverTopic} inline start subscription #{name} #{serialize cmds}", @config.execQ
 
   startFeed: (name, track, maxLoss, numIter, sequence) =>
     @publish @config.workX, "#{sequence} #{track} start feed #{name} #{maxLoss} #{numIter}", @config.execQ

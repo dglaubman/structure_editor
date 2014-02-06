@@ -3,11 +3,10 @@
 log = new Log( d3.select("#console"))
 log.write "Starting up ..."
 
-currentGraph = "standard"
 graphClickHandler = (d) ->
-  d3.select( "##{currentGraph}" ).classed 'selected', false
+  d3.select( "##{structure().name}" ).classed 'selected', false
   d3.select(@).classed 'selected', true
-  currentGraph = update @id
+  update @id
 
 # Hook up controls on page
 d3.select("#clear").on 'click', ->
@@ -15,7 +14,7 @@ d3.select("#clear").on 'click', ->
 
 d3.select("#start")
   .on "click", (d) ->
-    controller.subscribe currentGraph
+    controller.subscribe structure()
 
 d3.select("#run_one")
   .on "click", (d) ->
@@ -48,5 +47,5 @@ d3.select("#verbose")
 controller = new Controller log
 controller.start ->
   # Load the Standard positions graph
-  graphClickHandler.call( document.getElementById currentGraph )
+  graphClickHandler.call( document.getElementById structure().name )
 

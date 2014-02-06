@@ -7,3 +7,6 @@ root.every = (ms, func) ->
 
 root.encode = (str) ->
   encodeURIComponent str
+
+root.serialize = (o) ->
+  encodeURIComponent JSON.stringify o

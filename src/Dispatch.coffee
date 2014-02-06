@@ -18,5 +18,5 @@ root.serverDispatcher = (controller, body) ->
       controller.ready route, track
 
     when 'stopped'
-      [ _1, type, _2, name ]
+      [ _1, type, _2, name ] = msg
       controller.stopped type, name

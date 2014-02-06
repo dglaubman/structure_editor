@@ -12,8 +12,8 @@ class root.Controller
       comm = new Communicator( log, messageHandler this)
       comm.connect config, ticket, callback
 
-  subscribe: (graph) ->
-    comm.startSubscription graph
+  subscribe: (structure) ->
+    comm.startSubscription structure
 
   stat: (track, position, losses) ->
     return log.write "error: stat expected track #{@track}, rec'd #{track}" unless track is @track
@@ -27,8 +27,8 @@ class root.Controller
 
   ready: (route, track) ->
     log.write "#{route} on #{track}"
-    nodes = graph().nodes
-    leaves = graph().initial
+    nodes = structure().dag.nodes
+    leaves = structure().dag.initial
     positions = {}
     d3.selectAll(".stat text").each (d,i) ->
       x = d3.select this

@@ -23,19 +23,13 @@
 <div class="sidebar">
   <ul>
   <li><a class="posgraph" id="standard" href="#">Standard positions</a></li>
-  <li><a class="posgraph" id="contract" href="#">Contract positions</a></li>
-  <li><a class="posgraph" id="netpos" href="#">Groups</a></li>
   <li><a class="posgraph" id="program" href="#">Pro Forma Program</a></li>
   <li><a class="posgraph" id="placed" href="#">Scaling a position</a></li>
   <li><a class="posgraph" id="assumed" href="#">Multiple namespaces</a></li>
-  <li><a class="posgraph" id="sumnet2" href="#">Sum of Net - overlap</a></li>
   <li><a class="posgraph" id="imported_wx" href="#">WX treaty</a></li>
   <li><a class="posgraph" id="primary" href="#">Primary portfolio</a></li>
   <li><a class="posgraph" id="scor" href="#">SCOR Hierarchy</a></li>
-  <li><a class="posgraph" id="scor2" href="#">More SCOR Hierarchy</a></li>
   <li><a class="posgraph" id="travelers" href="#">Travelers Inuring</a></li>
-  <li><a class="posgraph" id="lifecycle" href="#">Product instance lifecycle</a></li>
-  <li><a class="posgraph" id="contract_lifecycle" href="#">Contract lifecycle</a></li>
 </ul>
 </div>
 
@@ -63,33 +57,9 @@
 	   <label for=direction>Wide Spacing</label>
 	   <input type=checkbox id=node_sep>
 	 </fieldset>
-	 <!-- <fieldset> -->
-	 <!--   <legend>Iterations:</legend> -->
-	 <!--   <label for=iter_1>1</label> -->
-	 <!--   <input type=radio id=iter_1 value=1 name=num_iter>&nbsp;&nbsp; -->
-	 <!--   <label for=iter_10>10</label> -->
-	 <!--   <input type=radio id=iter_10 value=10 name=num_iter>&nbsp;&nbsp; -->
-	 <!--   <label for=iter_1K>1K</label> -->
-	 <!--   <input type=radio id=iter_1K value=1000 name=num_iter checked>&nbsp;&nbsp; -->
-	 <!--   <label for=iter_10K>10K</label> -->
-	 <!--   <input type=radio id=iter_10K value=10000 name=num_iter> -->
-	 <!-- </fieldset> -->
-	 <!-- <fieldset> -->
-	 <!--   <legend>Max Loss:</legend> -->
-	 <!--   <label for=loss_1>1</label> -->
-	 <!--   <input type=radio id=loss_1 value=1 name=max_loss>&nbsp;&nbsp; -->
-	 <!--   <label for=loss_1M>1M</label> -->
-	 <!--   <input type=radio id=loss_1M value=1000000 name=max_loss>&nbsp;&nbsp; -->
-	 <!--   <label for=loss_5M>5M</label> -->
-	 <!--   <input type=radio id=loss_5M value=5000000 name=max_loss>&nbsp;&nbsp; -->
-	 <!--   <label for=loss_10M>10M</label> -->
-	 <!--   <input type=radio id=loss_10M value=10000000 name=max_loss>&nbsp;&nbsp; -->
-	 <!--   <label for=loss_25M>25M</label> -->
-	 <!--   <input type=radio id=loss_25M value=25000000 name=max_loss checked> -->
-	 <!-- </fieldset> -->
   </section>
 
-  <aside><p>ver v0.2.0-2013-12-23
+  <aside><p>ver v0.3.0-2014-2-4
     <p>Built with <a href="http://d3js.org/">d3.js</a> and <a href="https://github.com/cpettitt/dagre-d3">dagre-d3</a>.
       </aside>
 
@@ -97,8 +67,9 @@
 </footer>
 </div>
 <script src=//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.min.js></script>
-<script src=js/dagre-d3.min.js></script>
-<script src=js/AmqpClient.js></script>
+<script src=lib/dagre-d3.min.js></script>
+<script src=lib/AmqpClient.js></script>
+<script src=js/compiler.js></script>
 <script src=js/config.js></script>      
 <script src=js/utils.js></script>
 <script src=js/consolelog.js></script>
