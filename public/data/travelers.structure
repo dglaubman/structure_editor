@@ -1,0 +1,49 @@
+Structure
+
+  Out:Fac is Out:F1 + Out:F2 + Out:F3
+  Out:PerRisk is Out:PPR_Layer1 + Out:Fac + Out:SST
+  Book is 50000000
+  Out:HighFac is Out:F3
+  {Book net of Fac} is Book - Out:Fac
+  {Book net of SST, HighFac} is Book - Out:SST - Out:HighFac
+
+
+Contract
+  Declarations
+    Name is Out:F1
+    Subject is Book
+    Description is {4M xs 4M}
+  Covers
+    100% Share of 4000000 xs 4000000
+
+Contract
+  Declarations
+    Name is Out:F2
+    Subject is Book
+    Description is {4M xs 1M}
+  Covers
+    100% Share of 4000000 xs 1000000
+
+Contract
+  Declarations
+    Name is Out:F3
+    Subject is Book
+    Description is {10M xs 15M}
+  Covers
+    100% Share of 10000000 xs 15000000
+
+Contract
+  Declarations
+    Name is Out:PPR_Layer1
+    Subject is {Book net of SST, HighFac}
+    Description is {20 xs 15 per risk}
+  Covers
+    100% Share of 10000000 xs 15000000
+
+Contract
+  Declarations
+    Name is Out:SST
+    Subject is {Book net of Fac}
+    Description is {50% w/ 50M occ}
+  Covers
+    50% Share of 50000000 xs 0

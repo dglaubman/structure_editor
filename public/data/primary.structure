@@ -1,0 +1,86 @@
+Structure
+
+  Direct is Eastern2014 + Western2014
+  Eastern2014 is C123 + C124 + C125 + C126 + C127
+  Western2014 is D200 + D201 + D202 + D203 + D204
+
+  A123 is 250000
+  A124 is 120000
+  A125 is 250000
+  A126 is 120000
+  A127 is 250000
+  B200 is 250000
+  B201 is 120000
+  B202 is 250000
+  B203 is 120000
+  B204 is 250000
+
+  Contract
+    Declarations
+      Product is HO-3/v1
+      Description is HO-3
+      Name is C123
+      Subject is A123
+      
+  Contract
+    Declarations
+      Description is HO-3
+      Product is HO-3/v1
+      Name is C124
+      Subject is A124
+
+  Contract
+    Declarations
+      Product is HO-3/v1
+      Description is HO-3
+      Name is C125
+      Subject is A125
+
+  Contract
+    Declarations
+      Product is HO-3/v1
+      Description is HO-3
+      Name is C126
+      Subject is A126
+
+  Contract
+    Declarations
+      Product is HO-4/v1
+      Description is HO-4
+      Name is C127
+      Subject is A127
+
+  Contract
+    Declarations
+      Product is HO-5/v1
+      Description is HO-3
+      Name is D200
+      Subject is B200
+
+  Contract
+    Declarations
+      Product is HO-5/v1
+      Description is HO-5
+      Name is D201
+      Subject is B201
+
+  Contract
+    Declarations
+      Product is HO-5/v1
+      Description is HO-5
+      Name is D202
+      Subject is B202
+
+  Contract
+    Declarations
+      Product is HO-5/v1
+      Description is HO-5
+      Name is D203
+      Subject is B203
+
+  Contract
+    Declarations
+      Product is HO-5/v1
+      Description is HO-5
+      Name is D204
+      Subject is B204

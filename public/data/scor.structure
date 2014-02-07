@@ -1,0 +1,180 @@
+Structure
+
+    {SCOR:SCOR Global} is 
+        {SCOR ASIA PACIF.:SCOR ASIA PACIF.} +   	       
+	{SCOR AUSTRALIA:SCOR AUSTRALIA} +
+	{SCOR CANADA:SCOR CANADA} +
+	{SCOR GERMANY:SCOR GERMANY} +
+	{SCOR ITALIA:SCOR ITALIA} +
+	{SCOR RE US:SCOR RE US} +
+	{SCOR REASS.:SCOR REASS.} +
+	{SCOR SWITZERLAND:SCOR SWITZERLAND} +
+	{SCOR UK:SCOR UK}
+        
+    {SCOR ASIA PACIF.:SCOR ASIA PACIF.} is
+    	{SCOR ASIA PACIF.:Specialty} + {SCOR ASIA PACIF.:Treaty}
+
+    {SCOR AUSTRALIA:SCOR AUSTRALIA} is
+    	  {SCOR AUSTRALIA:Treaty}
+
+    {SCOR CANADA:SCOR CANADA} is
+    	  {SCOR CANADA:Treaty} +
+	  {SCOR CANADA:Specialty}
+
+    {SCOR GERMANY:SCOR GERMANY} is
+    	  {SCOR GERMANY:Treaty}
+   
+    {SCOR ITALIA:SCOR ITALIA} is
+    	  {SCOR ITALIA:Treaty} +
+	  {SCOR ITALIA:Specialty}
+
+    {SCOR RE US:SCOR RE US} is
+    	  {SCOR RE US:Treaty} +
+	  {SCOR RE US:Specialty}
+
+    {SCOR REASS.:SCOR REASS.} is
+    	  {SCOR REASS.:Treaty} +
+	  {SCOR REASS.:Specialty}
+
+    {SCOR SWITZERLAND:SCOR SWITZERLAND} is
+    	  {SCOR SWITZERLAND:Treaty} +
+	  {SCOR SWITZERLAND:Specialty}
+
+    {SCOR UK:SCOR UK} is
+    	  {SCOR UK:Treaty} +
+	  {SCOR UK:Specialty}
+
+    {SCOR ASIA PACIF.:Specialty} is
+        {SCOR ASIA PACIF.:Specialty Hong-Kong} +
+        {SCOR ASIA PACIF.:Specialty Singapore}
+
+    {SCOR CANADA:Specialty} is
+        {SCOR CANADA:Specialty Toronto}
+
+    {SCOR ITALIA:Specialty} is
+        {SCOR ITALIA:Specialty Milan}
+
+    {SCOR RE US:Specialty} is
+        {SCOR RE US:Specialty Miami} +
+        {SCOR RE US:Specialty US}
+
+    {SCOR REASS.:Specialty} is 
+	{SCOR REASS.:Decennial} +
+    	{SCOR REASS.:Inwards Retro} + 
+	{SCOR REASS.:Specialty Joburg} + 
+	{SCOR REASS.:Specialty Madrid} +
+	{SCOR REASS.:Specialty Paris}
+
+    {SCOR SWITZERLAND:Specialty} is
+    	  {SCOR SWITZERLAND:Agro} +
+    	  {SCOR SWITZERLAND:Engineering}
+
+    {SCOR UK:Specialty} is 
+    	  {SCOR UK:SUL UK}
+
+    {SCOR ASIA PACIF.:Treaty} is
+        {SCOR ASIA PACIF.:Beijing} +
+        {SCOR ASIA PACIF.:Hong-Kong} +
+        {SCOR ASIA PACIF.:India} +
+        {SCOR ASIA PACIF.:Labuan} +
+        {SCOR ASIA PACIF.:Seoul} +
+        {SCOR ASIA PACIF.:Singapore} +
+        {SCOR ASIA PACIF.:Tokyo}
+
+    {SCOR AUSTRALIA:Treaty} is
+        {SCOR AUSTRALIA:Sydney}
+
+    {SCOR CANADA:Treaty} is
+        {SCOR CANADA:Toronto}
+
+    {SCOR GERMANY:Treaty} is
+        {SCOR GERMANY:Germany} +
+        {SCOR GERMANY:MENA Retro} +
+        {SCOR GERMANY:Middle-East} +
+        {SCOR GERMANY:Scandinavia} +
+        {SCOR GERMANY:South-Eastern Europe}
+
+    {SCOR ITALIA:Treaty} is
+        {SCOR ITALIA:Italy}
+
+    {SCOR RE US:Treaty} is
+        {SCOR RE US:Bogota} +
+        {SCOR RE US:Buenos-Aires} +
+        {SCOR RE US:GS Pty Coinsurance} +
+        {SCOR RE US:Itasca} +
+        {SCOR RE US:Miami} +
+        {SCOR RE US:Miami PanLatAm} +
+        {SCOR RE US:Rio}
+
+    {SCOR REASS.:Treaty} is
+        {SCOR REASS.:Belgium/Lux.} +
+    	{SCOR REASS.:France} +
+	{SCOR REASS.:French-Speaking Africa} +
+	{SCOR REASS.:Moscow} +
+    	{SCOR REASS.:Moscow C.E.I} +
+    	{SCOR REASS.:Near-East} +
+    	{SCOR REASS.:Netherlands} +
+    	{SCOR REASS.:South-Africa} +
+    	{SCOR REASS.:Spain/Port.} +
+    	{SCOR REASS.:Turkey}
+
+    {SCOR SWITZERLAND:Treaty} is
+        {SCOR SWITZERLAND:Austria Czech Slov.} +
+        {SCOR SWITZERLAND:Eastern Europe North} +
+        {SCOR SWITZERLAND:Switzerland} +
+        {SCOR SWITZERLAND:Zurich US CAT}
+
+    {SCOR UK:Treaty} is
+    	{SCOR UK:UK & Ireland}
+
+        {SCOR ASIA PACIF.:Specialty Hong-Kong} is 1000000000
+        {SCOR ASIA PACIF.:Specialty Singapore} is 1000000000
+        {SCOR CANADA:Specialty Toronto} is 1000000000
+        {SCOR ITALIA:Specialty Milan} is 1000000000
+        {SCOR RE US:Specialty Miami} is 1000000000
+        {SCOR RE US:Specialty US} is 1000000000
+	{SCOR REASS.:Decennial} is 1000000000
+    	{SCOR REASS.:Inwards Retro} is 1000000000 
+	{SCOR REASS.:Specialty Joburg} is 1000000000 
+	{SCOR REASS.:Specialty Madrid} is 1000000000
+	{SCOR REASS.:Specialty Paris} is 1000000000
+    	{SCOR SWITZERLAND:Agro} is 1000000000
+	{SCOR SWITZERLAND:Engineering} is 1000000000
+    	{SCOR UK:SUL UK} is 1000000000
+        {SCOR ASIA PACIF.:Beijing} is 1000000000
+        {SCOR ASIA PACIF.:Hong-Kong} is 1000000000
+        {SCOR ASIA PACIF.:India} is 1000000000
+        {SCOR ASIA PACIF.:Labuan} is 1000000000
+        {SCOR ASIA PACIF.:Seoul} is 1000000000
+        {SCOR ASIA PACIF.:Singapore} is 1000000000
+        {SCOR ASIA PACIF.:Tokyo} is 1000000000
+        {SCOR AUSTRALIA:Sydney} is 1000000000
+        {SCOR CANADA:Toronto} is 1000000000
+        {SCOR GERMANY:Germany} is 1000000000
+        {SCOR GERMANY:MENA Retro} is 1000000000
+        {SCOR GERMANY:Middle-East} is 1000000000
+        {SCOR GERMANY:Scandinavia} is 1000000000
+        {SCOR GERMANY:South-Eastern Europe} is 1000000000
+        {SCOR ITALIA:Italy} is 1000000000
+        {SCOR RE US:Bogota} is 1000000000
+        {SCOR RE US:Buenos-Aires} is 1000000000
+        {SCOR RE US:GS Pty Coinsurance} is 1000000000
+        {SCOR RE US:Itasca} is 1000000000
+        {SCOR RE US:Miami} is 1000000000
+        {SCOR RE US:Miami PanLatAm} is 1000000000
+        {SCOR RE US:Rio} is 1000000000
+        {SCOR REASS.:Belgium/Lux.} is 1000000000
+    	{SCOR REASS.:France} is 1000000000
+	{SCOR REASS.:French-Speaking Africa} is 1000000000
+	{SCOR REASS.:Moscow} is 1000000000
+    	{SCOR REASS.:Moscow C.E.I} is 1000000000
+    	{SCOR REASS.:Near-East} is 1000000000
+    	{SCOR REASS.:Netherlands} is 1000000000
+    	{SCOR REASS.:South-Africa} is 1000000000
+    	{SCOR REASS.:Spain/Port.} is 1000000000
+    	{SCOR REASS.:Turkey} is 1000000000
+        {SCOR SWITZERLAND:Austria Czech Slov.} is 1000000000
+        {SCOR SWITZERLAND:Eastern Europe North} is 1000000000
+        {SCOR SWITZERLAND:Switzerland} is 1000000000
+        {SCOR SWITZERLAND:Zurich US CAT} is 1000000000
+    	{SCOR UK:UK & Ireland} is 1000000000

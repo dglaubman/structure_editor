@@ -1,0 +1,22 @@
+Structure
+
+  {/contracts/202/v/2} is 0
+
+  Contract
+    Declarations
+       Name is {/products/11}
+       Subject is {/contracts/202/v/1}
+       Description is {Create (POST)}
+
+  Contract
+    Declarations
+       Name is {/contracts/202/v/1}
+       Subject is {/contracts/202/params}
+       Description is {GET params}
+
+  Contract
+    Declarations
+       Name is {/contracts/202/params}
+       Subject is {/contracts/202/v/2}
+       Description is {PUT params}
+

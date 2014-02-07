@@ -1,0 +1,9 @@
+structure
+
+  {Our:ABC, XYZ net of DEF, GHI} is
+    Our:ABC + Our:XYZ - Our:DEF - Our:GHI
+
+  Our:ABC is 5000000
+  Our:XYZ is 3000000
+  Our:DEF is 120000
+  Our:GHI is 250000
