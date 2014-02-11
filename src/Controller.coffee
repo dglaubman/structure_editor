@@ -38,11 +38,23 @@ class root.Controller
       positions[encode key] = [x,0]
     @track = track
 
+  # read in a position graph, and render it
+  refresh: (name, callback) ->
+    path = "data/#{name}.structure"
+    d3.text path, (text) ->
+      callback name, text
+
   run: (numIter) ->
     sequence = Date.now()
     d3.entries( leaves )
       .forEach (entry) =>
         comm.startFeed "Start_#{encode entry.key}", @track, entry.value, numIter, sequence
+
+  stop: () ->
+    sequence = Date.now()
+    d3.entries( leaves )
+      .forEach (entry) =>
+        comm.startFeed "Start_#{encode entry.key}", @track, Number.NEGATIVE_INFINITY, numIter, sequence
 
   stopped: (type, name) ->
     log.write "recd stopped signal for #{type} #{name}"

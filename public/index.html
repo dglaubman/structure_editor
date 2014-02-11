@@ -7,65 +7,75 @@
 </style>
 
 <body>
-<div class="body">
-<div class="content">
-<div class="topbar">
-    <a class="do_control" id="api" href="./positions_api.html">Position API</a>
-    <a class="do_control" id="pgl" href="./pgl.html">PGL doc</a>
-    <a class="do_control" id="start" href="#">Start DO</a>
-    <a class="do_control" id="run_one" href="#">Run One</a>
-    <a class="do_control" id="run_many" href="#">Run 1K</a>
-    <a class="do_control" id="run_many2" href="#">Run 10K</a>
+  <div class="body">
+    <div class="content">
+      <div class="topbar">
+	<a class="do_control" id="api" href="./positions_api.html">Position API</a>
+	<a class="do_control" id="pgl" href="./pgl.html">PGL doc</a>
+	<a class="do_control" id="start" href="#">Start DO</a>
+	<a class="do_control" id="run_one" href="#">Run One</a>
+	<a class="do_control" id="run_many" href="#">Run 1K</a>
+	<a class="do_control" id="run_many2" href="#">Run 10K</a>
+	
+      <h1>Position Runner</h1>
+      </div>
 
-<h1>Position Runner</h1>
+      <div class="sidebar">
+	<ul>
+	  <li><a class="posgraph" id="standard" href="#">Standard positions</a></li>
+	  <li><a class="posgraph" id="program" href="#">Pro Forma Program</a></li>
+	  <li><a class="posgraph" id="placed" href="#">Scaling a position</a></li>
+	  <li><a class="posgraph" id="assumed" href="#">Multiple namespaces</a></li>
+	  <li><a class="posgraph" id="imported_wx" href="#">WX treaty</a></li>
+	  <li><a class="posgraph" id="primary" href="#">Primary portfolio</a></li>
+	  <li><a class="posgraph" id="scor" href="#">SCOR Hierarchy</a></li>
+	  <li><a class="posgraph" id="travelers" href="#">Travelers Inuring</a></li>      
+	</ul>
+      </div>
+      
+      <div class="gallery">
 
-</div>
-<div class="sidebar">
-  <ul>
-  <li><a class="posgraph" id="standard" href="#">Standard positions</a></li>
-  <li><a class="posgraph" id="program" href="#">Pro Forma Program</a></li>
-  <li><a class="posgraph" id="placed" href="#">Scaling a position</a></li>
-  <li><a class="posgraph" id="assumed" href="#">Multiple namespaces</a></li>
-  <li><a class="posgraph" id="imported_wx" href="#">WX treaty</a></li>
-  <li><a class="posgraph" id="primary" href="#">Primary portfolio</a></li>
-  <li><a class="posgraph" id="scor" href="#">SCOR Hierarchy</a></li>
-  <li><a class="posgraph" id="travelers" href="#">Travelers Inuring</a></li>
-</ul>
-</div>
+	<section class="left">
+	  <span class="window_label left">Graph View</span>
+	  <div id="chart" class="pane"></div>
+	</section>
+	
+	<section class="right">
+	  <span class="window_label right">Text Editor</span>
+	  <textarea id="model" class="pane editor text" rows=40 cols=50></textarea>
+	</section>
+      </div>
 
+    </div>
 
-<div id="chart"></div>
-</div>
-
-<footer>
-    <section>
-	    <div class="history">
-	      <details>
-	      <summary>History</summary>
-	      <div id="console"></div>
-	    </details>
-	      <div><button  id="clear">Clear Log</button></div>
-	    </div>
+    <footer>
+      <section>
+	<div class="history">
+	  <details>
+	    <summary>History</summary>
+	    <div id="console"></div>
+	  </details>
+	<div><button  id="clear">Clear Log</button></div>
+	</div>
+      </section>
+      <section class="aside">
+	<fieldset>
+	  <legend>Display:</legend>
+	  <label for=verbose>Verbose</label>
+	  <input type=checkbox id=verbose>
+	  <label for=direction>Vertical</label>
+	  <input type=checkbox id=direction checked=checked>
+	  <label for=direction>Wide Spacing</label>
+	  <input type=checkbox id=node_sep>
+	</fieldset>
     </section>
-  <section class="aside">
-	 <fieldset>
-	   <legend>Display:</legend>
-	   <label for=verbose>Verbose</label>
-	   <input type=checkbox id=verbose>
-	   <label for=direction>Vertical</label>
-	   <input type=checkbox id=direction checked=checked>
-	   <label for=direction>Wide Spacing</label>
-	   <input type=checkbox id=node_sep>
-	 </fieldset>
-  </section>
-
-  <aside><p>ver v0.3.0-2014-2-4
-    <p>Built with <a href="http://d3js.org/">d3.js</a> and <a href="https://github.com/cpettitt/dagre-d3">dagre-d3</a>.
+      
+      <aside><p>ver v0.3.0-2014-2-4
+	<p>Built with <a href="http://d3js.org/">d3.js</a> and <a href="https://github.com/cpettitt/dagre-d3">dagre-d3</a>.
       </aside>
+    </footer>
+  </div>
 
-
-</footer>
-</div>
 <script src=//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.min.js></script>
 <script src=lib/dagre-d3.min.js></script>
 <script src=lib/AmqpClient.js></script>

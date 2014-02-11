@@ -1,5 +1,5 @@
 root = exports ? window
-convert = require( './public/js/compile2.js' )
+convert = require( './public/js/backend.js' )
 
 prop = (val) ->
   _ = val
@@ -7,13 +7,6 @@ prop = (val) ->
     if v then _ = v else _
 
 root.structure = prop { name: "standard" }
-
-# read in a position graph, and render it
-root.update = update = (name) ->
-  path = "data/#{name}.structure"
-  d3.text path, (text) ->
-    structure { name, text }    # set global structure name and text
-    render structure
 
 # remove previous rendering and render current graph
 root.render = render = (structure) ->
@@ -23,8 +16,8 @@ root.render = render = (structure) ->
   colors = colorBuilder()
   margin =
     top: 20, right: 20, bottom: 20, left: 20
-  width = dag.width or 1500
-  height = dag.height or 2500
+  size = dag.nodes.length + dag.edges.length
+  width = height = Math.max 600, 40 * size
   d3.selectAll("svg.chart")
     .remove()
 

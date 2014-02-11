@@ -10,7 +10,6 @@ root.serverDispatcher = (controller, body) ->
     when 'stat'
       [ _1, track, _2, position, _3, lossez ]  =  msg
       losses = lossez.split ','
-#      losses.forEach (loss) -> controller.stat track, position, loss
       controller.stat track, position, losses
 
     when 'ready'

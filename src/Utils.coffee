@@ -10,3 +10,4 @@ root.encode = (str) ->
 
 root.serialize = (o) ->
   encodeURIComponent JSON.stringify o
+

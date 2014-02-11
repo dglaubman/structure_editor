@@ -1,10 +1,16 @@
 body {
-  font: 14px Helvetica Neue;
-  text-rendering: optimizeLegibility;
-  margin-top: 1em;
-  left: 0px;
-  overflow-y: scroll;
-  overflow-x: scroll;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  margin: 1em auto 4em auto;
+}
+
+.body {
+  margin-left: 200px;
+}
+
+.content {
+  position: relative;
+#  left: -200px;
+  margin-left: 60px;
 }
 
 a {
@@ -16,32 +22,14 @@ a:hover {
   text-decoration: underline;
 }
 
-.body {
-  width: 90%;
-  margin: auto;
-}
-
 .topbar a {
   margin-right: .5em;
 }
 
-.content {
-  position: relative;
-  margin-left: 180px;
-}
-
-.content img {
-  display: block;
-  margin: auto;
-}
-
-.do_control {
-  font: 18px Helvetica Neue;
-}
 .sidebar {
   position: absolute;
   left: -200px;
-  width: 160px;
+  width: 180px;
 }
 
 .gallery {
@@ -95,12 +83,12 @@ h1 {
   font: 18px Helvetica Neue;
 }
 
-.foot {
+footer {
   position: relative;
   font-weight: 300;
-  margin-left: 40px;
   padding-top: 3em;
-/*  clear: left; */
+  clear: left; 
+  z-index: 500;
 }
 
 input[type=button] {
@@ -228,11 +216,8 @@ text.active {
   fill: red;
 }
 
-div #chart {
-    width: 920px;
-    height: 900px;
-    position: relative;
-    left: 0px;
+#chart.pane {
+    overflow: auto;
 }
 
 #timestamp {
@@ -277,6 +262,60 @@ fieldset {
     
 }
 
-#chart {
-    overflow-y: auto;
+
+.do_control {
+  font: 18px Helvetica Neue;
+}
+
+.spacer {
+    width: 20px;
+    float: left;
+    display: table-cell;
+}
+
+#model {
+  font: 14px Helvetica Neue;
+  text-rendering: optimizeLegibility;
+  height: auto;
+}
+
+section {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+}
+
+#chart.pane  {
+  margin: 5px;
+  overflow: hidden;
+  height: 800px;
+  width: 900px;
+}
+
+/* editor labels */
+.window_label {
+    border: solid 1px #F1F1F1;
+    background: #fff;
+    display: inline-block;
+    height: 22px;
+    padding: 0 6px;
+    line-height: 22px;
+    position: absolute;
+    top: 7px;
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+    border-radius: 1px;
+    z-index: 30;
+  }
+.right {
+    right: 6px;
+#    position: absolute;
+    z-index: 1000;
+}
+
+.left {
+    left: 6px;
+#    position: absolute;
+    z-index: 500;
 }
