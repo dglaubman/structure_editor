@@ -2,5 +2,5 @@ coffee -o public/js -c src
 jison src/grammar/structure_parser.jison
 cp structure_parser.js src
 mv structure_parser.js public/js
-browserify   --insert-globals  -r ./public/js/backend.js >public/js/compiler.js
+browserify   --insert-globals  -r ./public/js/backend.js:compile >public/js/compiler.js
 coffee app.coffee $1

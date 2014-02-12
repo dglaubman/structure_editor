@@ -1,3 +1,7 @@
+# Compiles a structure text, returning { status, graph, cmds }
+#   status is "ok" or an Error object.
+#   graph is a DAG {[nodes], [edges], [initial]} suitable for rendering.  Valid if status = "ok".
+#   cmds is array of DO commands suitable for sending to 'exec' process on server for execution. Valid if status = "ok".
 _ = require 'underscore'
 {group, scale, contract, invert, filter, comment} = require './ops'
 {parser} = require './structure_parser'
@@ -22,7 +26,7 @@ labelEdge = (type, opt) ->
     when filter
       opt                           # filter description
 
-module.exports = compile = ( text ) ->
+compile = ( text ) ->
 
   status = "ok"
 
@@ -105,3 +109,7 @@ module.exports = compile = ( text ) ->
     graph: { nodes, edges, initial: leaves }
     cmds
   }
+
+
+module.exports = compile
+
