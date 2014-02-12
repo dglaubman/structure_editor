@@ -3,6 +3,10 @@
 log = new Log( d3.select("#console"))
 log.write "Starting up ..."
 
+graph = new GraphView()
+model = new Model()
+controller = new Controller( log )
+
 graphClickHandler = () ->
   d3.selectAll( ".posgraph" ).classed 'selected', false
   d3.select(@).classed 'selected', true
@@ -13,11 +17,13 @@ graphClickHandler = () ->
 #     editor = new TextEditor model
 #     graph = new GraphView model
     d3.select( ".editor.text" ).text () -> @value = text
+    model.update text
+    graph.update model
+    controller.update model
 #    d3.select( ".editor.label" ).text () -> @value = name
 
 #    controller.stop()
-    structure { name, text }    # set global structure name and text
-    render structure
+
 
 
 # Hook up controls on page
@@ -56,18 +62,17 @@ d3.select("#model")
 
 d3.select("#direction")
   .on "click", (d) ->
-    toggleDirection()
+    graph.toggleDirection()
 
 d3.select("#node_sep")
   .on "click", (d) ->
-    toggleNodeSeparation()
+    graph.toggleNodeSeparation()
 
 d3.select("#verbose")
   .on "click", (d) ->
     log.toggle()
 
 # Hook up controller
-controller = new Controller log
 controller.start ->
   # Load the Standard positions graph
   graphClickHandler.call( document.getElementById 'standard' )

@@ -1,21 +1,18 @@
+compile = require 'compile'
+
 class Model
 
   constructor: ->
 
-  cmds: ->
+  cmds: -> @c
 
-  graph: -> _graph
+  graph: -> @g
 
-  text: -> _text
+  status: -> @s
 
   update: (text) ->
-    [g, c] = compile text
-
-m = new Model()
-console.log m.name()
-
-m.set 'hi'
-console.log m.name()
+    {status, graph, cmds} = compile text
+    [@s, @g, @c] = [status, graph, cmds]
 
 root = exports ? window
 root.Model = Model
