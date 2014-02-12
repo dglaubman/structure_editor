@@ -2,6 +2,7 @@ root = exports ? window
 
 class root.Controller
 
+  SENTINEL = 9007199254740992
   log = comm = leaves = positions = id = undefined
 
   constructor: (console) ->
@@ -54,7 +55,7 @@ class root.Controller
     sequence = Date.now()
     d3.entries( leaves )
       .forEach (entry) =>
-        comm.startFeed "Start_#{encode entry.key}", @track, Number.NEGATIVE_INFINITY, numIter, sequence
+        comm.startFeed "Start_#{encode entry.key}", @track, SENTINEL, 1, sequence
 
   stopped: (type, name) ->
     log.write "recd stopped signal for #{type} #{name}"
@@ -74,7 +75,7 @@ class root.Controller
       when number < 1
         "0"
       else
-        number
+        "#{(+number).toFixed(0)}"
 
 messageHandler = (controller) -> (m) ->
   topic = m.args.routingKey

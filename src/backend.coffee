@@ -22,9 +22,14 @@ labelEdge = (type, opt) ->
     when filter
       opt                           # filter description
 
-module.exports = convert = ( text ) ->
+module.exports = compile = ( text ) ->
 
-  dag = parser.parse text
+  status = "ok"
+
+  try
+    dag = parser.parse text
+  catch e
+    return { status: e }
 
   # number the nodes
   ix = {}
@@ -93,9 +98,10 @@ module.exports = convert = ( text ) ->
           #trace edge
   catch e
     log "error traversing graph: #{e}"
-    return null
+    status = e
 
   return {
-    dag: { nodes, edges, initial: leaves }
+    status
+    graph: { nodes, edges, initial: leaves }
     cmds
   }

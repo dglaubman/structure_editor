@@ -1,5 +1,5 @@
 root = exports ? window
-convert = require( './public/js/backend.js' )
+compile = require( './public/js/backend.js' )
 
 prop = (val) ->
   _ = val
@@ -10,13 +10,13 @@ root.structure = prop { name: "standard" }
 
 # remove previous rendering and render current graph
 root.render = render = (structure) ->
-  { dag, cmds } = convert structure().text
-  structure().dag = dag
+  { graph, cmds } = compile structure().text
+  structure().dag = graph
   structure().cmds = cmds
   colors = colorBuilder()
   margin =
     top: 20, right: 20, bottom: 20, left: 20
-  size = dag.nodes.length + dag.edges.length
+  size = graph.nodes.length + graph.edges.length
   width = height = Math.max 600, 40 * size
   d3.selectAll("svg.chart")
     .remove()
@@ -30,8 +30,8 @@ root.render = render = (structure) ->
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-  nodes = dag.nodes
-  edges = dag.edges
+  nodes = graph.nodes
+  edges = graph.edges
   renderer = new dagreD3.Renderer()
   oldDrawNode = renderer.drawNode()
   oldDrawEdgeLabel = renderer.drawEdgeLabel()

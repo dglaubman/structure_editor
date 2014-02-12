@@ -15,7 +15,7 @@ graphClickHandler = () ->
     d3.select( ".editor.text" ).text () -> @value = text
 #    d3.select( ".editor.label" ).text () -> @value = name
 
-
+#    controller.stop()
     structure { name, text }    # set global structure name and text
     render structure
 
@@ -27,6 +27,10 @@ d3.select("#clear").on 'click', ->
 d3.select("#start")
   .on "click", () ->
     controller.subscribe structure()
+
+d3.select("#stop")
+  .on "click", () ->
+    controller.stop()
 
 d3.select("#run_one")
   .on "click", () ->
