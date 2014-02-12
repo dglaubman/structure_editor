@@ -12,8 +12,6 @@
       <div class="topbar">
 	<a class="do_control" id="api" href="./positions_api.html">Position API</a>
 	<a class="do_control" id="pgl" href="./pgl.html">PGL doc</a>
-	<a class="do_control" id="start" href="#">Start DO</a>
-	<a class="do_control" id="stop" href="#">Stop DO</a>
 	<a class="do_control" id="run_one" href="#">Run One</a>
 	<a class="do_control" id="run_many" href="#">Run 1K</a>
 	<a class="do_control" id="run_many2" href="#">Run 10K</a>
@@ -24,12 +22,11 @@
       <div class="sidebar">
 	<ul>
 	  <li><a class="posgraph" id="standard" href="#">Standard positions</a></li>
-	  <li><a class="posgraph" id="simple" href="#">Simple positions</a><li><a class="posgraph" id="program" href="#">Pro Forma Program</a></li>
+	  <li><a class="posgraph" id="program" href="#">Pro Forma Program</a></li>
 	  <li><a class="posgraph" id="placed" href="#">Scaling a position</a></li>
 	  <li><a class="posgraph" id="assumed" href="#">Multiple namespaces</a></li>
 	  <li><a class="posgraph" id="imported_wx" href="#">WX treaty</a></li>
 	  <li><a class="posgraph" id="primary" href="#">Primary portfolio</a></li>
-	  <li><a class="posgraph" id="scor" href="#">SCOR Hierarchy</a></li>
 	  <li><a class="posgraph" id="travelers" href="#">Travelers Inuring</a></li>      
 	</ul>
       </div>
@@ -43,13 +40,26 @@
 	
 	<section class="right">
 	  <span class="window_label right">Text Editor</span>
-	  <textarea id="model" class="pane editor text" rows=40 cols=50></textarea>
+	  <textarea id="editor" class="pane text" rows=40 cols=50></textarea>
 	</section>
       </div>
 
     </div>
 
     <footer>
+      <section class="aside">
+	<fieldset>
+	  <legend>Knobs:</legend>
+	  <label for=verbose>Verbose</label>
+	  <input type=checkbox id=verbose>
+	  <label for=direction>Vertical</label>
+	  <input type=checkbox id=direction checked=checked>
+	  <label for=direction>Wide Spacing</label>
+	  <input type=checkbox id=node_sep>
+	  <input type=button id=start value="Start DO">
+	  <input type=button id=stop value = "Stop DO">
+	</fieldset>
+    </section>
       <section>
 	<div class="history">
 	  <details>
@@ -59,17 +69,6 @@
 	<div><button  id="clear">Clear Log</button></div>
 	</div>
       </section>
-      <section class="aside">
-	<fieldset>
-	  <legend>Display:</legend>
-	  <label for=verbose>Verbose</label>
-	  <input type=checkbox id=verbose>
-	  <label for=direction>Vertical</label>
-	  <input type=checkbox id=direction checked=checked>
-	  <label for=direction>Wide Spacing</label>
-	  <input type=checkbox id=node_sep>
-	</fieldset>
-    </section>
       
       <aside><p>ver v0.3.0-2014-2-4
 	<p>Built with <a href="http://d3js.org/">d3.js</a> and <a href="https://github.com/cpettitt/dagre-d3">dagre-d3</a>.
@@ -86,6 +85,7 @@
 <script src=js/utils.js></script>
 <script src=js/consolelog.js></script>
 <script src=js/graphview.js></script>
+<script src=js/statview.js></script>
 <script src=js/controller.js></script>
 <script src=js/communicator.js></script>
 <script src=js/dispatch.js></script>	

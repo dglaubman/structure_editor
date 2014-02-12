@@ -1,11 +1,12 @@
 # client -- application entry point - hooks up handlers and controls
 
 log = new Log( d3.select("#console"))
-log.write "Starting up ..."
+model = new Model(log)
+graphView = new GraphView(log)
+statView = new StatView(log)
+controller = new Controller( model, graphView, statView, log )
 
-graph = new GraphView()
-model = new Model()
-controller = new Controller( log )
+log.write "Starting up ..."
 
 graphClickHandler = () ->
   d3.selectAll( ".posgraph" ).classed 'selected', false
@@ -13,26 +14,19 @@ graphClickHandler = () ->
   name = @id
   path = "./data/#{name}.structure"
   d3.text path, (text) ->
-#     model = new Model name, text
-#     editor = new TextEditor model
-#     graph = new GraphView model
-    d3.select( ".editor.text" ).text () -> @value = text
-    model.update text
-    graph.update model
-    controller.update model
-#    d3.select( ".editor.label" ).text () -> @value = name
-
-#    controller.stop()
-
+    d3.select( "#editor" ).text () -> @value = text
+    controller.updateModel text, name
 
 
 # Hook up controls on page
-d3.select("#clear").on 'click', ->
-  log.clear()
+
+# Choose a new structure
+d3.selectAll(".posgraph")
+  .on "click", graphClickHandler
 
 d3.select("#start")
   .on "click", () ->
-    controller.subscribe structure()
+    controller.subscribe()
 
 d3.select("#stop")
   .on "click", () ->
@@ -50,15 +44,9 @@ d3.select("#run_many2")
   .on "click", () ->
      controller.run 10000
 
-d3.selectAll(".posgraph")
-  .on "click", graphClickHandler
-
-d3.select("#model")
+d3.select("#editor")
   .on "blur", () ->
-    structure().text = @value
-    structure().name += ".#{Date.now()}"
-    d3.select( "window_label right" ).text () -> @value = @value + "*"
-    render structure
+    controller.updateModel @value
 
 d3.select("#direction")
   .on "click", (d) ->
@@ -68,9 +56,13 @@ d3.select("#node_sep")
   .on "click", (d) ->
     graph.toggleNodeSeparation()
 
+# Logging controls
 d3.select("#verbose")
   .on "click", (d) ->
     log.toggle()
+d3.select("#clear").on 'click', ->
+  log.clear()
+
 
 # Hook up controller
 controller.start ->

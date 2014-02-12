@@ -260,7 +260,7 @@ fieldset {
     display: table-cell;
 }
 
-#model {
+#editor {
   font: 14px Helvetica Neue;
   text-rendering: optimizeLegibility;
   height: auto;

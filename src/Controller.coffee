@@ -2,80 +2,62 @@ root = exports ? window
 
 class root.Controller
 
-  SENTINEL = 9007199254740992
-  log = comm = leaves = positions = id = undefined
+  comm = undefined
 
-  constructor: (console) ->
-    log = console
+  constructor: (@model, @graphView, @statView, @log) ->
+    @modelRev =0
 
   start: (callback) =>
     getTicket (ticket) =>
-      comm = new Communicator( log, messageHandler this)
+      comm = new Communicator( @log, messageHandler this)
       comm.connect config, ticket, callback
 
-  subscribe: (structure) ->
-    comm.startSubscription structure
+  modelName: -> "#{@modelBaseName}.#{@modelRev}"
+
+  updateModel: (text, name) ->
+    @stop()
+    if name
+      @modelBaseName = name
+    @modelRev++
+    @model.update text
+
+    @graphView.modelChanged @model
+    @statView.modelChanged @model, @modelName()
+    @subscribe()
+
+  subscribe: () ->
+    comm.startSubscription @modelName(), @model.cmds()
 
   stat: (track, position, losses) ->
-    return log.write "error: stat expected track #{@track}, rec'd #{track}" unless track is @track
-    if losses.length > 0
-      [x,num] =  positions[position] or [{text: -> 0}, 0]
-      num +=  losses.length
-      log.log "#{position}: #{num}"
-#      losses.forEach x.observe
-      x.text format losses[losses.length - 1]
-      positions[position] = [x,num]
+    return @log.write "error: stat expected track #{@track}, rec'd #{track}" unless track is @track
+    @statView.observe position, losses
 
   ready: (route, track) ->
-    log.write "#{route} on #{track}"
-    nodes = structure().dag.nodes
-    leaves = structure().dag.initial
-    positions = {}
-    d3.selectAll(".stat text").each (d,i) ->
-      x = d3.select this
-      key = nodes[i].value.key
-      initial = leaves[key] or  ""  # initial value
-      x.text format initial
-      positions[encode key] = [x,0]
+    @log.write "#{route} on #{track}"
     @track = track
 
   # read in a position graph, and render it
-  refresh: (name, callback) ->
-    path = "data/#{name}.structure"
-    d3.text path, (text) ->
-      callback name, text
+  load: (name) =>
+    path = "./data/#{name}.structure"
+    d3.text path, (text) =>
+      d3.select( "#editor" ).text () -> @value = text
+      @updateModel text, name
 
   run: (numIter) ->
     sequence = Date.now()
-    d3.entries( leaves )
-      .forEach (entry) =>
-        comm.startFeed "Start_#{encode entry.key}", @track, entry.value, numIter, sequence
+    @model.startCmds()
+      .forEach (cmd) =>
+        comm.startFeed cmd.key, @track, cmd.value, numIter, sequence
 
   stop: () ->
+    return if not @track
     sequence = Date.now()
-    d3.entries( leaves )
-      .forEach (entry) =>
-        comm.startFeed "Start_#{encode entry.key}", @track, SENTINEL, 1, sequence
+    @model.stopCmds()
+      .forEach (cmd) =>
+        comm.startFeed cmd.key, @track, cmd.value, 1, sequence
 
   stopped: (type, name) ->
-    log.write "recd stopped signal for #{type} #{name}"
-
-  leaves = undefined
-
-  format = (number) ->
-    switch
-      when number >= 1000000000
-        "#{(number / 1000000000).toFixed(2)}B"
-      when number >= 1000000
-        "#{(number / 1000000).toFixed(2)}M"
-      when number >= 1000
-        "#{(number / 1000).toFixed(1)}K"
-      when number is ""
-        ""
-      when number < 1
-        "0"
-      else
-        "#{(+number).toFixed(0)}"
+    @log.write "recd stopped signal for #{type} #{name}"
 
 messageHandler = (controller) -> (m) ->
   topic = m.args.routingKey

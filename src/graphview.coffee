@@ -3,33 +3,37 @@ compile = require( 'compile' )
 
 class GraphView
 
+  WIDE = 60
+  NARROW = 30
   colors = ->
+  log = ->
 
-  constructor: ->
-    WIDE = 60
-    NARROW = 30
-
+  constructor: (console) ->
     @nodeSep = NARROW
     @rankDir = "TB"
+    log = console
 
-  update: (model) ->
+  modelChanged: (model) ->
     { @nodes, @edges } = model.graph()
     colors = colorBuilder()
-    @render()
+    render @nodes, @edges, @nodeSep, @rankDir
 
   toggleNodeSeparation: () ->
     if  @nodeSep is WIDE then @nodeSep = NARROW else @nodeSep = WIDE
-    @render()
+    render @nodes, @edges, @nodeSep, @rankDir
 
   toggleDirection: () ->
     if @rankDir is "TB" then @rankDir = "LR" else @rankDir = "TB"
-    @render()
+    render @nodes, @edges, @nodeSep, @rankDir
 
   # remove previous rendering and render current graph
-  render: ->
+  render = (nodes, edges, nodeSep, rankDir) ->
+    if not nodes or not edges
+      log.write "GraphView: No model to render"
+      return
     margin =
       top: 20, right: 20, bottom: 20, left: 20
-    size = @nodes.length + @edges.length
+    size = nodes.length + edges.length
     width = height = Math.max 600, 40 * size
     d3.selectAll("svg.chart")
       .remove()
@@ -59,19 +63,14 @@ class GraphView
       svg.attr "class", val.type
       if val.type is "choose" then svg.attr  "class", val.tag
 
-    layout = dagreD3.layout().nodeSep( @nodeSep ).rankDir( @rankDir )
+    layout = dagreD3.layout().nodeSep( nodeSep ).rankDir( rankDir )
 
     renderer
       .layout(layout)
       .run(
-        dagreD3.json.decode( @nodes, @edges),
+        dagreD3.json.decode( nodes, edges),
         d3.select("#chart svg g") )
 
-    d3.selectAll("svg .node")
-      .append('g')
-      .classed('stat', true)
-      .attr("transform", "translate(0, 40)")
-      .append('text')
 
 colorBuilder = () ->
   namespaces = { my: 0, Our: 0, _none_: 0 }
