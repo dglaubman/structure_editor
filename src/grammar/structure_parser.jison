@@ -38,51 +38,18 @@ id		      [a-z][-a-z0-9:_/.]*
 %start structure
 
 %{
-
-
-   // NodeTime profiling
-   // require('nodetime').profile({
-   //    accountKey: 'd161d32d678546ebbc43c3ac70a40e523d9d6093', 
-   //    appName: 'PGL Application'
-   //    });
-    if (!process.hrtime) {
-       process.hrtime = require('browser-process-hrtime')
-    }
-
     var under = require( 'underscore' );
-    var inspect = require('util').log;
+
     var inversions = [];
     function invert( element ) {
     	this.push( [ "~" + element, "invert", [ element ] ] )
     }
-
-    var trace = function() {
-    	var start = process.hrtime();
-	var error = require('util').inspect;
-	return function( msg ) {
-	   var elapsed = process.hrtime( start );
-	   error( elapsed[0] + "." + Math.floor( elapsed[1] / 1e6 ) + " s: " + msg );
-	}
-    }();
 
     function unwrap( phrase ) {
         var parts = phrase.split( /[}{]/ );
 	require('assert').equal( parts.length, 3, "Phrase must be surrounded by curlybraces: " + phrase );
 	return parts[1].trim();
     }
-
-    function pretty( o ) {
-        return JSON.stringify( o, undefined, 2)
-    }
-
-    function printGraph( positions ) {
-    	trace( "generated positions" );
-    	var tmp = pretty( positions )
-	trace( "generated JSON" );
-	inspect( tmp );
-	trace( "done" );
-    }
-
 %}
 
 %%
@@ -163,7 +130,7 @@ cover-part :
 
 cover :
     NUMBER PERCENT SHARE OF limit-amount XS NUMBER    { 
-    	   $$ = ['' + $1 + $2, $3, $4, $5,$6,$7].join(' ') }
+    	   $$ = ['' + $1 + $2, $3, $4, $5, $6, $7].join(' ') }
     ;
 
 limit-amount :  
